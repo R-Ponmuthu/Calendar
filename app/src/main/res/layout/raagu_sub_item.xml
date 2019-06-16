@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/containerLay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@android:color/white"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/raagu"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@color/grey_ec"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="இராகு"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/kulikai"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="குளிகை"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/emakandam"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/grey_ec"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="எமகண்டம்"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/vaarasulai"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/white"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="வாரசூலை"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/parikaram"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/grey_ec"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="பரிகாரம்"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+</LinearLayout>
+

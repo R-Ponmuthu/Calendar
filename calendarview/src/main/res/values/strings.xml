@@ -1,0 +1,75 @@
+<resources>
+
+
+    <string name="sun">ஞா</string>
+    <string name="mon">தி</string>
+    <string name="tue">செ</string>
+    <string name="wed">பு</string>
+    <string name="thu">வி</string>
+    <string name="fri">வெ</string>
+    <string name="sat">சனி</string>
+
+    <string-array name="week_string_array">
+        <item>ஞா</item>
+        <item>தி</item>
+        <item>செ</item>
+        <item>பு</item>
+        <item>வி</item>
+        <item>வெ</item>
+        <item>சனி</item>
+    </string-array>
+
+    <string-array name="year_view_week_string_array">
+        <item>ஞா</item>
+        <item>தி</item>
+        <item>செ</item>
+        <item>பு</item>
+        <item>வி</item>
+        <item>வெ</item>
+        <item>சனி</item>
+    </string-array>
+
+    <string-array name="month_string_array">
+        <item>JAN</item>
+        <item>FEB</item>
+        <item>MAR</item>
+        <item>APR</item>
+        <item>MAY</item>
+        <item>JUN</item>
+        <item>JUL</item>
+        <item>AUG</item>
+        <item>SEP</item>
+        <item>OCT</item>
+        <item>NOV</item>
+        <item>DEC</item>
+    </string-array>
+
+    <string-array name="trunk_string_array">
+        <item>辛</item>
+        <item>壬</item>
+        <item>癸</item>
+        <item>甲</item>
+        <item>乙</item>
+        <item>丙</item>
+        <item>丁</item>
+        <item>戊</item>
+        <item>己</item>
+        <item>庚</item>
+    </string-array>
+
+    <string-array name="branch_string_array">
+        <item>酉</item>
+        <item>戌</item>
+        <item>亥</item>
+        <item>子</item>
+        <item>丑</item>
+        <item>寅</item>
+        <item>卯</item>
+        <item>辰</item>
+        <item>巳</item>
+        <item>午</item>
+        <item>未</item>
+        <item>申</item>
+
+    </string-array>
+</resources>

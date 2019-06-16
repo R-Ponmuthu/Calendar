@@ -1,0 +1,62 @@
+<resources>
+
+    <string name="app_name">Calendar</string>
+
+    <!--<string-array name="english_week_string_array">
+        <item>Sun</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+    </string-array>-->
+
+    <string-array name="english_week_string_array">
+        <item>ஞா</item>
+        <item>தி</item>
+        <item>செ</item>
+        <item>பு</item>
+        <item>வி</item>
+        <item>வெ</item>
+        <item>சனி</item>
+    </string-array>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="admob_app_id">ca-app-pub-2174081597275508~3789341398</string>
+    <string name="home_banner_ad">ca-app-pub-2174081597275508/9270181981</string>
+    <string name="drawer_page_ad">ca-app-pub-2174081597275508/1391691961</string>
+    <string name="title">தமிழ் நாட்காட்டி</string>
+
+    <string name="default_notification_channel_id">default_notification_channel_id</string>
+
+    <string name="rating_dialog_experience">How was your experience with us?</string>
+    <string name="rating_dialog_maybe_later">Maybe later</string>
+    <string name="rating_dialog_never">Never</string>
+    <string name="rating_dialog_feedback_title">Feedback</string>
+    <string name="rating_dialog_submit">Submit</string>
+    <string name="rating_dialog_cancel">Cancel</string>
+    <string name="rating_dialog_suggestions">Suggest us what went wrong and we\'ll work on it!</string>
+    <string name="settings">அமைப்புகள்</string>
+
+    <string name="new_daily_notifications">New Daily Notifications</string>
+    <string name="daily_notifications">Daily Notifications</string>
+    <string name="pref_title_notifications">Notifications</string>
+    <string name="pref_header_about">About</string>
+    <string name="summary_about">We are a team of like-minded people, specialized in development of Android App Development creating new trends across the app space. Glad to Help in anyway!</string>
+    <string name="app_version">2.0</string>
+    <string name="summary_support">Got any queries? We are happy to help!</string>
+    <string name="title_send_feedback">Send Feedback</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="key_privacy">key_privacy_policy</string>
+    <string name="title_version">Version</string>
+    <string name="title_new_notification_sound">New message notification</string>
+    <string name="notifications_new_message">notifications_new_message</string>
+    <string name="daily_notification">daily_notification</string>
+    <string name="key_send_feedback">key_send_feedback</string>
+    <string name="title_rating">App Rating</string>
+    <string name="summary_rating">How was your experience with us?</string>
+    <string name="key_rating">key_rating</string>
+
+</resources>

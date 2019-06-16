@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/pref_title_notifications">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/notifications_new_message"
+            android:title="@string/title_new_notification_sound" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/daily_notifications">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/daily_notification"
+            android:title="@string/new_daily_notifications" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_about">
+
+        <Preference
+            android:selectable="false"
+            android:summary="@string/summary_about" />
+
+        <Preference
+            android:summary="@string/app_version"
+            android:title="@string/title_version" />
+
+        <Preference
+            android:key="@string/key_send_feedback"
+            android:summary="@string/summary_support"
+            android:title="@string/title_send_feedback" />
+
+        <Preference
+            android:key="@string/key_rating"
+            android:summary="@string/summary_rating"
+            android:title="@string/title_rating" />
+
+        <Preference
+            android:key="@string/key_privacy"
+            android:title="@string/privacy_policy">
+
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
