@@ -15,7 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.SharedPreference;
+import com.it.calendar.util.SharedPreference;
 import com.it.calendar.model.Kalangal;
 import com.it.calendar.model.MainTable;
 import com.it.calendar.model.Panchangam;

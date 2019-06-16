@@ -32,7 +32,7 @@ import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.it.calendar.BuildConfig;
 import com.it.calendar.R;
-import com.it.calendar.SharedPreference;
+import com.it.calendar.util.SharedPreference;
 import com.it.calendar.group.GroupItemDecoration;
 import com.it.calendar.meizu_calendarview.EnglishWeekBar;
 import com.it.calendar.meizu_calendarview.MeiZuMonthView;
@@ -40,7 +40,6 @@ import com.it.calendar.meizu_calendarview.MeizuWeekView;
 import com.it.calendar.model.Article;
 import com.it.calendar.model.CalendarModule;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Notification;
 import com.it.calendar.model.NotificationModule;
 import com.it.calendar.model.Virathaday;
 import com.it.calendar.notification.AlarmReceiver;
@@ -336,7 +335,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private void loadAds() {
 
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F").build();
+                //.addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F")
+                .build();
         adView.loadAd(adRequest);
 
         adView.setAdListener(new AdListener() {

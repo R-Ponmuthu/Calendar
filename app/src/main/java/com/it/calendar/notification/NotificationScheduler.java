@@ -23,7 +23,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.it.calendar.R;
-import com.it.calendar.SharedPreference;
+import com.it.calendar.util.SharedPreference;
 import com.it.calendar.ui.MainActivity;
 import com.it.calendar.model.MainTable;
 import com.it.calendar.model.Virathaday;
