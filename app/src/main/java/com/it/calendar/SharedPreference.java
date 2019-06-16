@@ -83,7 +83,7 @@ public class SharedPreference {
         boolean text;
         prefrence = context.getSharedPreferences(PREFS_NAME,
                 Context.MODE_PRIVATE);
-        text = prefrence.getBoolean(PREFS_KEY, true);
+        text = prefrence.getBoolean(PREFS_KEY, false);
         return text;
     }
 

@@ -15,7 +15,9 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+
 import androidx.core.app.NotificationCompat;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -68,8 +70,8 @@ public class NotificationScheduler {
         Intent intent1 = new Intent(context, cls);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, DAILY_REMINDER_REQUEST_CODE, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        assert am != null;
         am.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
     }
 
     private void cancelReminder(Context context, Class<?> cls) {
@@ -126,13 +128,11 @@ public class NotificationScheduler {
             stackBuilder.addParentStack(MainActivity.class);
             stackBuilder.addNextIntent(notificationIntent);
 
-
             Intent intent = new Intent(context, MainActivity.class);
             String str = sharedPreference.getString(context, "notifications_new_message_ringtone");
             boolean vibrate = sharedPreference.getBoolean(context, "notifications_new_message_vibrate");
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-
 
             NotificationManager notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
             remoteViews = new RemoteViews(context.getPackageName(), R.layout.notification_layout);
@@ -148,7 +148,7 @@ public class NotificationScheduler {
             notificationBuilder.setCustomContentView(remoteViewsSmall);
             notificationBuilder.setCustomBigContentView(remoteViews);
             notificationBuilder.setAutoCancel(true);
-            notificationBuilder.setSound(Uri.parse(str));
+            notificationBuilder.setSound(alarmSound);
             notificationBuilder.setWhen(System.currentTimeMillis());
 
             if (vibrate) {
@@ -176,15 +176,12 @@ public class NotificationScheduler {
 
         remoteViews.setTextViewText(R.id.nallaNeram, "ந.நே.கா: " + mainTable.getNallanerem_m() + "     ந.நே.மா: " + mainTable.getNallanerem_e());
         remoteViews.setTextViewText(R.id.festivals, "" + stringBuilder.toString());
-        if (virathaDays.contains("சுபமுகூர்த்தம்"))
-            //remoteViews.setImageViewResource(R.id.muhurtham, R.drawable.subamuhurtham);
+        if (virathaDays.get(0).getViratham().contains("சுபமுகூர்த்தம்"))
             remoteViews.setViewVisibility(R.id.muhurtham, View.VISIBLE);
-        if (virathaDays.contains("அமாவாசை"))
+        if (virathaDays.get(0).getViratham().contains("அமாவாசை"))
             remoteViews.setViewVisibility(R.id.amavasai, View.VISIBLE);
-        //remoteViews.setImageViewResource(R.id.amavasai, R.drawable.icons_amavasai);
-        if (virathaDays.contains("பௌர்ணமி"))
+        if (virathaDays.get(0).getViratham().contains("பௌர்ணமி"))
             remoteViews.setViewVisibility(R.id.pournami, View.VISIBLE);
-        //remoteViews.setImageViewResource(R.id.pournami, R.drawable.icons_pournami);
 
         StringBuilder stringBuilder1 = new StringBuilder();
         for (Virathaday virathaDay : virathaDays)
@@ -197,6 +194,7 @@ public class NotificationScheduler {
     }
 
     private static void remoteViewsTitle(RemoteViews remoteViews, RemoteViews remoteViewsSmall, MainTable mainTable, RealmResults<Virathaday> virathaDay) {
+
 
         remoteViews.setImageViewResource(R.id.logo, R.drawable.ic_logo);
         remoteViews.setTextViewText(R.id.monthYear, "" + mainTable.getMonth() + "  " + mainTable.getYear());
