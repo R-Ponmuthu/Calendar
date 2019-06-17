@@ -9,8 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
 
-import com.haibin.calendarview.Calendar;
-import com.haibin.calendarview.WeekView;
+import com.it.calendar.calendarview.Calendar;
+import com.it.calendar.calendarview.WeekView;
 import com.it.calendar.R;
 
 

@@ -9,9 +9,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
 
-import com.haibin.calendarview.Calendar;
-import com.haibin.calendarview.MonthView;
 import com.it.calendar.R;
+import com.it.calendar.calendarview.Calendar;
+import com.it.calendar.calendarview.MonthView;
 
 
 public class MeiZuMonthView extends MonthView {
