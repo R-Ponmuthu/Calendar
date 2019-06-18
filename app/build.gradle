@@ -9,7 +9,7 @@ android {
         applicationId "com.it.calendar"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 2
+        versionCode 10
         versionName "2.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
