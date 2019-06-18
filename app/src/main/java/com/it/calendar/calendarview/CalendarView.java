@@ -15,16 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
+import com.it.calendar.R;
+
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * 日历布局
- * 各个类使用包权限，避免不必要的public
- */
 @SuppressWarnings({"unused"})
 public class CalendarView extends FrameLayout {
 
@@ -80,9 +78,9 @@ public class CalendarView extends FrameLayout {
      * @param context context
      */
     private void init(Context context) {
-        LayoutInflater.from(context).inflate(com.it.calendar.R.layout.cv_layout_calendar_view, this, true);
-        FrameLayout frameContent = (FrameLayout) findViewById(com.it.calendar.R.id.frameContent);
-        this.mWeekPager = (WeekViewPager) findViewById(com.it.calendar.R.id.vp_week);
+        LayoutInflater.from(context).inflate(R.layout.cv_layout_calendar_view, this, true);
+        FrameLayout frameContent = findViewById(R.id.frameContent);
+        this.mWeekPager = findViewById(R.id.vp_week);
         this.mWeekPager.setup(mDelegate);
 
         try {
@@ -96,7 +94,7 @@ public class CalendarView extends FrameLayout {
         mWeekBar.setup(mDelegate);
         mWeekBar.onWeekStartChange(mDelegate.getWeekStart());
 
-        this.mWeekLine = findViewById(com.it.calendar.R.id.line);
+        this.mWeekLine = findViewById(R.id.line);
         this.mWeekLine.setBackgroundColor(mDelegate.getWeekLineBackground());
         LayoutParams lineParams = (LayoutParams) this.mWeekLine.getLayoutParams();
         lineParams.setMargins(mDelegate.getWeekLineMargin(),
@@ -105,7 +103,7 @@ public class CalendarView extends FrameLayout {
                 0);
         this.mWeekLine.setLayoutParams(lineParams);
 
-        this.mMonthPager = (MonthViewPager) findViewById(com.it.calendar.R.id.vp_month);
+        this.mMonthPager = findViewById(R.id.vp_month);
         this.mMonthPager.mWeekPager = mWeekPager;
         this.mMonthPager.mWeekBar = mWeekBar;
         LayoutParams params = (LayoutParams) this.mMonthPager.getLayoutParams();
@@ -113,7 +111,7 @@ public class CalendarView extends FrameLayout {
         mWeekPager.setLayoutParams(params);
 
 
-        mYearViewPager = (YearViewPager) findViewById(com.it.calendar.R.id.selectLayout);
+        mYearViewPager = findViewById(R.id.selectLayout);
         mYearViewPager.setBackgroundColor(mDelegate.getYearViewBackground());
         mYearViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -664,9 +662,7 @@ public class CalendarView extends FrameLayout {
             if (calendar == null) {
                 continue;
             }
-            if (mDelegate.mSelectedCalendars.containsKey(calendar.toString())) {
-                mDelegate.mSelectedCalendars.remove(calendar.toString());
-            }
+            mDelegate.mSelectedCalendars.remove(calendar.toString());
         }
         update();
     }
@@ -755,7 +751,7 @@ public class CalendarView extends FrameLayout {
             return;
         }
         mDelegate.setWeekBarClass(cls);
-        FrameLayout frameContent = (FrameLayout) findViewById(com.it.calendar.R.id.frameContent);
+        FrameLayout frameContent = findViewById(R.id.frameContent);
         frameContent.removeView(mWeekBar);
 
         try {
@@ -1206,9 +1202,7 @@ public class CalendarView extends FrameLayout {
         if (mDelegate.mSchemeDatesMap == null || mDelegate.mSchemeDatesMap.size() == 0) {
             return;
         }
-        if (mDelegate.mSchemeDatesMap.containsKey(calendar.toString())) {
-            mDelegate.mSchemeDatesMap.remove(calendar.toString());
-        }
+        mDelegate.mSchemeDatesMap.remove(calendar.toString());
         if (mDelegate.mSelectedCalendar.equals(calendar)) {
             mDelegate.clearSelectedScheme();
         }

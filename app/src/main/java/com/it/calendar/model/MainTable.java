@@ -23,7 +23,7 @@ public class MainTable extends RealmObject {
     private String importantday;
     private String hindu_fes;
     private String muslim_fes;
-    private String chris_fes;
+    private String chirs_fes;
     private String gov_holiday;
     private Long leave_flag;
     private String mesam;
@@ -192,11 +192,11 @@ public class MainTable extends RealmObject {
     }
 
     public String getChirs_fes() {
-        return chris_fes;
+        return chirs_fes;
     }
 
     public void setChirs_fes(String chirs_fes) {
-        this.chris_fes = chirs_fes;
+        this.chirs_fes = chirs_fes;
     }
 
     public String getGov_holiday() {

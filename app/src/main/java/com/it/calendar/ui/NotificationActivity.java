@@ -11,10 +11,12 @@ import android.view.View;
 
 import com.it.calendar.R;
 import com.it.calendar.model.Notification;
+import com.it.calendar.model.NotificationModule;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -38,8 +40,14 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("அறிவிப்புகள்");
 
+
         Realm.init(NotificationActivity.this);
-        realm = Realm.getDefaultInstance();
+        RealmConfiguration myConfig = new RealmConfiguration.Builder()
+                .name("notification.realm")
+                .modules(new NotificationModule())
+                .build();
+
+        realm = Realm.getInstance(myConfig);
 
         RealmResults<Notification> notifications = realm.where(Notification.class)
                 .sort("date", Sort.DESCENDING)

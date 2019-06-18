@@ -27,7 +27,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private MainTable mainTable;
     private Realm realm;
 
-    CalendarAdapter(Context context, MainTable mainTbl) {
+    public CalendarAdapter(Context context, MainTable mainTbl) {
         this.context = context;
         this.mainTable = mainTbl;
 

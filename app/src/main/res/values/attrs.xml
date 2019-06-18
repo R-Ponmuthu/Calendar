@@ -71,9 +71,9 @@
 
     <declare-styleable name="CalendarView">
 
-        <attr name="calendar_padding" format="dimension" /><!--日历内部左右padding-->
+        <attr name="calendar_padding" format="dimension" />
 
-        <attr name="week_background" format="color" /><!--周背景-->
+        <attr name="week_background" format="color" />
         <attr name="week_line_background" format="color" /><!--线条颜色-->
         <attr name="week_text_color" format="color" /><!--周栏字体颜色-->
         <attr name="week_text_size" format="dimension" /><!--周栏字体大小-->

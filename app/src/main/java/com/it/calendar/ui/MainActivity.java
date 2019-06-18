@@ -53,8 +53,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmMigration;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
@@ -256,20 +258,34 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void loadData() {
 
+        Realm notiRealm;
+
         Realm.init(MainActivity.this);
-        RealmConfiguration myConfig = new RealmConfiguration.Builder()
+        RealmConfiguration notiConfig = new RealmConfiguration.Builder()
                 .name("notification.realm")
                 .modules(new NotificationModule())
                 .build();
 
-        Realm notiRealm = Realm.getInstance(myConfig);
+        try {
+            Realm.setDefaultConfiguration(notiConfig);
+            notiRealm = Realm.getDefaultInstance();
+        } catch (Exception e) {
+            try {
+                notiRealm = Realm.getInstance(notiConfig);
+            } catch (RealmMigrationNeededException r) {
+
+                Realm.deleteRealm(notiConfig);
+                notiRealm = Realm.getInstance(notiConfig);
+            }
+        }
 
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .assetFile("data/calendar.realm")
                 .name("calendar.realm")
-                .modules(new CalendarModule())
                 .schemaVersion(9)
+                .modules(new CalendarModule())
                 .build();
+
         try {
             Realm.setDefaultConfiguration(realmConfig);
             realm = Realm.getDefaultInstance();
@@ -277,20 +293,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             try {
                 realm = Realm.getInstance(realmConfig);
             } catch (RealmMigrationNeededException r) {
+
                 Realm.deleteRealm(realmConfig);
                 realm = Realm.getInstance(realmConfig);
             }
         }
-
-        /*Realm.init(MainActivity.this);
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .assetFile("data/default.realm")
-                .name("calendar.realm")
-                .schemaVersion(9)
-                .build();
-
-        Realm.setDefaultConfiguration(realmConfig);
-        realm = Realm.getDefaultInstance();*/
 
         getData(mCalendarView.getCurDay(), mCalendarView.getCurMonth(), mCalendarView.getCurYear());
 

@@ -177,7 +177,7 @@ public class PoruthamFragment extends Fragment {
             dialog.setContentView(R.layout.porundhum_natchathiram);
 
             WebView webView = dialog.findViewById(R.id.webView);
-            webView.loadUrl("file:///android_asset/Porutham.html");
+            webView.loadUrl("file:///android_asset/porutham.html");
 
             AppCompatImageView close = dialog.findViewById(R.id.close);
             close.setOnClickListener(v1 -> dialog.dismiss());
