@@ -45,9 +45,10 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="May 2019"
+                    android:text="May"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/date"
@@ -103,7 +104,8 @@
                     android:layout_gravity="center"
                     android:text="4"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tamilDate"

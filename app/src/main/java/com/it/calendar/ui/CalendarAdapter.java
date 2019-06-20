@@ -2,6 +2,8 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,11 +62,20 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         calendarViewHolder.date.setText("" + mainTable.getDay());
         calendarViewHolder.day.setText("" + mainTable.getWeekday());
-        calendarViewHolder.monthYear.setText(mainTable.getMonth() + "  " + mainTable.getYear());
+        calendarViewHolder.monthYear.setText(mainTable.getMonth());
 
         calendarViewHolder.tamilDate.setText("" + mainTable.getTam_day());
         calendarViewHolder.tamilMonth.setText(mainTable.getTam_month());
         calendarViewHolder.tamilYear.setText(mainTable.getTam_year() + " வருடம்");
+
+        calendarViewHolder.monthYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                context.startActivity(new Intent(context, CurrentMonthActivity.class)
+//                        .putExtra("Month", mainTable.getMonth())
+//                        .putExtra("Year", mainTable.getYear()));
+            }
+        });
 
         calendarViewHolder.quote.setText(mainTable.getQuote());
 

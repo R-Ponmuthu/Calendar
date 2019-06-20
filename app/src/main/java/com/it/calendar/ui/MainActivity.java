@@ -318,7 +318,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Realm.init(MainActivity.this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .assetFile("data/calendar.realm")
-                .name("calendar.realm")
+                .name("default.realm")
                 .encryptionKey(hexStringToByteArray(getResources().getString(R.string.ENCRYPTION_KEY)))
                 .schemaVersion(9)
                 .modules(new CalendarModule())
