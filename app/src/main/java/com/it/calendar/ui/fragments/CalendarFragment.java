@@ -15,13 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.util.SharedPreference;
-import com.it.calendar.model.Kalangal;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Panchangam;
-import com.it.calendar.model.Vasthu;
-import com.it.calendar.model.Virathaday;
-import com.it.calendar.model.Krakakalam;
+import com.it.calendar.model.VirathaDay;
+import com.it.calendar.model.kalangal;
+import com.it.calendar.model.krakakalam;
+import com.it.calendar.model.panchangam;
+import com.it.calendar.model.vasthu;
+import com.it.calendar.util.SharedPreference;
 import com.it.calendar.ui.AsubaNaatkalAdapter;
 import com.it.calendar.ui.FestivalAdapter;
 import com.it.calendar.ui.MuhurthamAdapter;
@@ -48,7 +48,7 @@ public class CalendarFragment extends Fragment {
     @BindView(R.id.muhurtham)
     TextView muhurtham;
     @BindView(R.id.panchangam)
-    TextView panchangam;
+    TextView panchangham;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
@@ -162,7 +162,7 @@ public class CalendarFragment extends Fragment {
 
                 String str = "/" + (i + 1) + "/" + curYear;
 
-                RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
+                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                         .contains("date", str)
                         .and()
                         .equalTo("viratham", "சுபமுகூர்த்தம்")
@@ -178,7 +178,7 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new MuhurthamAdapter(getActivity(), monthsList, listMap));
         } else if (queryFlag.equals("raagu")) {
 
-            RealmResults<Kalangal> kalangals = realm.where(Kalangal.class)
+            RealmResults<kalangal> kalangals = realm.where(kalangal.class)
                     .equalTo("year", curYear)
                     .findAll();
 
@@ -186,7 +186,7 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new RaaguAdapter(getActivity(), kalangals));
         } else if (queryFlag.equals("vasthu_days")) {
 
-            RealmResults<Vasthu> vasthus = realm.where(Vasthu.class)
+            RealmResults<vasthu> vasthus = realm.where(vasthu.class)
                     .equalTo("year", curYear)
                     .findAll();
 
@@ -194,9 +194,9 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new VasthuAdapter(getActivity(), vasthus));
         } else if (queryFlag.equals("gowri_panchanagam")) {
 
-            panchangam.setVisibility(View.VISIBLE);
+            panchangham.setVisibility(View.VISIBLE);
 
-            RealmResults<Panchangam> panchangams = realm.where(Panchangam.class)
+            RealmResults<panchangam> panchangams = realm.where(panchangam.class)
                     .distinct("weekday")
                     .equalTo("year", curYear)
                     .findAll();
@@ -215,7 +215,7 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new VirathamAdapter(getActivity(), mainTable));
         } else if (queryFlag.equals("suba_horai")) {
 
-            RealmResults<Krakakalam> krakakalams = realm.where(Krakakalam.class)
+            RealmResults<krakakalam> krakakalams = realm.where(krakakalam.class)
                     .distinct("weekday")
                     .equalTo("year", curYear)
                     .findAll();
@@ -234,7 +234,7 @@ public class CalendarFragment extends Fragment {
 
                 String str = "/" + (i + 1) + "/" + curYear;
 
-                RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
+                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                         .contains("date", str)
                         .and()
                         .equalTo("viratham", queryFlag)

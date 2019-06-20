@@ -11,10 +11,10 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.GowriNeram;
-import com.it.calendar.model.Kalangal;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Virathaday;
+import com.it.calendar.model.VirathaDay;
+import com.it.calendar.model.gowri_neram;
+import com.it.calendar.model.kalangal;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,23 +62,23 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         calendarViewHolder.day.setText("" + mainTable.getWeekday());
         calendarViewHolder.monthYear.setText(mainTable.getMonth() + "  " + mainTable.getYear());
 
-        calendarViewHolder.tamilDate.setText("" + mainTable.getDay());
+        calendarViewHolder.tamilDate.setText("" + mainTable.getTam_day());
         calendarViewHolder.tamilMonth.setText(mainTable.getTam_month());
         calendarViewHolder.tamilYear.setText(mainTable.getTam_year() + " வருடம்");
 
         calendarViewHolder.quote.setText(mainTable.getQuote());
 
-        Kalangal kalangal = realm.where(Kalangal.class)
+        kalangal kalangal = realm.where(kalangal.class)
                 .equalTo("year", mainTable.getYear())
                 .and()
                 .equalTo("weekday", mainTable.getWeekday())
                 .findFirst();
 
-        GowriNeram gowriNeram = realm.where(GowriNeram.class)
+        gowri_neram gowriNeram = realm.where(gowri_neram.class)
                 .equalTo("date", mainTable.getDate())
                 .findFirst();
 
-        RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
+        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                 .equalTo("date", mainTable.getDate())
                 .findAll();
 
@@ -113,7 +113,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (!mainTable.getMuslim_fes().equals("-"))
             stringBuilder.append(mainTable.getMuslim_fes()).append("\n");
         if (virathaDays.size() > 0)
-            for (Virathaday virathaDay : virathaDays)
+            for (VirathaDay virathaDay : virathaDays)
                 stringBuilder.append(virathaDay.getViratham()).append("\n");
 
         if (stringBuilder.length() > 0)
@@ -154,247 +154,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public int getItemCount() {
         return 1;
     }
-
-        /*switch (getItemViewType(position)) {
->>>>>>> Stashed changes
-            case 0:
-                GroupViewHolder groupViewHolder = (GroupViewHolder) holder;
-                if (mainTable != null) {
-
-                    Kalangal Kalangal = realm.where(Kalangal.class)
-                            .equalTo("year", mainTable.getYear())
-                            .and()
-                            .equalTo("weekday", mainTable.getWeekday())
-                            .findFirst();
-
-                    GowriNeram gowriNeram = realm.where(GowriNeram.class)
-                            .equalTo("date", mainTable.getDate())
-                            .findFirst();
-
-                    RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
-                            .equalTo("date", mainTable.getDate())
-                            .findAll();
-
-                    if (mainTable.getDay_type().equals("மேல் நோக்கு நாள்")) {
-                        groupViewHolder.daySymbol.setImageResource(R.drawable.ic_up_arrow);
-                    } else if (mainTable.getDay_type().equals("கீழ் நோக்கு நாள்")) {
-                        groupViewHolder.daySymbol.setImageResource(R.drawable.ic_down_arrow);
-                    } else {
-                        groupViewHolder.daySymbol.setImageResource(R.drawable.ic_double_arrow);
-                    }
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    if (!mainTable.getGov_holiday().equals("-"))
-                        stringBuilder.append(mainTable.getGov_holiday()).append(",");
-                    if (!mainTable.getHindu_fes().equals("-"))
-                        stringBuilder.append(mainTable.getHindu_fes()).append(',');
-                    if (!mainTable.getChirs_fes().equals("-"))
-                        stringBuilder.append(mainTable.getChirs_fes()).append(",");
-                    if (!mainTable.getMuslim_fes().equals("-"))
-                        stringBuilder.append(mainTable.getMuslim_fes()).append(",");
-                    if (virathaDays.size() > 0)
-<<<<<<< Updated upstream
-                        for (VirathaDay virathaDay : virathaDays)
-                            stringBuilder.append(virathaDay.getViratham()).append(",");
-=======
-                        for (Virathaday virathaDay : virathaDays)
-                            stringBuilder.append(virathaDay.getViratham()).append("\n\n");
-
-                    if (stringBuilder.length() > 0)
-                        groupViewHolder.impDays.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
-                    else
-                        groupViewHolder.impCard.setVisibility(View.GONE);
->>>>>>> Stashed changes
-
-                    if (stringBuilder != null)
-                        groupViewHolder.impDays.setText("" + stringBuilder.toString());
-                    groupViewHolder.title.setText(mainTable.getTam_day() + "-" + mainTable.getTam_month() + "-" + mainTable.getTam_year());
-                    groupViewHolder.nallaNeramM.setText("கா. " + mainTable.getNallanerem_m());
-                    groupViewHolder.nallaNeramE.setText("மா. " + mainTable.getNallanerem_e());
-                    if (gowriNeram != null) {
-                        groupViewHolder.gowriNeramM.setText("கா. " + gowriNeram.getGowri_m());
-                        groupViewHolder.gowriNeramE.setText("மா. " + gowriNeram.getGowri_e());
-                        groupViewHolder.suriyaUdhayam.setText("சூரி.உ   " + gowriNeram.getSooriya_r());
-                    }
-                    if (Kalangal != null) {
-                        groupViewHolder.raagu.setText("இரா  " + Kalangal.getRagu());
-                        groupViewHolder.kulikai.setText("குளி  " + Kalangal.getKuligai());
-                        groupViewHolder.emakandam.setText("எம  " + Kalangal.getEmakandam());
-                    }
-                    groupViewHolder.thithi.setText("" + mainTable.getThiti());
-                    groupViewHolder.nadchadhthiram.setText("" + mainTable.getStar());
-                    groupViewHolder.yokam.setText("" + mainTable.getYokam());
-                    groupViewHolder.chandhiram.setText("" + mainTable.getChanthran());
-                }
-                break;
-            case 1:
-                if (mainTable != null) {
-                    RasiViewHolder rasiViewHolder = (RasiViewHolder) holder;
-                    rasiViewHolder.title.setText("ராசி பலன்");
-                    rasiViewHolder.rasi1.setText("மேஷம் - " + mainTable.getMesam());
-                    rasiViewHolder.rasi2.setText("ரிஷபம் - " + mainTable.getRisibam());
-                    rasiViewHolder.rasi3.setText("மிதுனம் - " + mainTable.getMithunam());
-                    rasiViewHolder.rasi4.setText("கடகம் - " + mainTable.getKadakam());
-                    rasiViewHolder.rasi5.setText("சிம்மம் - " + mainTable.getSimmam());
-                    rasiViewHolder.rasi6.setText("கன்னி - " + mainTable.getKanni());
-                    rasiViewHolder.rasi7.setText("துலாம் - " + mainTable.getThulam());
-                    rasiViewHolder.rasi8.setText("விருச்சிகம் - " + mainTable.getViruchakam());
-                    rasiViewHolder.rasi9.setText("தனுசு - " + mainTable.getDhanusu());
-                    rasiViewHolder.rasi10.setText("மகரம் - " + mainTable.getMakaram());
-                    rasiViewHolder.rasi11.setText("கும்பம் - " + mainTable.getKumbam());
-                    rasiViewHolder.rasi12.setText("மீனம் - " + mainTable.getMeenam());
-                }
-                break;
-            case 2:
-                if (mainTable != null) {
-                    ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
-                    itemViewHolder.title.setText("நாள் மேற்கோள்");
-                    itemViewHolder.content.setText("\n" + mainTable.getQuote() + "\n");
-                }
-                break;
-            case 3:
-                if (mainTable != null) {
-                    ItemViewHolder itemViewHolder1 = (ItemViewHolder) holder;
-                    itemViewHolder1.title.setText("முக்கியமான நாட்கள்");
-                    String[] impDays = mainTable.getImportantday().split(",");
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < impDays.length; i++) {
-                        stringBuilder.append("\n" + "*" + impDays[i] + "\n");
-                    }
-                    itemViewHolder1.content.setText("" + stringBuilder.toString());
-                }
-                break;
-            case 4:
-                if (mainTable != null) {
-                    ItemViewHolder itemViewHolder2 = (ItemViewHolder) holder;
-                    itemViewHolder2.title.setText("அரசு விடுமுறை");
-                    itemViewHolder2.content.setText(mainTable.getGov_holiday());
-                }
-                break;
-            case 5:
-                if (mainTable != null) {
-                    ItemViewHolder itemViewHolder3 = (ItemViewHolder) holder;
-                    itemViewHolder3.title.setText("திருவிழாக்கள்");
-                    itemViewHolder3.content.setText(mainTable.getHindu_fes() + "\n" +
-                            mainTable.getChirs_fes() + "\n" +
-                            mainTable.getMuslim_fes());
-                }
-                break;
-        }
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-
-        switch (position) {
-            case 0:
-                return 0;
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 3;
-            case 4:
-                return 4;
-            case 5:
-                return 5;
-            default:
-                return 1;
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return 6;
-    }
-
-    class GroupViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.nallaNeramM)
-        TextView nallaNeramM;
-        @BindView(R.id.nallaNeramE)
-        TextView nallaNeramE;
-        @BindView(R.id.gowriNeramM)
-        TextView gowriNeramM;
-        @BindView(R.id.gowriNeramE)
-        TextView gowriNeramE;
-        @BindView(R.id.raagu)
-        TextView raagu;
-        @BindView(R.id.kulikai)
-        TextView kulikai;
-        @BindView(R.id.emakandam)
-        TextView emakandam;
-        @BindView(R.id.suriya_udhayam)
-        TextView suriyaUdhayam;
-        @BindView(R.id.thithi)
-        TextView thithi;
-        @BindView(R.id.nadchadhthiram)
-        TextView nadchadhthiram;
-        @BindView(R.id.yokam)
-        TextView yokam;
-        @BindView(R.id.impDays)
-        TextView impDays;
-        @BindView(R.id.chandhiram)
-        TextView chandhiram;
-        @BindView(R.id.day_symbol)
-        ImageView daySymbol;
-
-        GroupViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
-    class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        TextView title, content;
-
-        ItemViewHolder(View view) {
-            super(view);
-            title = view.findViewById(R.id.title);
-            content = view.findViewById(R.id.content);
-        }
-    }
-
-    class RasiViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.rasi1)
-        TextView rasi1;
-        @BindView(R.id.rasi2)
-        TextView rasi2;
-        @BindView(R.id.rasi3)
-        TextView rasi3;
-        @BindView(R.id.rasi4)
-        TextView rasi4;
-        @BindView(R.id.rasi5)
-        TextView rasi5;
-        @BindView(R.id.rasi6)
-        TextView rasi6;
-        @BindView(R.id.rasi7)
-        TextView rasi7;
-        @BindView(R.id.rasi8)
-        TextView rasi8;
-        @BindView(R.id.rasi9)
-        TextView rasi9;
-        @BindView(R.id.rasi10)
-        TextView rasi10;
-        @BindView(R.id.rasi11)
-        TextView rasi11;
-        @BindView(R.id.rasi12)
-        TextView rasi12;
-
-        RasiViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-<<<<<<< Updated upstream
-=======
-    }*/
 
     class CalendarViewHolder extends RecyclerView.ViewHolder {
 

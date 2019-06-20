@@ -23,10 +23,10 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.it.calendar.R;
+import com.it.calendar.model.MainTable;
+import com.it.calendar.model.VirathaDay;
 import com.it.calendar.util.SharedPreference;
 import com.it.calendar.ui.MainActivity;
-import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Virathaday;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -107,7 +107,7 @@ public class NotificationScheduler {
                     .equalTo("date", simpleDateFormat.format(calendar.getTime()))
                     .findFirst();
 
-            RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
+            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                     .equalTo("date", simpleDateFormat.format(calendar.getTime()))
                     .findAll();
 
@@ -172,7 +172,7 @@ public class NotificationScheduler {
         }
     }
 
-    private static void remoteViewsImage(RemoteViews remoteViews, StringBuilder stringBuilder, MainTable mainTable, RealmResults<Virathaday> virathaDays) {
+    private static void remoteViewsImage(RemoteViews remoteViews, StringBuilder stringBuilder, MainTable mainTable, RealmResults<VirathaDay> virathaDays) {
 
         remoteViews.setTextViewText(R.id.nallaNeram, "ந.நே.கா: " + mainTable.getNallanerem_m() + "     ந.நே.மா: " + mainTable.getNallanerem_e());
         remoteViews.setTextViewText(R.id.festivals, "" + stringBuilder.toString());
@@ -184,7 +184,7 @@ public class NotificationScheduler {
             remoteViews.setViewVisibility(R.id.pournami, View.VISIBLE);
 
         StringBuilder stringBuilder1 = new StringBuilder();
-        for (Virathaday virathaDay : virathaDays)
+        for (VirathaDay virathaDay : virathaDays)
             stringBuilder1.append(virathaDay.getViratham()).append(",");
 
         if (stringBuilder1.length() > 0)
@@ -193,7 +193,7 @@ public class NotificationScheduler {
             remoteViews.removeAllViews(R.id.viradham);
     }
 
-    private static void remoteViewsTitle(RemoteViews remoteViews, RemoteViews remoteViewsSmall, MainTable mainTable, RealmResults<Virathaday> virathaDay) {
+    private static void remoteViewsTitle(RemoteViews remoteViews, RemoteViews remoteViewsSmall, MainTable mainTable, RealmResults<VirathaDay> virathaDay) {
 
 
         remoteViews.setImageViewResource(R.id.logo, R.drawable.ic_logo);

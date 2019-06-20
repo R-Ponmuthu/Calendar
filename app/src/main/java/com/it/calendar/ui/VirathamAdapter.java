@@ -2,8 +2,10 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +15,7 @@ import android.widget.Toast;
 
 import com.it.calendar.R;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Virathaday;
+import com.it.calendar.model.VirathaDay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,7 +85,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
             for (String viradham : viratham) {
 
-                RealmResults<Virathaday> virathaDays = realm.where(Virathaday.class)
+                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                         .contains("date", str)
                         .and()
                         .equalTo("viratham", viradham)
@@ -93,7 +95,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
                 if (virathaDays.size() == 1)
                     stringBuilder.append(virathaDays.get(0).getDate().split("/")[0]);
                 else
-                    for (Virathaday virathaDay : virathaDays) {
+                    for (VirathaDay virathaDay : virathaDays) {
                         stringBuilder.append(virathaDay.getDate().split("/")[0]).append(",");
                     }
 

@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.MoogurthamTable;
+import com.it.calendar.model.moogurtham_table;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,7 +77,7 @@ public class MuhurthamBottomSheet extends BottomSheetDialogFragment {
         close.setOnClickListener(view1 -> dismiss());
         title.setText("" + date);
 
-        MoogurthamTable moogurthamTable = realm.where(MoogurthamTable.class)
+        moogurtham_table moogurthamTable = realm.where(moogurtham_table.class)
                 .equalTo("date", date)
                 .findFirst();
 

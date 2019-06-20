@@ -3,12 +3,11 @@ package com.it.calendar.model;
 
 import io.realm.RealmObject;
 
-public class Panchangam extends RealmObject {
+public class vasthu extends RealmObject {
     private Long year;
-    private String weekday;
+    private String day;
     private String neram;
     private String time;
-    private String parikaram;
 
     public Long getYear() {
         return year;
@@ -18,12 +17,12 @@ public class Panchangam extends RealmObject {
         this.year = year;
     }
 
-    public String getWeekday() {
-        return weekday;
+    public String getDay() {
+        return day;
     }
 
-    public void setWeekday(String weekday) {
-        this.weekday = weekday;
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public String getNeram() {
@@ -40,14 +39,6 @@ public class Panchangam extends RealmObject {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public String getParikaram() {
-        return parikaram;
-    }
-
-    public void setParikaram(String parikaram) {
-        this.parikaram = parikaram;
     }
 
 

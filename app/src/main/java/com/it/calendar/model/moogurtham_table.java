@@ -3,7 +3,7 @@ package com.it.calendar.model;
 
 import io.realm.RealmObject;
 
-public class MoogurthamTable extends RealmObject {
+public class moogurtham_table extends RealmObject {
     private String date;
     private String thethi;
     private String star;

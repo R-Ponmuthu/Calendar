@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.it.calendar.R;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Vasthu;
+import com.it.calendar.model.vasthu;
 
 import java.util.List;
 
@@ -22,11 +22,11 @@ import io.realm.RealmResults;
 
 public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHolder> {
 
-    List<Vasthu> vasthus;
+    List<vasthu> vasthus;
     private Context context;
     private Realm realm;
 
-    public VasthuAdapter(Context context, RealmResults<Vasthu> vasthus) {
+    public VasthuAdapter(Context context, RealmResults<vasthu> vasthus) {
 
         this.context = context;
         this.vasthus = vasthus;
@@ -46,7 +46,7 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        Vasthu vasthu = vasthus.get(position);
+        vasthu vasthu = vasthus.get(position);
         holder.bind_kalangal(position, vasthu);
     }
 
@@ -70,7 +70,7 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
         }
 
         @SuppressLint("SetTextI18n")
-        void bind_kalangal(int position, Vasthu vasthu) {
+        void bind_kalangal(int position, vasthu vasthu) {
 
             MainTable mainTable = realm.where(MainTable.class)
                     .equalTo("date", vasthu.getDay())

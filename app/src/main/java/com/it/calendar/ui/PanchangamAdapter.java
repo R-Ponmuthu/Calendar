@@ -2,7 +2,9 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.Panchangam;
+import com.it.calendar.model.panchangam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,11 @@ import io.realm.RealmResults;
 
 public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.ItemViewHolder> {
 
-    private List<Panchangam> weekdays;
+    private List<panchangam> weekdays;
     private Context context;
     private Realm realm;
-    private List<Panchangam> PpanchangamList = new ArrayList<>();
-    private List<Panchangam> IpanchangamList = new ArrayList<>();
+    private List<panchangam> PpanchangamList = new ArrayList<>();
+    private List<panchangam> IpanchangamList = new ArrayList<>();
     private int curYear;
 
     private String[] times = new String[]{"6 - 7.30",
@@ -38,7 +40,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
             "3 - 4.30",
             "4.30 - 6"};
 
-    public PanchangamAdapter(Context context, int curYear, RealmResults<Panchangam> weekdays) {
+    public PanchangamAdapter(Context context, int curYear, RealmResults<panchangam> weekdays) {
         this.context = context;
         this.weekdays = weekdays;
         this.curYear = curYear;
@@ -78,7 +80,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
             ButterKnife.bind(this, view);
         }
 
-        void bind_panchangam(Panchangam panchangam) {
+        void bind_panchangam(panchangam panchangam) {
 
             PpanchangamList = new ArrayList<>();
             IpanchangamList = new ArrayList<>();
@@ -88,7 +90,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
 
             for (String time : times) {
 
-                Panchangam Ppanchangam = realm.where(Panchangam.class)
+                panchangam Ppanchangam = realm.where(panchangam.class)
                         .in("time", new String[]{time})
                         .and()
                         .equalTo("neram", "பகல்")
@@ -98,7 +100,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
                         .equalTo("year", curYear)
                         .findFirst();
 
-                Panchangam Ipanchangam = realm.where(Panchangam.class)
+                panchangam Ipanchangam = realm.where(panchangam.class)
                         .in("time", new String[]{time})
                         .and()
                         .equalTo("neram", "இரவு")
@@ -164,7 +166,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(List<Panchangam> ppanchangam, List<Panchangam> ipanchangam) {
+        void bind(List<panchangam> ppanchangam, List<panchangam> ipanchangam) {
 
             txt1.setText("6.00-7.30: " + ppanchangam.get(0).getParikaram());
             txt2.setText("7.30-9.00: " + ppanchangam.get(1).getParikaram());

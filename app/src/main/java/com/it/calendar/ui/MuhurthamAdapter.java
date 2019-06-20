@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import com.it.calendar.R;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.MoogurthamTable;
-import com.it.calendar.model.Virathaday;
+import com.it.calendar.model.VirathaDay;
+import com.it.calendar.model.moogurtham_table;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
 
     List<String> months;
     Map<String, List<?>> mainTbl;
-    Map<String, List<Virathaday>> viratham = new HashMap<>();
-    List<Virathaday> virathaDayList = new ArrayList<>();
+    Map<String, List<VirathaDay>> viratham = new HashMap<>();
+    List<VirathaDay> virathaDayList = new ArrayList<>();
     private Activity activity;
     private Realm realm;
 
@@ -84,7 +84,7 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
 
             for (int i = 0; i < mainTbl.get(s).size(); i++) {
 
-                Virathaday virathaDay = (Virathaday) mainTbl.get(s).get(i);
+                VirathaDay virathaDay = (VirathaDay) mainTbl.get(s).get(i);
                 virathaDayList.add(virathaDay);
             }
 
@@ -96,12 +96,12 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
 
     public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.ItemViewHolder> {
 
-        Map<String, List<Virathaday>> viratham;
+        Map<String, List<VirathaDay>> viratham;
         String month;
         private Activity activity;
         private Realm realm;
 
-        SubItemAdapter(Activity activity, String month, Map<String, List<Virathaday>> viratham) {
+        SubItemAdapter(Activity activity, String month, Map<String, List<VirathaDay>> viratham) {
             this.activity = activity;
             this.viratham = viratham;
             this.month = month;
@@ -144,11 +144,11 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
             }
 
             @SuppressLint("SetTextI18n")
-            void bind_item(Virathaday virathaDay) {
+            void bind_item(VirathaDay virathaDay) {
 
                 date.setText(virathaDay.getDate().split("/")[0]);
 
-                MoogurthamTable moogurthamTable = realm.where(MoogurthamTable.class)
+                moogurtham_table moogurthamTable = realm.where(moogurtham_table.class)
                         .equalTo("date", virathaDay.getDate())
                         .findFirst();
 

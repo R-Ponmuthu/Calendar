@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.it.calendar.R;
 import com.it.calendar.model.MainTable;
-import com.it.calendar.model.Virathaday;
+import com.it.calendar.model.VirathaDay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
 
     List<String> months;
     Map<String, List<?>> mainTbl;
-    Map<String, List<Virathaday>> viratham = new HashMap<>();
-    List<Virathaday> virathaDayList = new ArrayList<>();
+    Map<String, List<VirathaDay>> viratham = new HashMap<>();
+    List<VirathaDay> virathaDayList = new ArrayList<>();
     private Context context;
     private Realm realm;
 
@@ -84,7 +84,7 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
 
             for (int i = 0; i < mainTbl.get(s).size(); i++) {
 
-                Virathaday virathaDay = (Virathaday) mainTbl.get(s).get(i);
+                VirathaDay virathaDay = (VirathaDay) mainTbl.get(s).get(i);
                 virathaDayList.add(virathaDay);
             }
 
@@ -96,12 +96,12 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
 
     public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.ItemViewHolder> {
 
-        Map<String, List<Virathaday>> viratham;
+        Map<String, List<VirathaDay>> viratham;
         String month;
         private Context context;
         private Realm realm;
 
-        SubItemAdapter(Context context, String month, Map<String, List<Virathaday>> viratham) {
+        SubItemAdapter(Context context, String month, Map<String, List<VirathaDay>> viratham) {
             this.context = context;
             this.viratham = viratham;
             this.month = month;
@@ -142,7 +142,7 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
             }
 
             @SuppressLint("SetTextI18n")
-            void bind_item(Virathaday virathaDay) {
+            void bind_item(VirathaDay virathaDay) {
 
                 MainTable mainTable = realm.where(MainTable.class)
                         .equalTo("date", virathaDay.getDate())

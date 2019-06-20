@@ -1,7 +1,9 @@
 package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -22,6 +25,13 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.play.core.appupdate.AppUpdateInfo;
+import com.google.android.play.core.appupdate.AppUpdateManager;
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
+import com.google.android.play.core.install.model.AppUpdateType;
+import com.google.android.play.core.install.model.InstallStatus;
+import com.google.android.play.core.install.model.UpdateAvailability;
+import com.google.android.play.core.tasks.OnSuccessListener;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -32,6 +42,8 @@ import com.it.calendar.R;
 import com.it.calendar.calendarview.Calendar;
 import com.it.calendar.calendarview.CalendarLayout;
 import com.it.calendar.calendarview.CalendarView;
+import com.it.calendar.model.MainTable;
+import com.it.calendar.model.VirathaDay;
 import com.it.calendar.util.SharedPreference;
 import com.it.calendar.group.GroupItemDecoration;
 import com.it.calendar.meizu_calendarview.EnglishWeekBar;
@@ -39,9 +51,7 @@ import com.it.calendar.meizu_calendarview.MeiZuMonthView;
 import com.it.calendar.meizu_calendarview.MeizuWeekView;
 import com.it.calendar.model.Article;
 import com.it.calendar.model.CalendarModule;
-import com.it.calendar.model.MainTable;
 import com.it.calendar.model.NotificationModule;
-import com.it.calendar.model.Virathaday;
 import com.it.calendar.notification.AlarmReceiver;
 import com.it.calendar.notification.LocalData;
 import com.it.calendar.notification.NotificationScheduler;
@@ -53,10 +63,8 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.DynamicRealm;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.RealmMigration;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmMigrationNeededException;
 
@@ -64,7 +72,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnCalendarSelectListener,
-        CalendarView.OnYearChangeListener, View.OnClickListener {
+        CalendarView.OnYearChangeListener, View.OnClickListener, OnSuccessListener<AppUpdateInfo> {
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
     @BindView(R.id.nav_view)
@@ -88,6 +96,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private String realmKey;
     private int year = 0;
     private FirebaseAnalytics firebaseAnalytics;
+
+    public static final int REQUEST_CODE = 1234;
+    private AppUpdateManager appUpdateManager;
+    private boolean mNeedsFlexibleUpdate;
 
     //Original source: https://stackoverflow.com/a/9855338/1389357
     public static String bytesToHex(byte[] bytes) {
@@ -189,6 +201,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Realm.init(getApplicationContext());
         loadData();
 
+        mNeedsFlexibleUpdate = false;
+        appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(MainActivity.this);
+
         if (Utils.isOnline(MainActivity.this))
             loadAds();
         else
@@ -279,9 +295,31 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
 
+        /*RealmConfiguration realmConfig = new RealmConfiguration.Builder()
+                .assetFile("data/calendar.realm")
+                .name("calendar.realm")
+                .schemaVersion(9)
+                .modules(new CalendarModule())
+                .build();
+
+        try {
+            Realm.setDefaultConfiguration(realmConfig);
+            realm = Realm.getDefaultInstance();
+        } catch (Exception e) {
+            try {
+                realm = Realm.getInstance(realmConfig);
+            } catch (RealmMigrationNeededException r) {
+
+                Realm.deleteRealm(realmConfig);
+                realm = Realm.getInstance(realmConfig);
+            }
+        }*/
+
+        Realm.init(MainActivity.this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .assetFile("data/calendar.realm")
                 .name("calendar.realm")
+                .encryptionKey(hexStringToByteArray(getResources().getString(R.string.ENCRYPTION_KEY)))
                 .schemaVersion(9)
                 .modules(new CalendarModule())
                 .build();
@@ -307,7 +345,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Map<String, Calendar> map = new HashMap<>();
         for (MainTable mainTable : mainTables) {
             String date = mainTable.getDate();
-            Virathaday virathaDay = realm.where(Virathaday.class)
+            VirathaDay virathaDay = realm.where(VirathaDay.class)
                     .equalTo("date", date)
                     .and()
                     .in("viratham", new String[]{"பௌர்ணமி", "அமாவாசை", "சுபமுகூர்த்தம்"})
@@ -581,5 +619,48 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         firebaseAnalytics.logEvent(str, bundle);
         firebaseAnalytics.setUserProperty("Screen", str);
         firebaseAnalytics.setCurrentScreen(MainActivity.this, str, null);
+    }
+
+    @Override
+    public void onSuccess(AppUpdateInfo appUpdateInfo) {
+        if (appUpdateInfo.updateAvailability()
+                == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+            // If an in-app update is already running, resume the update.
+            startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
+        } else if (appUpdateInfo.installStatus() == InstallStatus.DOWNLOADED) {
+            // If the update is downloaded but not installed,
+            // notify the user to complete the update.
+            popupSnackbarForCompleteUpdate();
+        } else if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
+            if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                startUpdate(appUpdateInfo, AppUpdateType.IMMEDIATE);
+            } else if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.FLEXIBLE)) {
+                mNeedsFlexibleUpdate = true;
+                showFlexibleUpdateNotification();
+            }
+        }
+    }
+
+    private void popupSnackbarForCompleteUpdate() {
+        Toast.makeText(this, "Updated Sucessfully", Toast.LENGTH_SHORT).show();
+        appUpdateManager.completeUpdate();
+    }
+
+    private void showFlexibleUpdateNotification() {
+        Toast.makeText(this, "An update is available and accessible in More.", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startUpdate(final AppUpdateInfo appUpdateInfo, final int appUpdateType) {
+        final Activity activity = this;
+        new Thread(() -> {
+            try {
+                appUpdateManager.startUpdateFlowForResult(appUpdateInfo,
+                        appUpdateType,
+                        activity,
+                        REQUEST_CODE);
+            } catch (IntentSender.SendIntentException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 }

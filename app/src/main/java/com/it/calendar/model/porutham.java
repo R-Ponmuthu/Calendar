@@ -2,7 +2,7 @@ package com.it.calendar.model;
 
 import io.realm.RealmObject;
 
-public class Porutham extends RealmObject {
+public class porutham extends RealmObject {
     private Double nid;
     private Long title;
     private Long mark;

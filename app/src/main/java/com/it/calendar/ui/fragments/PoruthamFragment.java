@@ -2,11 +2,13 @@ package com.it.calendar.ui.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.AppCompatImageView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.Porutham;
+import com.it.calendar.model.porutham;
 import com.it.calendar.util.Utils;
 
 import butterknife.BindView;
@@ -106,7 +108,7 @@ public class PoruthamFragment extends Fragment {
             malePosition = position + 1;
 
             if (femalePosition != 0) {
-                Porutham porutham = realm.where(Porutham.class)
+                porutham porutham = realm.where(porutham.class)
                         .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
                         .findFirst();
 
@@ -142,7 +144,7 @@ public class PoruthamFragment extends Fragment {
 
             if (malePosition != 0) {
 
-                Porutham porutham = realm.where(Porutham.class)
+                porutham porutham = realm.where(porutham.class)
                         .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
                         .findFirst();
 

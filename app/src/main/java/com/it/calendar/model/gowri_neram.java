@@ -2,7 +2,7 @@ package com.it.calendar.model;
 
 import io.realm.RealmObject;
 
-public class GowriNeram extends RealmObject {
+public class gowri_neram extends RealmObject {
     private String date;
     private String gowri_m;
     private String gowri_e;

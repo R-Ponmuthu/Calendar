@@ -2,7 +2,9 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.Kalangal;
+import com.it.calendar.model.kalangal;
 
 import java.util.List;
 
@@ -21,11 +23,11 @@ import io.realm.RealmResults;
 
 public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHolder> {
 
-    List<Kalangal> kalangals;
+    List<kalangal> kalangals;
     private Context context;
     private Realm realm;
 
-    public RaaguAdapter(Context context, RealmResults<Kalangal> kalangals) {
+    public RaaguAdapter(Context context, RealmResults<kalangal> kalangals) {
 
         this.context = context;
         this.kalangals = kalangals;
@@ -45,7 +47,7 @@ public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHold
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        Kalangal kalangal = kalangals.get(position);
+        kalangal kalangal = kalangals.get(position);
         holder.bind_kalangal(kalangal);
     }
 
@@ -68,7 +70,7 @@ public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHold
         }
 
         @SuppressLint("SetTextI18n")
-        void bind_kalangal(Kalangal kalangal) {
+        void bind_kalangal(kalangal kalangal) {
 
             container.removeAllViews();
 
@@ -106,7 +108,7 @@ public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHold
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(Kalangal kalangal) {
+        void bind(kalangal kalangal) {
 
             raagu.setText("இராகு: " + kalangal.getRagu());
             kulikai.setText("குளிகை: " + kalangal.getKuligai());

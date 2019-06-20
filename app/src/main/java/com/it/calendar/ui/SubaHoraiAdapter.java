@@ -2,7 +2,9 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.it.calendar.R;
-import com.it.calendar.model.Krakakalam;
+import com.it.calendar.model.krakakalam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +24,11 @@ import io.realm.RealmResults;
 
 public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.ItemViewHolder> {
 
-    private List<Krakakalam> weekdays;
+    private List<krakakalam> weekdays;
     private Context context;
     private Realm realm;
-    private List<Krakakalam> PkrakakalamList = new ArrayList<>();
-    private List<Krakakalam> IkrakakalamList = new ArrayList<>();
+    private List<krakakalam> PkrakakalamList = new ArrayList<>();
+    private List<krakakalam> IkrakakalamList = new ArrayList<>();
     private int curYear;
 
     private String[] times = new String[]{"6.00 - 7.00",
@@ -42,7 +44,7 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
             "4.00 - 5.00",
             "5.00 - 6.00"};
 
-    public SubaHoraiAdapter(Context context, int curYear, RealmResults<Krakakalam> weekdays) {
+    public SubaHoraiAdapter(Context context, int curYear, RealmResults<krakakalam> weekdays) {
         this.context = context;
         this.weekdays = weekdays;
         this.curYear = curYear;
@@ -82,7 +84,7 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
             ButterKnife.bind(this, view);
         }
 
-        void bind_krakakalam(Krakakalam krakakalam) {
+        void bind_krakakalam(krakakalam krakakalam) {
 
             PkrakakalamList = new ArrayList<>();
             IkrakakalamList = new ArrayList<>();
@@ -92,7 +94,7 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
 
             for (String time : times) {
 
-                Krakakalam Pkrakakalam = realm.where(Krakakalam.class)
+                krakakalam Pkrakakalam = realm.where(krakakalam.class)
                         .in("time", new String[]{time})
                         .and()
                         .equalTo("neram", "பகல்")
@@ -102,7 +104,7 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
                         .equalTo("year", curYear)
                         .findFirst();
 
-                Krakakalam Ikrakakalam = realm.where(Krakakalam.class)
+                krakakalam Ikrakakalam = realm.where(krakakalam.class)
                         .in("time", new String[]{time})
                         .and()
                         .equalTo("neram", "இரவு")
@@ -185,7 +187,7 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
         }
 
         @SuppressLint("SetTextI18n")
-        void bind(List<Krakakalam> pkrakakalam, List<Krakakalam> ikrakakalam) {
+        void bind(List<krakakalam> pkrakakalam, List<krakakalam> ikrakakalam) {
 
             txt1.setText("6.00 - 7.00: " + pkrakakalam.get(0).getYokam());
             txt2.setText("7.00 - 8.00: " + pkrakakalam.get(1).getYokam());

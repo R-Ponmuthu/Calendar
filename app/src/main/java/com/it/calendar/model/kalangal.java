@@ -3,7 +3,7 @@ package com.it.calendar.model;
 
 import io.realm.RealmObject;
 
-public class Kalangal extends RealmObject {
+public class kalangal extends RealmObject {
     private Long year;
     private String weekday;
     private String ragu;
