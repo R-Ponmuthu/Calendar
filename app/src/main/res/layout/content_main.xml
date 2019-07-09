@@ -7,7 +7,7 @@
     android:background="#ffffff"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    tools:showIn="@layout/app_bar_main">
+    tools:showIn="@layout/app_bar_main1">
 
     <com.it.calendar.calendarview.CalendarLayout
         android:id="@+id/calendarLayout"

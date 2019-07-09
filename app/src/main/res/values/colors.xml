@@ -21,4 +21,22 @@
     <color name="grey_200">#EEEEEE</color>
     <color name="grey_400">#BDBDBD</color>
 
+
+    <color name="blue500">#2196F3</color>
+    <color name="off_white">#FAFAFA</color>
+    <color name="background">#E0E0E0</color>
+    <color name="grey">#757575</color>
+    <color name="red">#ed2121</color>
+
+    <color name="day_disabled_background_color">#F1F5F8</color>
+    <color name="day_disabled_text_color">#DEDEDE</color>
+    <color name="selected_day_background">#03A7E9</color>
+    <color name="current_day_of_month">#03A7E9</color>
+    <color name="weekend_color">#FF0000</color>
+
+    <color name="content_background">#E9E9E9</color>
+    <color name="blue_dark">#2979ff</color>
+
+    <color name="tamilDate">#141A46</color>
+
 </resources>

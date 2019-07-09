@@ -1,6 +1,7 @@
 package com.it.calendar.ui;
 
 import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,7 +41,6 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("அறிவிப்புகள்");
 
-
         Realm.init(NotificationActivity.this);
         RealmConfiguration myConfig = new RealmConfiguration.Builder()
                 .name("notification.realm")
@@ -52,7 +52,7 @@ public class NotificationActivity extends AppCompatActivity {
         RealmResults<Notification> notifications = realm.where(Notification.class)
                 .sort("date", Sort.DESCENDING)
                 .findAll();
-        
+
         notificationRecyclerView.setLayoutManager(new LinearLayoutManager(NotificationActivity.this));
         notificationRecyclerView.setAdapter(new NotificationAdapter(NotificationActivity.this, notifications));
     }

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.it.calendar.ui.MainActivity">
+    tools:context="com.it.calendar.ui.CalendarActivity1">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -92,7 +92,7 @@
                                 android:id="@+id/tv_title"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="தமிழ் நாட்காட்டி 2019"
+                                android:text="தமிழ் நாட்காட்டி"
                                 android:textColor="#000000"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
@@ -155,10 +155,24 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/monthTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:text="June 2019"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="serif" />
+
             <com.it.calendar.calendarview.CalendarLayout
                 android:id="@+id/calendarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/monthTxt"
                 android:background="#fff"
                 android:orientation="vertical"
                 app:calendar_content_view_id="@+id/recyclerView"

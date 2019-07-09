@@ -32,13 +32,15 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
     List<MainTable> mainTableList;
     private Context context;
     private Realm realm;
+    private int curYear;
     private HashMap<String, String> hashMap = new HashMap<>();
     private List<String> flag = new ArrayList<>();
     private String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
 
-    public VirathamAdapter(Context context, RealmResults<MainTable> mainTableList) {
+    public VirathamAdapter(Context context, RealmResults<MainTable> mainTableList, int curYear) {
         this.context = context;
         this.mainTableList = mainTableList;
+        this.curYear = curYear;
 
         Realm.init(context);
         realm = Realm.getDefaultInstance();
@@ -81,7 +83,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
             hashMap = new HashMap<>();
             flag = new ArrayList<>();
 
-            String str = "/" + (position + 1) + "/" + 2019;
+            String str = "/" + (position + 1) + "/" + curYear;
 
             for (String viradham : viratham) {
 

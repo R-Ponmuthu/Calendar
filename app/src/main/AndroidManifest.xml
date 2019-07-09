@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".CalendarApp"
@@ -14,6 +15,16 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name=".notification.MyIntentService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+        <receiver
+            android:name=".notification.MyReceiver"
+            android:enabled="true"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -44,33 +55,35 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.CalendarActivity2"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".ui.CalendarActivity1"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
         <activity
             android:name=".ui.DrawerActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <receiver
-            android:name=".notification.AlarmReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".ui.PrivacyPolicyActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.NotificationActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.ViewNotificationActivity"
             android:label=""
@@ -78,6 +91,11 @@
 
         <activity
             android:name=".ui.CurrentMonthActivity"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.MoreCalendarMenu"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
 

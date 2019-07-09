@@ -1,38 +1,101 @@
 package com.it.calendar.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
+import com.it.calendar.model.MainTable;
+import com.it.calendar.model.VirathaDay;
+import com.it.calendar.model.moogurtham_table;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class CurrentMonthActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
-    private String curMonth = "", year = "";
+    private String title = "";
+    private Realm realm;
+
+    private HashMap<String, List<?>> listHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_month);
         ButterKnife.bind(this);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         if (getIntent().getExtras() != null) {
-            curMonth = getIntent().getExtras().getString("Month");
-            year = getIntent().getExtras().getString("Year");
+            title = getIntent().getExtras().getString("Title");
         }
-        getSupportActionBar().setTitle(curMonth);
+        getSupportActionBar().setTitle(title);
+
+        Realm.init(CurrentMonthActivity.this);
+        realm = Realm.getDefaultInstance();
+
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy");
+//        Date date = new Date();
+
+        String[] strs = title.split("  ");
+
+        RealmResults<MainTable> mainTables = realm.where(MainTable.class)
+                .equalTo("month", strs[0].trim())
+                .and()
+                .equalTo("year", Integer.parseInt(strs[1].trim()))
+                .findAll();
+
+        int month = Integer.parseInt(mainTables.get(0).getDate().split("/")[1]);
+
+        RealmResults<moogurtham_table> moogurthamTables = realm.where(moogurtham_table.class)
+                .contains("date", month + "/" + strs[1].trim())
+                .findAll();
+
+        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+                .contains("date", month + "/" + strs[1].trim())
+                .and()
+                .notEqualTo("viratham", "சுபமுகூர்த்தம்")
+                .sort("date", Sort.ASCENDING)
+                .findAll();
+
+        List<MainTable> govtLeave = mainTables.where().equalTo("leave_flag", 1).findAll();
+        List<MainTable> hinduFes = mainTables.where().notEqualTo("hindu_fes", "-").findAll();
+        List<MainTable> chirsFes = mainTables.where().notEqualTo("chirs_fes", "-").findAll();
+        List<MainTable> muslimFes = mainTables.where().notEqualTo("muslim_fes", "-").findAll();
+
+        listHashMap.put("அரசினர் விடுமுறை நாட்கள்", govtLeave);
+        listHashMap.put("இந்துக்கள் பண்டிகைகள்", hinduFes);
+        listHashMap.put("கிறிஸ்துவ பண்டிகைகள்", chirsFes);
+        listHashMap.put("முஸ்லீம் பண்டிகைகள்", muslimFes);
+        listHashMap.put("சுப முகூர்த்த தினங்கள்", moogurthamTables);
+        listHashMap.put("முக்கிய விரத தினங்கள்", virathaDays);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(CurrentMonthActivity.this));
+        recyclerView.setAdapter(new CurrentMonthAdapter(this, listHashMap));
     }
 
     @Override

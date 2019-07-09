@@ -2,6 +2,9 @@ package com.it.calendar.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Color;
@@ -14,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -44,6 +48,7 @@ import com.it.calendar.calendarview.CalendarLayout;
 import com.it.calendar.calendarview.CalendarView;
 import com.it.calendar.model.MainTable;
 import com.it.calendar.model.VirathaDay;
+import com.it.calendar.notification.MyReceiver;
 import com.it.calendar.util.SharedPreference;
 import com.it.calendar.group.GroupItemDecoration;
 import com.it.calendar.meizu_calendarview.EnglishWeekBar;
@@ -52,9 +57,6 @@ import com.it.calendar.meizu_calendarview.MeizuWeekView;
 import com.it.calendar.model.Article;
 import com.it.calendar.model.CalendarModule;
 import com.it.calendar.model.NotificationModule;
-import com.it.calendar.notification.AlarmReceiver;
-import com.it.calendar.notification.LocalData;
-import com.it.calendar.notification.NotificationScheduler;
 import com.it.calendar.ui.view.BaseActivity;
 import com.it.calendar.util.Utils;
 
@@ -71,7 +73,7 @@ import io.realm.exceptions.RealmMigrationNeededException;
 import static android.content.ContentValues.TAG;
 
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnCalendarSelectListener,
+public class CalendarActivity1 extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarView.OnCalendarSelectListener,
         CalendarView.OnYearChangeListener, View.OnClickListener, OnSuccessListener<AppUpdateInfo> {
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
@@ -81,6 +83,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     AdView adView;
     @BindView(R.id.adLayout)
     LinearLayout adLayout;
+    @BindView(R.id.monthTxt)
+    TextView monthTxt;
     private TextView mTextCurDay;
     private TextView mTextCurMonth;
     private TextView mTextCurYear;
@@ -100,6 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public static final int REQUEST_CODE = 1234;
     private AppUpdateManager appUpdateManager;
     private boolean mNeedsFlexibleUpdate;
+    private static final int DAILY_REMINDER_REQUEST_CODE = 100;
 
     //Original source: https://stackoverflow.com/a/9855338/1389357
     public static String bytesToHex(byte[] bytes) {
@@ -124,7 +129,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_main;
+        return R.layout.activity_calendar1;
     }
 
     @SuppressLint("SetTextI18n")
@@ -139,7 +144,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         bundle.putString("Screen", "MainActivity");
 
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
-        firebaseAnalytics.setUserProperty("Screen", "MainActivity");
+        firebaseAnalytics.setUserProperty("Screen", "CalendarActivity1");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -160,8 +165,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         mCalendarView = findViewById(R.id.calendarView);
         mRecyclerView = findViewById(R.id.recyclerView);
 
-        if (sharedPreference.getInt(MainActivity.this, "year") != 0) {
-            int year = sharedPreference.getInt(MainActivity.this, "year");
+        if (sharedPreference.getInt(CalendarActivity1.this, "year") != 0) {
+            int year = sharedPreference.getInt(CalendarActivity1.this, "year");
             if (year != 0)
                 mCalendarView.setRange(2018, 1, 1, year, 12, 31);
         }
@@ -192,6 +197,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         //mTextCurDate.setText("" + day + "." + month + "." + year);
         mTextCurDate.setText(String.valueOf(mCalendarView.getCurDay()));
+
+        monthTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CalendarActivity1.this, CurrentMonthActivity.class)
+                        .putExtra("Title", monthTxt.getText().toString()));
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -202,10 +215,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         loadData();
 
         mNeedsFlexibleUpdate = false;
-        appUpdateManager = AppUpdateManagerFactory.create(MainActivity.this);
-        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(MainActivity.this);
+        appUpdateManager = AppUpdateManagerFactory.create(CalendarActivity1.this);
+        appUpdateManager.getAppUpdateInfo().addOnSuccessListener(CalendarActivity1.this);
 
-        if (Utils.isOnline(MainActivity.this))
+        if (Utils.isOnline(CalendarActivity1.this))
             loadAds();
         else
             adLayout.setVisibility(View.GONE);
@@ -248,9 +261,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                         realmKey = mFirebaseRemoteConfig.getString("realmKey");
                         year = Integer.parseInt(mFirebaseRemoteConfig.getString("year"));
 
-                        sharedPreference.putBoolean(MainActivity.this, "displayAds", displayAds);
-                        sharedPreference.putString(MainActivity.this, "realmKey", realmKey);
-                        sharedPreference.putInt(MainActivity.this, "year", year);
+                        sharedPreference.putBoolean(CalendarActivity1.this, "displayAds", displayAds);
+                        sharedPreference.putString(CalendarActivity1.this, "realmKey", realmKey);
+                        sharedPreference.putInt(CalendarActivity1.this, "year", year);
 
                     } else {
                         Log.e("Fetch Fail", "Failed");
@@ -258,8 +271,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                     loadData();
 
-                    if (sharedPreference.getBoolean(MainActivity.this, "displayAds"))
-                        if (Utils.isOnline(MainActivity.this))
+                    if (sharedPreference.getBoolean(CalendarActivity1.this, "displayAds"))
+                        if (Utils.isOnline(CalendarActivity1.this))
                             loadAds();
                         else
                             adLayout.setVisibility(View.GONE);
@@ -276,7 +289,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         Realm notiRealm;
 
-        Realm.init(MainActivity.this);
+        Realm.init(CalendarActivity1.this);
         RealmConfiguration notiConfig = new RealmConfiguration.Builder()
                 .name("notification.realm")
                 .modules(new NotificationModule())
@@ -295,27 +308,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             }
         }
 
-        /*RealmConfiguration realmConfig = new RealmConfiguration.Builder()
-                .assetFile("data/calendar.realm")
-                .name("calendar.realm")
-                .schemaVersion(9)
-                .modules(new CalendarModule())
-                .build();
-
-        try {
-            Realm.setDefaultConfiguration(realmConfig);
-            realm = Realm.getDefaultInstance();
-        } catch (Exception e) {
-            try {
-                realm = Realm.getInstance(realmConfig);
-            } catch (RealmMigrationNeededException r) {
-
-                Realm.deleteRealm(realmConfig);
-                realm = Realm.getInstance(realmConfig);
-            }
-        }*/
-
-        Realm.init(MainActivity.this);
+        Realm.init(CalendarActivity1.this);
         RealmConfiguration realmConfig = new RealmConfiguration.Builder()
                 .assetFile("data/calendar.realm")
                 .name("default.realm")
@@ -423,12 +416,26 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private void setNotification() {
 
-        if (!sharedPreference.getBoolean(MainActivity.this, "NotificationPref")) {
+        if (!sharedPreference.getBoolean(CalendarActivity1.this, "DailyNotificationPref")) {
 
-            LocalData localData = new LocalData(this);
-            NotificationScheduler.setReminder(MainActivity.this, AlarmReceiver.class, localData.get_hour(), localData.get_min());
+            java.util.Calendar calendar = java.util.Calendar.getInstance();
 
-            sharedPreference.putBoolean(MainActivity.this, "NotificationPref", true);
+            java.util.Calendar setCalendar = java.util.Calendar.getInstance();
+            setCalendar.set(java.util.Calendar.HOUR_OF_DAY, 8);
+            setCalendar.set(java.util.Calendar.MINUTE, 0);
+            setCalendar.set(java.util.Calendar.SECOND, 0);
+            setCalendar.set(java.util.Calendar.MILLISECOND, 0);
+
+            if (setCalendar.before(calendar))
+                setCalendar.add(java.util.Calendar.DATE, 1);
+
+            Intent notifyIntent = new Intent(this, MyReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(CalendarActivity1.this, DAILY_REMINDER_REQUEST_CODE, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            assert alarmManager != null;
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            sharedPreference.putBoolean(CalendarActivity1.this, "DailyNotificationPref", true);
         }
     }
 
@@ -452,6 +459,24 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             return Realm.getInstance(newConfig);
         }
     }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.calendar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.theme) {
+            sharedPreference.putInt(CalendarActivity1.this,"Theme",1);
+            startActivity(new Intent(CalendarActivity1.this, CalendarActivity2.class));
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onClick(View v) {
@@ -502,11 +527,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             mTextCurMonth.setText("" + mainTbl.getMonth());
             mTextCurYear.setText("" + mainTbl.getYear());
             mTextCurDate.setText("" + mainTbl.getDay());
+
+            monthTxt.setText("" + mainTbl.getMonth() + "  " + mainTbl.getYear());
         }
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new GroupItemDecoration<String, Article>());
-        mRecyclerView.setAdapter(new CalendarAdapter(this, mainTbl));
+        mRecyclerView.setAdapter(new CalendarAdapter1(this, mainTbl));
     }
 
     @Override
@@ -567,14 +594,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startDrawerActivity(String.valueOf(menu.findItem(R.id.kari_naal).getTitle()), String.valueOf(menu.findItem(R.id.kari_naal).getTitle()));
             sendFirebaseAnalytics(String.valueOf(menu.findItem(R.id.kari_naal).getTitle()));
         } else if (id == R.id.privacy_policy) {
-            startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
+            startActivity(new Intent(CalendarActivity1.this, PrivacyPolicyActivity.class));
         } else if (id == R.id.settings) {
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+            startActivity(new Intent(CalendarActivity1.this, SettingsActivity.class));
         } else if (id == R.id.porutham) {
             startDrawerActivity(String.valueOf(menu.findItem(R.id.porutham).getTitle()), String.valueOf(menu.findItem(R.id.porutham).getTitle()));
             sendFirebaseAnalytics(String.valueOf(menu.findItem(R.id.porutham).getTitle()));
         } else if (id == R.id.notifications) {
-            startActivity(new Intent(MainActivity.this, NotificationActivity.class));
+            startActivity(new Intent(CalendarActivity1.this, NotificationActivity.class));
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -618,7 +645,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         firebaseAnalytics.logEvent(str, bundle);
         firebaseAnalytics.setUserProperty("Screen", str);
-        firebaseAnalytics.setCurrentScreen(MainActivity.this, str, null);
+        firebaseAnalytics.setCurrentScreen(CalendarActivity1.this, str, null);
     }
 
     @Override

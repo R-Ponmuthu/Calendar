@@ -23,13 +23,13 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CalendarAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private MainTable mainTable;
     private Realm realm;
 
-    public CalendarAdapter(Context context, MainTable mainTbl) {
+    CalendarAdapter1(Context context, MainTable mainTbl) {
         this.context = context;
         this.mainTable = mainTbl;
 
@@ -67,15 +67,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         calendarViewHolder.tamilDate.setText("" + mainTable.getTam_day());
         calendarViewHolder.tamilMonth.setText(mainTable.getTam_month());
         calendarViewHolder.tamilYear.setText(mainTable.getTam_year() + " வருடம்");
-
-        calendarViewHolder.monthYear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                context.startActivity(new Intent(context, CurrentMonthActivity.class)
-//                        .putExtra("Month", mainTable.getMonth())
-//                        .putExtra("Year", mainTable.getYear()));
-            }
-        });
 
         calendarViewHolder.quote.setText(mainTable.getQuote());
 
@@ -123,6 +114,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             stringBuilder.append(mainTable.getChirs_fes()).append("\n");
         if (!mainTable.getMuslim_fes().equals("-"))
             stringBuilder.append(mainTable.getMuslim_fes()).append("\n");
+
         if (virathaDays.size() > 0)
             for (VirathaDay virathaDay : virathaDays)
                 stringBuilder.append(virathaDay.getViratham()).append("\n");

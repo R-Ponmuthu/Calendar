@@ -20,7 +20,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.it.calendar.R;
 import com.it.calendar.model.Notification;
 import com.it.calendar.model.NotificationModule;
-import com.it.calendar.ui.MainActivity;
 import com.it.calendar.ui.ViewNotificationActivity;
 
 import io.realm.Realm;
