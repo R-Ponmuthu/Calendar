@@ -2,8 +2,10 @@ package com.it.calendar.ui;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +13,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.it.calendar.R;
+import com.it.calendar.util.Utils;
 
 import java.util.Arrays;
 
@@ -24,6 +30,10 @@ public class MoreCalendarMenu extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.adView)
+    AdView adView;
+    @BindView(R.id.adLayout)
+    LinearLayout adLayout;
 
     private int year;
 
@@ -55,6 +65,11 @@ public class MoreCalendarMenu extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(MoreCalendarMenu.this, 2));
         recyclerView.setAdapter(new CalendarAdapter3(MoreCalendarMenu.this, year, Arrays.asList(nameList), iconList));
+
+        if (Utils.isOnline(MoreCalendarMenu.this))
+            loadAds();
+        else
+            adLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -65,5 +80,49 @@ public class MoreCalendarMenu extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void loadAds() {
+
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F")
+                .build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                adLayout.setVisibility(View.GONE);
+                Log.e("Error", String.valueOf(errorCode));
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 }

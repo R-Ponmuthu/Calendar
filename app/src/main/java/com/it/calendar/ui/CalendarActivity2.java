@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,9 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.internal.NavigationMenuView;
 import com.google.android.material.navigation.NavigationView;
 import com.it.calendar.R;
@@ -37,6 +42,7 @@ import com.it.calendar.model.gowri_neram;
 import com.it.calendar.model.kalangal;
 import com.it.calendar.notification.MyReceiver;
 import com.it.calendar.util.SharedPreference;
+import com.it.calendar.util.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -59,6 +65,10 @@ public final class CalendarActivity2 extends AppCompatActivity implements MainVi
 
     private final MainPresenter presenter = new MainPresenter(this);
 
+    @BindView(R.id.adView)
+    AdView adView;
+    @BindView(R.id.adLayout)
+    LinearLayout adLayout;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.toolbar)
@@ -353,6 +363,11 @@ public final class CalendarActivity2 extends AppCompatActivity implements MainVi
         }
 
         setNotification();
+
+        if (Utils.isOnline(CalendarActivity2.this))
+            loadAds();
+        else
+            adLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -463,5 +478,49 @@ public final class CalendarActivity2 extends AppCompatActivity implements MainVi
 
     private String formatDate(@NonNull String dateTemplate, @NonNull Date date) {
         return new SimpleDateFormat(dateTemplate, Locale.getDefault()).format(date);
+    }
+
+    private void loadAds() {
+
+        AdRequest adRequest = new AdRequest.Builder()
+                //.addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F")
+                .build();
+        adView.loadAd(adRequest);
+
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                // Code to be executed when an ad request fails.
+                adLayout.setVisibility(View.GONE);
+                Log.e("Error", String.valueOf(errorCode));
+            }
+
+            @Override
+            public void onAdOpened() {
+                // Code to be executed when an ad opens an overlay that
+                // covers the screen.
+            }
+
+            @Override
+            public void onAdClicked() {
+                // Code to be executed when the user clicks on an ad.
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                // Code to be executed when the user has left the app.
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Code to be executed when the user is about to return
+                // to the app after tapping on an ad.
+            }
+        });
     }
 }
