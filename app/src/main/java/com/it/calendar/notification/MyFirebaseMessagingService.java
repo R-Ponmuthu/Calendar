@@ -9,18 +9,17 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
-
-import androidx.core.app.NotificationCompat;
-
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.it.calendar.R;
-import com.it.calendar.model.Notification;
-import com.it.calendar.model.NotificationModule;
-import com.it.calendar.ui.ViewNotificationActivity;
+import com.it.calendar.notification.beans.Notification;
+import com.it.calendar.ui.activity.ViewNotificationActivity;
+import com.it.calendar.util.DateTimeHelper;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -31,6 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static String TAG = "MyFirebaseMessagingService";
     private RemoteViews remoteViews, remoteViewsSmall;
     private Realm realm;
+    private String GROUP_CALENDAR = "com.it.calendar";
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -66,7 +66,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notification.setTitle(remoteMessage.getData().get("title"));
         notification.setMessage(remoteMessage.getData().get("body"));
         notification.setBigMessage(remoteMessage.getData().get("bigMessage"));
-        notification.setDate(remoteMessage.getData().get("date"));
+        notification.setDate(DateTimeHelper.getMillisFromDate(remoteMessage.getData().get("date")));
         notification.setImageUrl(remoteMessage.getData().get("image"));
         notification.setRead("0");
         notification.setNotiType(remoteMessage.getData().get("type"));
@@ -115,14 +115,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         remoteViewsBody(remoteViews, remoteViewsSmall, messageBody);
 
         String channelId = getString(R.string.default_notification_channel_id);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
-        notificationBuilder.setSmallIcon(R.drawable.ic_calendar_noti);
-        notificationBuilder.setStyle(new NotificationCompat.DecoratedCustomViewStyle());
-        notificationBuilder.setCustomContentView(remoteViewsSmall);
-        notificationBuilder.setCustomBigContentView(remoteViews);
-        notificationBuilder.setAutoCancel(true);
-        notificationBuilder.setSound(Uri.parse(str));
-        notificationBuilder.setWhen(System.currentTimeMillis());
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_calendar_noti)
+                .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+                .setCustomContentView(remoteViewsSmall)
+                .setCustomBigContentView(remoteViews)
+                .setAutoCancel(true)
+                .setSound(Uri.parse(str))
+                .setWhen(System.currentTimeMillis())
+                .setGroup(GROUP_CALENDAR)
+                .setGroupSummary(true);
 
         if (vibrate) {
             notificationBuilder.setVibrate(new long[]{1000, 1000, 1000, 1000, 1000});
@@ -145,14 +147,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void remoteViewsBody(RemoteViews remoteViews, RemoteViews remoteViewsSmall, String body) {
         remoteViews.setTextViewText(R.id.noti_desc, body);
         remoteViewsSmall.setTextViewText(R.id.noti_desc, body);
-
-
     }
 
     private void remoteViewsTitle(RemoteViews remoteViews, RemoteViews remoteViewsSmall, String title) {
         remoteViews.setTextViewText(R.id.noti_title, title);
         remoteViewsSmall.setTextViewText(R.id.noti_title, title);
-
     }
 
 

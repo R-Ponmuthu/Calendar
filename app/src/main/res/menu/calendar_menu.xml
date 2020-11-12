@@ -3,8 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/theme"
-        android:icon="@drawable/ic_theme"
-        android:title="Theme"
+        android:id="@+id/curDate"
+        android:title="Current Date"
+        android:visible="true"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/curMonth"
+        android:icon="@drawable/ic_info"
+        android:title="Current Month"
+        android:visible="true"
+        app:showAsAction="always" />
+
 </menu>

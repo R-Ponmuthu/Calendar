@@ -10,21 +10,42 @@
 
     <application
         android:name=".CalendarApp"
-        android:allowBackup="false"
+        android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
-        <service
-            android:name=".notification.MyIntentService"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!--Service and Receivers-->
 
         <receiver
-            android:name=".notification.MyReceiver"
+            android:name=".notification.DNotificationReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".notification.SNotificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
+
+        <!--Meta data-->
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
@@ -36,18 +57,20 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id" />
+
         <service android:name=".notification.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_app_id" />
+        <!--Activities-->
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name=".ui.activity.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,46 +80,32 @@
         </activity>
 
         <activity
-            android:name=".ui.CalendarActivity2"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity
-            android:name=".ui.CalendarActivity1"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
-        <activity
-            android:name=".ui.DrawerActivity"
+            android:name=".ui.activity.CalendarActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.PrivacyPolicyActivity"
+            android:name=".ui.activity.CurrentMonthActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity android:name=".MainActivity" />
+
+        <activity
+            android:name=".ui.activity.DrawerActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.activity.PrivacyPolicyActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.NotificationActivity"
+            android:name=".ui.activity.NotificationActivity"
             android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:label="@string/settings"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.ViewNotificationActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.CurrentMonthActivity"
-            android:label=""
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity
-            android:name=".ui.MoreCalendarMenu"
-            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

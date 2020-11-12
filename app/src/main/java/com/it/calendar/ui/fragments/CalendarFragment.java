@@ -1,45 +1,45 @@
 package com.it.calendar.ui.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.it.calendar.R;
-import com.it.calendar.model.MainTable;
-import com.it.calendar.model.VirathaDay;
-import com.it.calendar.model.kalangal;
-import com.it.calendar.model.krakakalam;
-import com.it.calendar.model.panchangam;
-import com.it.calendar.model.vasthu;
-import com.it.calendar.util.SharedPreference;
-import com.it.calendar.ui.AsubaNaatkalAdapter;
-import com.it.calendar.ui.FestivalAdapter;
-import com.it.calendar.ui.MuhurthamAdapter;
-import com.it.calendar.ui.PanchangamAdapter;
-import com.it.calendar.ui.RaaguAdapter;
-import com.it.calendar.ui.SubaHoraiAdapter;
-import com.it.calendar.ui.VasthuAdapter;
-import com.it.calendar.ui.VirathamAdapter;
+import com.it.calendar.beans.Kalangal;
+import com.it.calendar.beans.Krakakalam;
+import com.it.calendar.beans.MainTable;
+import com.it.calendar.beans.Panchangam;
+import com.it.calendar.beans.Vasthu;
+import com.it.calendar.beans.VirathaDay;
+import com.it.calendar.ui.adapter.AsubaNaatkalAdapter;
+import com.it.calendar.ui.adapter.FestivalAdapter;
+import com.it.calendar.ui.adapter.MuhurthamAdapter;
+import com.it.calendar.ui.adapter.PanchangamAdapter;
+import com.it.calendar.ui.adapter.RaaguAdapter;
+import com.it.calendar.ui.adapter.SubaHoraiAdapter;
+import com.it.calendar.ui.adapter.VasthuAdapter;
+import com.it.calendar.ui.adapter.VirathamAdapter;
+import com.it.calendar.utils.Constants;
+import com.it.calendar.util.DateTimeHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -47,23 +47,26 @@ import io.realm.Sort;
 
 public class CalendarFragment extends Fragment {
 
+    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
     @BindView(R.id.muhurtham)
     TextView muhurtham;
     @BindView(R.id.panchangam)
     TextView panchangham;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    Unbinder unbinder;
-    private String queryFlag;
     @BindView(R.id.year)
     AppCompatAutoCompleteTextView year;
+    @BindView(R.id.tagContainerLayout)
+    ChipGroup tagContainerLayout;
+    @BindView(R.id.chip1)
+    Chip chip1;
+    @BindView(R.id.chip2)
+    Chip chip2;
+    private String queryFlag;
     private int curYear;
-    private Realm realm;
     private HashMap<String, List<?>> listMap = new HashMap<>();
     private List<String> monthsList = new ArrayList<>();
-    private SharedPreference sharedPreference = new SharedPreference();
-
-    private Integer[] years = {2018, 2019, 2020};
+    private Realm realm;
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -105,18 +108,32 @@ public class CalendarFragment extends Fragment {
 
         notifyAdapter(curYear);
 
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);
-        year.setAdapter(adapter);
-        year.setOnClickListener(v -> year.showDropDown());
-        year.setHint("" + curYear);
+        chip2.setChecked(true);
 
-        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                notifyAdapter(years[position]);
-            }
+        chip1.setOnClickListener(view1 -> {
+            chip1.setChecked(true);
+            chip2.setChecked(false);
+            notifyAdapter(Integer.parseInt(chip1.getText().toString()));
         });
+
+        chip2.setOnClickListener(view12 -> {
+            chip2.setChecked(true);
+            chip1.setChecked(false);
+            notifyAdapter(Integer.parseInt(chip2.getText().toString()));
+        });
+
+//        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);
+//        year.setAdapter(adapter);
+//        year.setOnClickListener(v -> year.showDropDown());
+//        year.setHint("" + curYear);
+
+//        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                notifyAdapter(Integer.parseInt(years.get(position)));
+//            }
+//        });
     }
 
     private void notifyAdapter(int curYear) {
@@ -162,13 +179,21 @@ public class CalendarFragment extends Fragment {
 
             for (int i = 0; i < 12; i++) {
 
-                String str = "/" + (i + 1) + "/" + curYear;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.MONTH, i);
+                calendar.set(Calendar.YEAR, curYear);
+
+                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
+                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
 
                 RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                        .contains("date", str)
+                        .greaterThanOrEqualTo(Constants.date, fromDate)
+                        .and()
+                        .lessThanOrEqualTo(Constants.date, toDate)
                         .and()
                         .equalTo("viratham", "சுபமுகூர்த்தம்")
-                        .sort("date", Sort.ASCENDING)
+                        .sort(Constants.date, Sort.ASCENDING)
                         .findAll();
 
                 if (!monthsList.contains(mainTable.get(i).getMonth()))
@@ -180,7 +205,7 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new MuhurthamAdapter(getActivity(), monthsList, listMap));
         } else if (queryFlag.equals("raagu")) {
 
-            RealmResults<kalangal> kalangals = realm.where(kalangal.class)
+            RealmResults<Kalangal> kalangals = realm.where(Kalangal.class)
                     .equalTo("year", curYear)
                     .findAll();
 
@@ -188,7 +213,7 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new RaaguAdapter(getActivity(), kalangals));
         } else if (queryFlag.equals("vasthu_days")) {
 
-            RealmResults<vasthu> vasthus = realm.where(vasthu.class)
+            RealmResults<Vasthu> vasthus = realm.where(Vasthu.class)
                     .equalTo("year", curYear)
                     .findAll();
 
@@ -198,7 +223,7 @@ public class CalendarFragment extends Fragment {
 
             panchangham.setVisibility(View.VISIBLE);
 
-            RealmResults<panchangam> panchangams = realm.where(panchangam.class)
+            RealmResults<Panchangam> panchangams = realm.where(Panchangam.class)
                     .distinct("weekday")
                     .equalTo("year", curYear)
                     .findAll();
@@ -213,11 +238,44 @@ public class CalendarFragment extends Fragment {
                     .equalTo("year", curYear)
                     .findAll();
 
+            HashMap<String, HashMap<String, List<VirathaDay>>> hashMap = new HashMap<>();
+            List<String> tamMonthList = new ArrayList<>();
+
+            for (int i = 0; i < 12; i++) {
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.MONTH, i);
+                calendar.set(Calendar.YEAR, curYear);
+
+                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
+                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+
+                HashMap<String, List<VirathaDay>> subHashMap = new HashMap<>();
+
+                for (String str : viratham) {
+
+                    RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+                            .greaterThanOrEqualTo(Constants.date, fromDate)
+                            .and()
+                            .lessThanOrEqualTo(Constants.date, toDate)
+                            .and()
+                            .equalTo("viratham", str)
+                            .findAll();
+
+                    subHashMap.put(mainTable.get(i).getMonth() + "-" + str, virathaDays);
+                }
+
+                hashMap.put(mainTable.get(i).getMonth(), subHashMap);
+                tamMonthList.add(mainTable.get(i).getMonth());
+            }
+
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new VirathamAdapter(getActivity(), mainTable, curYear));
+            recyclerView.setAdapter(new VirathamAdapter(getActivity(), tamMonthList, hashMap));
+
         } else if (queryFlag.equals("suba_horai")) {
 
-            RealmResults<krakakalam> krakakalams = realm.where(krakakalam.class)
+            RealmResults<Krakakalam> krakakalams = realm.where(Krakakalam.class)
                     .distinct("weekday")
                     .equalTo("year", curYear)
                     .findAll();
@@ -234,13 +292,26 @@ public class CalendarFragment extends Fragment {
 
             for (int i = 0; i < 12; i++) {
 
-                String str = "/" + (i + 1) + "/" + curYear;
+                //String str = "/" + (i + 1) + "/" + curYear;
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.MONTH, i);
+                calendar.set(Calendar.YEAR, curYear);
+
+                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
+                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+
+//                Log.e("From", DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
+//                Log.e("To", DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
 
                 RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                        .contains("date", str)
+                        .greaterThanOrEqualTo(Constants.date, fromDate)
+                        .and()
+                        .lessThanOrEqualTo(Constants.date, toDate)
                         .and()
                         .equalTo("viratham", queryFlag)
-                        .sort("date", Sort.ASCENDING)
+                        .sort(Constants.date, Sort.ASCENDING)
                         .findAll();
 
                 if (!monthsList.contains(mainTable.get(i).getMonth()))

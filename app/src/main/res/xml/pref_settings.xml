@@ -19,33 +19,40 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_about">
-
+    <PreferenceCategory android:title="Version">
         <Preference
-            android:selectable="false"
-            android:summary="@string/summary_about" />
-
-        <Preference
+            android:key="@string/key_version"
             android:summary="@string/app_version"
-            android:title="@string/title_version"
-            android:key="@string/key_version"/>
+            android:title="@string/title_version" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="Feedback">
         <Preference
             android:key="@string/key_send_feedback"
             android:summary="@string/summary_support"
             android:title="@string/title_send_feedback" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="Rating">
         <Preference
             android:key="@string/key_rating"
             android:summary="@string/summary_rating"
             android:title="@string/title_rating" />
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="Privacy Policy">
         <Preference
             android:key="@string/key_privacy"
             android:title="@string/privacy_policy">
 
         </Preference>
+    </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/pref_header_about">
+
+        <Preference
+            android:selectable="false"
+            android:summary="@string/summary_about" />
     </PreferenceCategory>
 
 </PreferenceScreen>

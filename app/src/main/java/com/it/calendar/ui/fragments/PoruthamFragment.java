@@ -2,13 +2,6 @@ package com.it.calendar.ui.fragments;
 
 import android.app.Dialog;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.appcompat.widget.AppCompatImageView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +10,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+
 import com.it.calendar.R;
-import com.it.calendar.model.porutham;
-import com.it.calendar.util.Utils;
+import com.it.calendar.beans.ThirumanaPorutham;
+import com.it.calendar.realm.RealmController;
+import com.it.calendar.utils.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,7 +42,6 @@ public class PoruthamFragment extends Fragment {
     TextView poruthamTxt;
     private String queryFlag;
     private int curYear;
-    private Realm realm;
     private String[] array;
     private String[] rasiNatchathiram = {"மேஷம் - அசுவினி", "மேஷம் - பரணி", "மேஷம் - கிருத்திகை 1-ஆம் பாதம்",
             "ரிஷபம் - கிருத்திகை 2,3,4ஆம் பாதம்", "ரிஷபம் - ரோகிணி", "ரிஷபம் - மிருகசிரீஷம் 1,2-ஆம் பாதம்,",
@@ -57,6 +56,7 @@ public class PoruthamFragment extends Fragment {
             "கும்பம் - அவிட்டம் 3,4ஆம் பாதம்", "கும்பம் - சதயம்", "கும்பம் - பூரட்டாதி 1,2,3-ஆம் பாதம்",
             "மீனம் - பூரட்டாதி 4-ஆம் பாதம்", "மீனம் - உத்திரட்டாதி", "மீனம் - ரேவதி"};
     private int malePosition = 0, femalePosition = 0;
+    private Realm realm;
 
     public PoruthamFragment() {
         // Required empty public constructor
@@ -80,8 +80,7 @@ public class PoruthamFragment extends Fragment {
             queryFlag = getArguments().getString("curYear");
         }
 
-        Realm.init(getActivity());
-        realm = Realm.getDefaultInstance();
+        realm = RealmController.with(getActivity()).getRealm();
     }
 
     @Override
@@ -108,7 +107,7 @@ public class PoruthamFragment extends Fragment {
             malePosition = position + 1;
 
             if (femalePosition != 0) {
-                porutham porutham = realm.where(porutham.class)
+                ThirumanaPorutham porutham = realm.where(ThirumanaPorutham.class)
                         .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
                         .findFirst();
 
@@ -144,7 +143,7 @@ public class PoruthamFragment extends Fragment {
 
             if (malePosition != 0) {
 
-                porutham porutham = realm.where(porutham.class)
+                ThirumanaPorutham porutham = realm.where(ThirumanaPorutham.class)
                         .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
                         .findFirst();
 

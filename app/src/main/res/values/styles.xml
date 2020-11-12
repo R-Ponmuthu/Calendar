@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -21,28 +21,24 @@
         <item name="android:textColorSecondary">@android:color/black</item>
     </style>
 
-    <style name="CalendarViewTitle" parent="android:Theme.Holo.Light">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:layout_gravity">center</item>
+    <style name="TextValue">
+        <item name="android:gravity">center</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:text">-</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="CalendarView" />
-
-    <style name="CalendarView.DayOfTheWeek">
-        <item name="android:textSize">14sp</item>
-        <item name="android:layout_width">40dp</item>
+    <style name="weekdayTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-    </style>
-
-    <style name="CalendarView.DayOfTheMonth">
-        <item name="android:textSize">14sp</item>
-        <item name="android:minHeight">@dimen/minDayCellHeight</item>
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:maxLines">1</item>
     </style>
 
 </resources>

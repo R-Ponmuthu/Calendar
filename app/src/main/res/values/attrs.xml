@@ -1,226 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="GroupRecyclerView">
-        <attr name="group_height" format="dimension" />
-        <attr name="group_child_offset" format="dimension" />
-        <attr name="group_background" format="color" />
-        <attr name="group_text_color" format="color" />
-        <attr name="group_text_size" format="dimension" />
-        <attr name="group_center" format="boolean" />
-        <attr name="group_padding_left" format="dimension" />
-        <attr name="group_padding_right" format="dimension" />
-        <attr name="group_has_header" format="boolean" />
+
+    <declare-styleable name="SelectedTextView">
+        <attr name="enable" format="boolean" />
+        <attr name="selected_color" format="color" />
+        <attr name="selected_padding" format="dimension" />
+        <attr name="selected_padding_top" format="dimension" />
+        <attr name="selected_padding_end" format="dimension" />
+        <attr name="selected_padding_start" format="dimension" />
+        <attr name="selected_padding_bottom" format="dimension" />
     </declare-styleable>
 
-    attr name="numberPickerStyle" format="reference" />
-    <declare-styleable name="NumberPicker">
-        <attr name="np_width" format="dimension" />
-        <attr name="np_height" format="dimension" />
-        <attr name="np_divider" format="reference" />
-        <attr name="np_dividerColor" format="color" />
-        <attr name="np_dividerDistance" format="dimension" />
-        <attr name="np_dividerThickness" format="dimension" />
-        <attr name="np_fadingEdgeEnabled" format="boolean" />
-        <attr name="np_fadingEdgeStrength" format="float" />
-        <attr name="np_formatter" format="string" />
-        <attr name="np_hideWheelUntilFocused" format="boolean" />
-        <attr name="np_lineSpacingMultiplier" format="float" />
-        <attr name="np_max" format="integer" />
-        <attr name="np_maxFlingVelocityCoefficient" format="integer" />
-        <attr name="np_min" format="integer" />
+    <declare-styleable name="MultipleTriangleView">
+        <attr name="mtr_direction" format="enum">
+            <enum name="top_left" value="0" />
+            <enum name="top_right" value="1" />
+            <enum name="bottom_left" value="2" />
+            <enum name="bottom_right" value="3" />
+        </attr>
+        <attr name="mtr_separator_width" format="dimension" />
 
-        <attr name="np_order" format="enum">
-            <enum name="ascending" value="0" />
-            <enum name="descending" value="1" />
+        <attr name="mtr_view_direction" format="enum">
+            <enum name="vertical" value="0" />
+            <enum name="horizontal" value="1" />
         </attr>
 
-
-        <attr name="np_orientation" format="enum">
-            <enum name="horizontal" value="0" />
-            <enum name="vertical" value="1" />
-        </attr>
-
-        <attr name="np_scrollerEnabled" format="boolean" />
-
-
-        <attr name="np_selectedTextAlign" format="enum">
-            <enum name="selectedTextAlignRight" value="0" />
-            <enum name="selectedTextAlignCenter" value="1" />
-            <enum name="selectedTextAlignLeft" value="2" />
-        </attr>
-        <attr name="np_selectedTextColor" format="color" />
-        <attr name="np_selectedTextSize" format="dimension" />
-        <attr name="np_selectedTextStrikeThru" format="boolean" />
-        <attr name="np_selectedTextUnderline" format="boolean" />
-
-        <attr name="np_textAlign" format="enum">
-            <enum name="textAlignRight" value="0" />
-            <enum name="textAlignCenter" value="1" />
-            <enum name="textAlignLeft" value="2" />
-        </attr>
-
-        <attr name="np_textColor" format="color" />
-        <attr name="np_textSize" format="dimension" />
-        <attr name="np_textStrikeThru" format="boolean" />
-        <attr name="np_textUnderline" format="boolean" />
-        <attr name="np_typeface" format="string" />
-        <attr name="np_value" format="integer" />
-        <attr name="np_wheelItemCount" format="integer" />
-        <attr name="np_wrapSelectorWheel" format="boolean" />
+        <attr name="mtr_color" format="color" />
+        <attr name="mtr_background_color" format="color" />
+        <attr name="mtr_number_of_items" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="CalendarView">
+    <declare-styleable name="FrameRelativeLayout">
+        <attr name="frame_color" format="color" />
+        <attr name="frame_width" format="dimension" />
+        <attr name="frame_width_top" format="dimension" />
+        <attr name="frame_width_bottom" format="dimension" />
+        <attr name="frame_width_end" format="dimension" />
+        <attr name="frame_width_start" format="dimension" />
+    </declare-styleable>
 
-        <attr name="calendar_padding" format="dimension" />
-
-        <attr name="week_background" format="color" />
-        <attr name="week_line_background" format="color" /><!--线条颜色-->
-        <attr name="week_text_color" format="color" /><!--周栏字体颜色-->
-        <attr name="week_text_size" format="dimension" /><!--周栏字体大小-->
-        <attr name="week_line_margin" format="dimension" /><!--线条margin-->
-
-        <attr name="month_view" format="string" /><!--完全自定义月视图-->
-        <attr name="week_view" format="string" /> <!--完全自定义周视图-->
-        <attr name="year_view" format="string" /> <!--完全自定义年视图-->
-        <attr name="week_bar_height" format="dimension" /> <!--星期栏的高度-->
-        <attr name="week_bar_view" format="string" /> <!--如果需要的话使用自定义星期栏-->
-
-        <attr name="scheme_text" format="string" />
-        <attr name="day_text_size" format="dimension" />
-        <attr name="lunar_text_size" format="dimension" />
-        <attr name="calendar_height" format="dimension" />
-        <attr name="scheme_text_color" format="color" />
-        <attr name="scheme_month_text_color" format="color" />
-        <attr name="scheme_lunar_text_color" format="color" />
-        <attr name="scheme_theme_color" format="color" />
-
-        <attr name="selected_theme_color" format="color" />
-        <attr name="selected_text_color" format="color" />
-        <attr name="selected_lunar_text_color" format="color" />
-
+    <declare-styleable name="Material_CalendarView">
+        <attr name="content_background_color" format="color" />
+        <attr name="month_header_background_color" format="color" />
+        <attr name="month_header_text_color" format="color" />
+        <attr name="month_header_arrows_color" format="color" />
+        <attr name="month_header_show" format="boolean" />
+        <attr name="week_header_background_color" format="color" />
+        <attr name="week_header_text_color" format="color" />
+        <attr name="week_header_offset_day_background_color" format="color" />
+        <attr name="week_header_offset_day_text_color" format="color" />
+        <attr name="week_header_movable" format="boolean" />
+        <attr name="day_text_color" format="color" />
+        <attr name="day_background_color" format="color" />
+        <attr name="offset_day_text_color" format="color" />
+        <attr name="leave_day_text_color" format="color" />
+        <attr name="offset_day_background_color" format="color" />
         <attr name="current_day_text_color" format="color" />
-        <attr name="current_day_lunar_text_color" format="color" />
-        <attr name="current_month_text_color" format="color" />
-        <attr name="other_month_text_color" format="color" />
-        <attr name="current_month_lunar_text_color" format="color" />
-        <attr name="other_month_lunar_text_color" format="color" />
+        <attr name="current_day_background_color" format="color" />
 
-
-        <!-- 年视图相关 -->
-        <attr name="year_view_month_text_size" format="dimension" />
-        <attr name="year_view_day_text_size" format="dimension" />
-        <attr name="year_view_month_text_color" format="color" />
-        <attr name="year_view_current_day_text_color" format="color" />
-        <attr name="year_view_day_text_color" format="color" />
-        <attr name="year_view_select_text_color" format="color" />
-        <attr name="year_view_scheme_color" format="color" />
-        <attr name="year_view_background" format="color" />
-        <attr name="year_view_month_height" format="dimension" />
-        <attr name="year_view_week_height" format="dimension" />
-        <attr name="year_view_week_text_size" format="dimension" />
-        <attr name="year_view_week_text_color" format="color" />
-        <attr name="year_view_padding" format="dimension" />
-        <attr name="year_view_month_margin_top" format="dimension" />
-        <attr name="year_view_month_margin_bottom" format="dimension" />
-
-        <!--日期范围-->
-        <attr name="min_year" format="integer" />
-        <attr name="max_year" format="integer" />
-        <attr name="min_year_month" format="integer" />
-        <attr name="max_year_month" format="integer" />
-        <attr name="min_year_day" format="integer" />
-        <attr name="max_year_day" format="integer" />
-
-
-        <!--月视图是否可滚动-->
-        <attr name="month_view_scrollable" format="boolean" />
-        <!--周视图是否可滚动-->
-        <attr name="week_view_scrollable" format="boolean" />
-        <!--年视图是否可滚动-->
-        <attr name="year_view_scrollable" format="boolean" />
-
-        <!-- 月份显示模式 -->
-        <attr name="month_view_show_mode">
-            <enum name="mode_all" value="0" />
-            <enum name="mode_only_current" value="1" />
-            <enum name="mode_fix" value="2" />
+        <attr name="current_day_text_style" format="enum">
+            <enum name="bold" value="1" />
+            <enum name="normal" value="0" />
         </attr>
 
-        <!-- 自定义周起始 -->
-        <attr name="week_start_with">
-            <enum name="sun" value="1" />
-            <enum name="mon" value="2" />
-            <enum name="sat" value="7" />
+        <attr name="current_day_circle_enable" format="boolean" />
+        <attr name="current_day_circle_color" format="color" />
+        <attr name="selected_day_text_color" format="color" />
+        <attr name="selected_day_background_color" format="color" />
+        <attr name="selected_day_border_color" format="color" />
+        <attr name="leave_day_border_color" format="color" />
+        <attr name="offset_day_border_color" format="color" />
+
+
+        <attr name="offset_day" format="enum">
+            <enum name="Sunday" value="1" />
+            <enum name="Monday" value="2" />
+            <enum name="Tuesday" value="3" />
+            <enum name="Wednesday" value="4" />
+            <enum name="Thursday" value="5" />
+            <enum name="Friday" value="6" />
+            <enum name="Saturday" value="7" />
         </attr>
 
-        <!-- 自定义选择模式 -->
-        <attr name="select_mode">
-            <enum name="default_mode" value="0" />
-            <enum name="single_mode" value="1" />
-            <enum name="range_mode" value="2" />
-            <enum name="multi_mode" value="3" />
+        <attr name="starting_weekday" format="enum">
+            <enum name="Sunday" value="1" />
+            <enum name="Monday" value="2" />
+            <enum name="Tuesday" value="3" />
+            <enum name="Wednesday" value="4" />
+            <enum name="Thursday" value="5" />
+            <enum name="Friday" value="6" />
+            <enum name="Saturday" value="7" />
         </attr>
 
-        <!-- when select_mode = multi_mode -->
-        <attr name="max_multi_select_size" format="integer" />
-
-        <!-- when select_mode = range_mode -->
-        <attr name="min_select_range" format="integer" />
-        <attr name="max_select_range" format="integer" />
-    </declare-styleable>
-
-
-    <declare-styleable name="CalendarLayout">
-        <attr name="default_status">
-            <enum name="expand" value="0" />
-            <enum name="shrink" value="1" />
-        </attr>
-
-
-        <!-- 手势模式 -->
-        <attr name="gesture_mode">
-            <enum name="default_mode" value="0" />
-            <!--<enum name="only_calendar" value="1" />-->
-            <enum name="disabled" value="2" />
-        </attr>
-
-        <attr name="calendar_show_mode">
-            <enum name="both_month_week_view" value="0" />
-            <enum name="only_week_view" value="1" />
-            <enum name="only_month_view" value="2" />
-        </attr>
-
-        <attr name="calendar_content_view_id" format="integer" />
-    </declare-styleable>
-
-    <declare-styleable name="MaterialCalendarView">
-        <attr name="calendarBackgroundColor" format="color"/>
-        <attr name="calendarButtonBackgroundColor" format="color"/>
-        <attr name="calendarBackButtonDrawable" format="reference"/>
-        <attr name="calendarNextButtonDrawable" format="reference"/>
-        <attr name="calendarSelectedDayBackgroundColor" format="color"/>
-        <attr name="calendarCurrentDayBackgroundColor" format="color"/>
-        <attr name="calendarDisabledDayBackgroundColor" format="color"/>
-        <attr name="calendarWeekBackgroundColor" format="color" />
-        <attr name="calendarTitleBackgroundColor" format="color" />
-        <attr name="calendarTitleTextColor" format="color" />
-        <attr name="calendarDayOfWeekTextColor" format="color" />
-        <attr name="calendarDayOfMonthTextColor" format="color" />
-        <attr name="calendarDisabledDayTextColor" format="color" />
-        <attr name="calendarSelectedDayTextColor" format="color" />
-        <attr name="calendarWeekendTextColor" format="color"/>
-        <attr name="calendarCurrentDayTextColor" format="color" />
-        <attr name="calendarIsOverflowDatesVisible" format="boolean"/>
-        <attr name="calendarIsMultiSelectDayEnabled" format="boolean"/>
-        <attr name="calendarWeekendDays">
-            <flag name="sunday" value="1"/>
-            <flag name="monday" value="2"/>
-            <flag name="tuesday" value="4"/>
-            <flag name="wednesday" value="8"/>
-            <flag name="thursday" value="16"/>
-            <flag name="friday" value="32"/>
-            <flag name="saturday" value="64"/>
-        </attr>
     </declare-styleable>
 
 </resources>

@@ -25,7 +25,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.it.calendar.R;
-import com.it.calendar.util.Utils;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,7 +118,7 @@ public class FeedbackDialog extends AppCompatDialog implements View.OnClickListe
 
             if (!TextUtils.isEmpty(feedback) && feedback.length() >= 5 && !TextUtils.isEmpty(email)) {
 
-                if (new Utils().isOnline(context))
+                if (new com.it.calendar.utils.Utils().isOnline(context))
                     submitFeedback(etEmail.getText().toString().trim(), etName.getText().toString().trim(), etFeedback.getText().toString().trim());
                 else
                     Toast.makeText(context, "Check Internet Connection", Toast.LENGTH_SHORT).show();

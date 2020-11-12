@@ -15,7 +15,7 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 import com.it.calendar.R;
-import com.it.calendar.ui.ViewNotificationActivity;
+import com.it.calendar.ui.activity.ViewNotificationActivity;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;

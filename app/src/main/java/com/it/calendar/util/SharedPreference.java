@@ -1,4 +1,4 @@
-package com.it.calendar.util;
+package com.it.calendar.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

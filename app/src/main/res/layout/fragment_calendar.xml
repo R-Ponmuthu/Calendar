@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,7 +17,43 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/ic_keyboard_arrow_down"
             android:focusable="false"
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:visibility="gone"
+            android:layout_margin="5dp"/>
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/tagContainerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip1"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checkable="true"
+                app:checkedIconVisible="true"
+                app:checkedIcon="@drawable/ic_done_white"
+                android:text="2019"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/blue" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:checkable="true"
+                app:checkedIconVisible="true"
+                app:checkedIcon="@drawable/ic_done_white"
+                android:text="2020"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/blue" />
+
+        </com.google.android.material.chip.ChipGroup>
 
         <TextView
             android:id="@+id/muhurtham"
@@ -45,7 +82,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:background="@android:color/white"
-            tools:context=".ui.DrawerActivity" />
+            tools:context=".ui.activity.DrawerActivity" />
 
     </LinearLayout>
 
