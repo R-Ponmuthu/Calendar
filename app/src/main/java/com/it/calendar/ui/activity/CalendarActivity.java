@@ -43,6 +43,7 @@ import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
 import com.it.calendar.realm.RealmController;
 import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumVirathaDay;
 import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.AdManager;
 import com.it.calendar.utils.Constants;
@@ -330,7 +331,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 stringBuilder.append(mainTable.getMuslim_fes()).append("\n");
             if (virathaDays.size() > 0)
                 for (VirathaDay virathaDay : virathaDays)
-                    stringBuilder.append(virathaDay.getViratham()).append("\n");
+                    stringBuilder.append(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText()).append("\n");
 
             if (stringBuilder.length() > 0)
                 festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
