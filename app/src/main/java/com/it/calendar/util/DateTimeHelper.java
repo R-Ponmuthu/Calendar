@@ -8,7 +8,7 @@ import java.util.Locale;
 
 public class DateTimeHelper {
 
-    public static String dateFormat = "d/M/yyyy";
+    public static String dateFormat = "dd-MM-yyyy";
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
 
     public static Long getMillisFromDate(String date) {

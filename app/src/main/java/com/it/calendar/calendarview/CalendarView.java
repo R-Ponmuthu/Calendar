@@ -943,7 +943,7 @@ public class CalendarView extends FrameLayout {
             ImageView kiruthigai = view.findViewById(R.id.kiruthigai);
             ImageView shiva = view.findViewById(R.id.shiva);
 
-            String date = day.day + "/" + (day.month + 1) + "/" + day.year;
+            String date = day.day + "-" + (day.month + 1) + "-" + day.year;
 
             Long dt = DateTimeHelper.getMillisFromDate(date);
 
