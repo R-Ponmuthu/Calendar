@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/app_bar_main">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/adView"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.MainActivity"
+        tools:showIn="@layout/app_bar_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.it.calendar.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxDate="31/12/2020"
+                android:minDate="1/1/2019"
+                app:current_day_circle_enable="false"
+                app:current_day_text_color="@color/blue"
+                app:day_text_color="@color/black"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:month_header_show="false"
+                app:week_header_movable="false" />
+
+            <include layout="@layout/calendar_layout" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/home_banner_ad">
+
+    </com.google.android.gms.ads.AdView>
+
+</RelativeLayout>
