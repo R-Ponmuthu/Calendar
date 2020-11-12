@@ -2,23 +2,23 @@ package com.it.calendar.util;
 
 public enum EnumWeekDay {
 
-    Sunday(Long.valueOf("1"), "ஞாயிறு"),
-    Monday(Long.valueOf("2"), "திங்கள்"),
-    Tuesday(Long.valueOf("3"), "செவ்வாய்"),
-    Wednesday(Long.valueOf("4"), "புதன்"),
-    Thursday(Long.valueOf("5"), "வியாழன்"),
-    Friday(Long.valueOf("6"), "வெள்ளி"),
-    Saturday(Long.valueOf("7"), "சனி");
+    Sunday("1", "ஞாயிறு"),
+    Monday("2", "திங்கள்"),
+    Tuesday("3", "செவ்வாய்"),
+    Wednesday("4", "புதன்"),
+    Thursday("5", "வியாழன்"),
+    Friday("6", "வெள்ளி"),
+    Saturday("7", "சனி");
 
-    private Long day;
+    private String day;
     private String text;
 
-    EnumWeekDay(Long day, String text) {
+    EnumWeekDay(String day, String text) {
         this.day = day;
         this.text = text;
     }
 
-    public static EnumWeekDay getWeekDay(Long day) {
+    public static EnumWeekDay getWeekDay(String day) {
         for (EnumWeekDay e : values()) {
             if (e.day.equals(day))
                 return e;
@@ -27,11 +27,11 @@ public enum EnumWeekDay {
         return Sunday;
     }
 
-    public Long getDay() {
+    public String getDay() {
         return day;
     }
 
-    public void setDay(Long day) {
+    public void setDay(String day) {
         this.day = day;
     }
 

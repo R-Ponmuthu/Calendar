@@ -25,7 +25,7 @@ public enum EnumTamilMonth {
 
     public static EnumTamilMonth getTamilMonth(String day) {
         for (EnumTamilMonth e : values()) {
-            if (e.month == day)
+            if (e.month.equals(day))
                 return e;
         }
 

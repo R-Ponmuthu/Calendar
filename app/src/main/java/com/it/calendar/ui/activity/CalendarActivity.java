@@ -275,12 +275,11 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         if (mainTable != null) {
 
-            dateTxt.setText("" + EnumWeekDay.getWeekDay(mainTable.getDay()).getText());
-            day.setText("" + mainTable.getWeekday());
+            dateTxt.setText("" + mainTable.getDay());
+            day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             monthYear.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + "  " + mainTable.getYear());
 
             quote.setText(mainTable.getQuote());
-
 
             tamilDate.setText("" + mainTable.getTam_day());
             tamilMonth.setText(mainTable.getTam_month());

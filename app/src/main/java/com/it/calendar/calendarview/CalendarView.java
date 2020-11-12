@@ -37,6 +37,8 @@ import com.it.calendar.calendarview.helpers.YMDCalendar;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
+import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
@@ -955,7 +957,8 @@ public class CalendarView extends FrameLayout {
                 tamDate.setText(String.valueOf(mainTbl.getTam_day()));
 
                 if (mainTbl.getTam_day() == 1) {
-                    tamMonth.setText(mainTbl.getTam_month());
+//                    tamMonth.setText(mainTbl.getTam_month());
+                    tamMonth.setText(EnumTamilMonth.getTamilMonth(mainTbl.getTam_month()).getText());
                     tamMonth.setVisibility(VISIBLE);
                 } else {
                     tamMonth.setVisibility(GONE);
