@@ -18,7 +18,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.it.calendar.R;
 import com.it.calendar.ui.fragments.CalendarFragment;
 import com.it.calendar.ui.fragments.PoruthamFragment;
-import com.it.calendar.utils.Utils;
+import com.it.calendar.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.it.calendar.R;
-import com.it.calendar.utils.Utils;
+import com.it.calendar.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

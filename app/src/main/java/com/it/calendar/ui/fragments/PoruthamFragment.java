@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import com.it.calendar.R;
 import com.it.calendar.beans.ThirumanaPorutham;
 import com.it.calendar.realm.RealmController;
-import com.it.calendar.utils.Utils;
+import com.it.calendar.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
