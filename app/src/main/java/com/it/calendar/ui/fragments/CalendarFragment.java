@@ -62,6 +62,8 @@ public class CalendarFragment extends Fragment {
     Chip chip1;
     @BindView(R.id.chip2)
     Chip chip2;
+    @BindView(R.id.chip3)
+    Chip chip3;
     private String queryFlag;
     private int curYear;
     private HashMap<String, List<?>> listMap = new HashMap<>();
@@ -113,13 +115,22 @@ public class CalendarFragment extends Fragment {
         chip1.setOnClickListener(view1 -> {
             chip1.setChecked(true);
             chip2.setChecked(false);
+            chip3.setChecked(false);
             notifyAdapter(Integer.parseInt(chip1.getText().toString()));
         });
 
         chip2.setOnClickListener(view12 -> {
             chip2.setChecked(true);
             chip1.setChecked(false);
+            chip3.setChecked(false);
             notifyAdapter(Integer.parseInt(chip2.getText().toString()));
+        });
+
+        chip3.setOnClickListener(view12 -> {
+            chip3.setChecked(true);
+            chip1.setChecked(false);
+            chip2.setChecked(false);
+            notifyAdapter(Integer.parseInt(chip3.getText().toString()));
         });
 
 //        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);

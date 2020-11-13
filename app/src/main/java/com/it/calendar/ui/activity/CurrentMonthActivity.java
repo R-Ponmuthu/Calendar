@@ -1,6 +1,7 @@
 package com.it.calendar.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -17,6 +18,8 @@ import com.it.calendar.realm.RealmController;
 import com.it.calendar.ui.adapter.CurrentMonthAdapter;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumTamilMonth;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -64,8 +67,15 @@ public class CurrentMonthActivity extends AppCompatActivity {
 
         String[] strs = title.split("-");
 
+//        String[] mShortMonths = getResources().getStringArray(R.array.month_tamil);
+//        int i = 0;
+//        for (String string : mShortMonths) {
+//            if (!string.equals(strs[0]))
+//                i = i + 1;
+//        }
+
         RealmResults<MainTable> mainTables = realm.where(MainTable.class)
-                .equalTo("month", strs[0].trim())
+                .equalTo("month", EnumMonth.getMonth(strs[0]).getDay())
                 .and()
                 .equalTo("year", Integer.parseInt(strs[1].trim()))
                 .sort("date", Sort.ASCENDING)

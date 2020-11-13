@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.List;
 import java.util.Map;
@@ -73,7 +75,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
         void bind_fes(String s) {
 
             container.removeAllViews();
-            title.setText(s);
+            title.setText(EnumMonth.getMonthStr(s).getText());
 
             for (int i = 0; i < mainTbl.get(s).size(); i++) {
 
@@ -114,7 +116,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
             }
 
             date.setText("" + mainTable.getDay());
-            day.setText("" + mainTable.getWeekday());
+            day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             if (queryFlag.equals("hindu_fes")) {
                 function.setText("" + mainTable.getHindu_fes());
             } else if (queryFlag.equals("muslim_fes")) {

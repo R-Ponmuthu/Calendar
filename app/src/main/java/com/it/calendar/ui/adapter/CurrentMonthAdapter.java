@@ -18,6 +18,7 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumVirathaDay;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.HashMap;
 import java.util.List;
@@ -209,7 +210,7 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
             else
                 date.setText("" + DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("-")[0].trim());
             if (mainTable != null)
-                day.setText("" + mainTable.getWeekday());
+                day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             function.setVisibility(View.GONE);
         }
 
