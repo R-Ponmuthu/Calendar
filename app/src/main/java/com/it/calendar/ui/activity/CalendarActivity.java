@@ -46,7 +46,7 @@ import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumVirathaDay;
 import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.AdManager;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.utils.SharedPreference;
 import com.it.calendar.util.Utils;
@@ -204,8 +204,8 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             @Override
             public void onItemClicked(List<CalendarView.CalendarObject> calendarObjects, Calendar previousDate, Calendar selectedDate) {
 
-                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d/M/yyyy");
-                setCalendarData(DATE_FORMAT.format(selectedDate.getTime()));
+                //SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+                setCalendarData(DateTimeHelper.simpleDateFormat.format(selectedDate.getTime()));
             }
         });
 
@@ -267,6 +267,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     private void setCalendarData(String date) {
 
         realm = RealmController.with(this).getRealm();
+
 
         Long dt = DateTimeHelper.getMillisFromDate(date);
 

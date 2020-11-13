@@ -19,7 +19,7 @@ import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
 import com.it.calendar.ui.activity.CalendarActivity;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.text.SimpleDateFormat;
@@ -60,7 +60,7 @@ public class SNotificationReceiver extends BroadcastReceiver {
 
         realm = RealmController.with(context).getRealm();
 
-        String dateFormat = "d/M/yyyy";
+        String dateFormat = "dd-MM-yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
         Calendar calendar = Calendar.getInstance();
 

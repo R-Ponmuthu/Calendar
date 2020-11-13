@@ -39,7 +39,7 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
 import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumWeekDay;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.lang.reflect.Field;
@@ -61,9 +61,9 @@ public class CalendarView extends FrameLayout {
 
     private static final String TAG = CalendarView.class.getSimpleName();
 
-    private static final String DEFAULT_MIN_DATE = "01/01/2019";
-    private static final String DEFAULT_MAX_DATE = "31/12/2020";
-    private static final String TEMPLATE = "dd/MM/yyyy";
+    private static final String DEFAULT_MIN_DATE = "01-01-2019";
+    private static final String DEFAULT_MAX_DATE = "31-12-2021";
+    private static final String TEMPLATE = "dd-MM-yyyy";
     private final int[] weekHeaderIds = {
             R.id.tv_weekday_1, R.id.tv_weekday_2, R.id.tv_weekday_3, R.id.tv_weekday_4,
             R.id.tv_weekday_5, R.id.tv_weekday_6, R.id.tv_weekday_7
@@ -947,7 +947,7 @@ public class CalendarView extends FrameLayout {
 
             String date = day.day + "-" + (day.month + 1) + "-" + day.year;
 
-            Long dt = DateTimeHelper.getMillisFromDate(date);
+            Long dt = DateTimeHelper.getMillisFromDate(DateTimeHelper.formatDate(date));
 
             MainTable mainTbl = realm.where(MainTable.class)
                     .equalTo(Constants.date, dt)
@@ -971,51 +971,51 @@ public class CalendarView extends FrameLayout {
 
             for (VirathaDay virathaDay : virathaDays) {
                 if (virathaDay != null) {
-                    if (virathaDay.getViratham().contains("சுபமுகூர்த்தம்"))
+                    if (virathaDay.getViratham().equals("21"))
                         if (muhurtham != null)
                             muhurtham.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("அமாவாசை"))
+                    if (virathaDay.getViratham().equals("1"))
                         if (amavasai != null)
                             amavasai.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("பௌர்ணமி"))
+                    if (virathaDay.getViratham().equals("3"))
                         if (pournami != null)
                             pournami.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("கிருத்திகை"))
+                    if (virathaDay.getViratham().equals("4"))
                         if (kiruthigai != null)
                             kiruthigai.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("அஷ்டமி"))
+                    if (virathaDay.getViratham().equals("8"))
                         if (astami != null)
                             astami.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("நவமி"))
+                    if (virathaDay.getViratham().equals("9"))
                         if (navami != null)
                             navami.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("சங்கடஹர சதுர்த்தி"))
+                    if (virathaDay.getViratham().equals("7"))
                         if (schathurti != null)
                             schathurti.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("சதுர்த்தி"))
+                    if (virathaDay.getViratham().equals("15"))
                         if (chathurti != null)
                             chathurti.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("ஏகாதசி"))
+                    if (virathaDay.getViratham().equals("13"))
                         if (yekadhesi != null)
                             yekadhesi.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("சஷ்டி"))
+                    if (virathaDay.getViratham().equals("6"))
                         if (sasti != null)
                             sasti.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("பிரதோஷம்"))
+                    if (virathaDay.getViratham().equals("14"))
                         if (pradhosam != null)
                             pradhosam.setVisibility(View.VISIBLE);
 
-                    if (virathaDay.getViratham().contains("சிவராத்திரி"))
+                    if (virathaDay.getViratham().equals("11"))
                         if (shiva != null)
                             shiva.setVisibility(VISIBLE);
                 }

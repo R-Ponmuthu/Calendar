@@ -2,6 +2,7 @@ package com.it.calendar.util;
 
 public enum EnumVirathaDay {
 
+    V0("0", ""),
     V1("1", "அமாவாசை"),
     V2("2", "கிரிவலம்"),
     V3("3", "பௌர்ணமி"),
@@ -40,7 +41,7 @@ public enum EnumVirathaDay {
                 return e;
         }
 
-        return V1;
+        return V0;
     }
 
     public String getDay() {

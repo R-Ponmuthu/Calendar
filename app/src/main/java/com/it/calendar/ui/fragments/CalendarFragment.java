@@ -30,7 +30,7 @@ import com.it.calendar.ui.adapter.RaaguAdapter;
 import com.it.calendar.ui.adapter.SubaHoraiAdapter;
 import com.it.calendar.ui.adapter.VasthuAdapter;
 import com.it.calendar.ui.adapter.VirathamAdapter;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.util.ArrayList;
@@ -292,7 +292,7 @@ public class CalendarFragment extends Fragment {
 
             for (int i = 0; i < 12; i++) {
 
-                //String str = "/" + (i + 1) + "/" + curYear;
+                //String str = "-" + (i + 1) + "-" + curYear;
 
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.DAY_OF_MONTH, 1);

@@ -15,8 +15,9 @@ import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.MuhurthamTable;
 import com.it.calendar.beans.VirathaDay;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumVirathaDay;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,14 +54,12 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
         if (listHashMap.keySet().toArray()[position].toString().equals("சுபமுகூர்த்த தினங்கள்")) {
-
             List<MuhurthamTable> list = (List<MuhurthamTable>) listHashMap.get(listHashMap.keySet().toArray()[position].toString());
             holder.bind_moogurtham(listHashMap.keySet().toArray()[position].toString(), list);
         } else if (listHashMap.keySet().toArray()[position].toString().equals("முக்கிய விரத தினங்கள்")) {
             List<VirathaDay> list = (List<VirathaDay>) listHashMap.get(listHashMap.keySet().toArray()[position].toString());
             holder.bind_viratham(listHashMap.keySet().toArray()[position].toString(), list);
         } else {
-
             List<MainTable> list = (List<MainTable>) listHashMap.get(listHashMap.keySet().toArray()[position].toString());
             holder.bind(listHashMap.keySet().toArray()[position].toString(), list);
         }
@@ -206,9 +205,9 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
                     .findFirst();
 
             if (moogurthamTable.getValrpirai() == 1)
-                date.setText(DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("/")[0].trim() + "*");
+                date.setText(DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("-")[0].trim() + "*");
             else
-                date.setText("" + DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("/")[0].trim());
+                date.setText("" + DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("-")[0].trim());
             if (mainTable != null)
                 day.setText("" + mainTable.getWeekday());
             function.setVisibility(View.GONE);
@@ -227,13 +226,13 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
                     .equalTo(Constants.date, virathaDay.getDate())
                     .findFirst();
 
-            date.setText("" + DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("/")[0].trim());
+            date.setText("" + DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim());
             if (mainTable != null)
                 day.setText("" + mainTable.getWeekday());
             if (!virathaDay.getTime().equals("-"))
-                function.setText(virathaDay.getViratham() + "  (" + virathaDay.getTime() + ")");
+                function.setText(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText() + "  (" + virathaDay.getTime() + ")");
             else
-                function.setText(virathaDay.getViratham());
+                function.setText(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText());
         }
     }
 }

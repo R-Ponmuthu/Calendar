@@ -144,7 +144,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
                     StringBuilder stringBuilder = new StringBuilder();
                     for (VirathaDay virathaDay : virathaDays) {
-                        stringBuilder.append(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("/")[0].trim()).append(",");
+                        stringBuilder.append(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim()).append(",");
                     }
                     txtDay.setText(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
                 }

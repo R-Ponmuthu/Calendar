@@ -86,24 +86,24 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_kiruthigai"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_kiruthigai" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/astami"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_astami"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_astami" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/navami"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_navami"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_navami" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/pradhosam"
@@ -150,8 +150,8 @@
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_shiva"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_shiva" />
 
     </LinearLayout>
 

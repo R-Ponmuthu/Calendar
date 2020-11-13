@@ -47,4 +47,22 @@ public class DateTimeHelper {
 
         return calendar.getTime();
     }
+
+    public static String formatDate(String mydate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d-MM-yyyy");
+
+        Date myDate = null;
+        try {
+            myDate = dateFormat.parse(mydate);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MM-yyyy");
+        String finalDate = timeFormat.format(myDate);
+
+        return finalDate;
+    }
 }

@@ -1,4 +1,4 @@
-package com.it.calendar.utils;
+package com.it.calendar.util;
 
 public class Constants {
 

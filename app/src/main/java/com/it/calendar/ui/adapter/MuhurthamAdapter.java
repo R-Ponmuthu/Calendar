@@ -15,7 +15,7 @@ import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.beans.MuhurthamTable;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.util.ArrayList;
@@ -149,7 +149,7 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
             @SuppressLint("SetTextI18n")
             void bind_item(VirathaDay virathaDay) {
 
-                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("/")[0]);
+                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0]);
 
                 MuhurthamTable moogurthamTable = realm.where(MuhurthamTable.class)
                         .equalTo(Constants.date, virathaDay.getDate())

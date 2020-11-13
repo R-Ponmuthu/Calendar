@@ -26,7 +26,7 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxDate="31/12/2020"
+                android:maxDate="31/12/2021"
                 android:minDate="1/1/2019"
                 app:current_day_circle_enable="false"
                 app:current_day_text_color="@color/blue"

@@ -15,7 +15,7 @@ import com.it.calendar.beans.MuhurthamTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
 import com.it.calendar.ui.adapter.CurrentMonthAdapter;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.util.Calendar;
@@ -71,7 +71,7 @@ public class CurrentMonthActivity extends AppCompatActivity {
                 .sort("date", Sort.ASCENDING)
                 .findAll();
 
-        int month = Integer.parseInt(DateTimeHelper.getDateFromMillis(mainTables.get(0).getDate()).split("/")[1]);
+//        int month = Integer.parseInt(DateTimeHelper.getDateFromMillis(mainTables.get(0).getDate()).split("-")[1]);
 
         Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
         Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
-import com.it.calendar.utils.Constants;
+import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 
 import java.util.ArrayList;
