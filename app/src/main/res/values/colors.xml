@@ -24,6 +24,7 @@
 
     <color name="background">#E0E0E0</color>
     <color name="grey">#757575</color>
+    <color name="grey_dark">#333333</color>
 
     <color name="tamilDate">#141A46</color>
 

@@ -324,7 +324,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
             sUdayam.setText("" + gowriNeram.getSooriya_r());
             String[] strs = mainTable.getChanthran().split(",");
-            Log.e("Strs", strs[0] + "--" + strs[1]);
             if (strs.length > 1)
                 chandhiram.setText(EnumNatchathiram.getNatchathiramStr(strs[0]).getText() + ", " + EnumNatchathiram.getNatchathiramStr(strs[1].trim()).getText());
             else

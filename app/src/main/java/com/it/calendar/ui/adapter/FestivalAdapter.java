@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.util.EnumMonth;
@@ -45,7 +46,7 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dynamic_item_layout, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -66,10 +67,14 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
         TextView title;
         @BindView(R.id.container)
         LinearLayout container;
+        @BindView(R.id.timeline)
+        TimelineView mTimelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            mTimelineView.initLine(viewType);
         }
 
         void bind_fes(String s) {

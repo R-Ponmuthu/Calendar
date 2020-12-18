@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.MuhurthamTable;
@@ -47,7 +48,7 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dynamic_item_layout, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -77,10 +78,14 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
         TextView title;
         @BindView(R.id.container)
         LinearLayout container;
+        @BindView(R.id.timeline)
+        TimelineView timelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            timelineView.initLine(viewType);
         }
 
         @SuppressLint("SetTextI18n")
@@ -171,22 +176,22 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
             switch (titleStr) {
                 case "அரசினர் விடுமுறை நாட்கள்":
                     date.setText("" + mainTable.getDay());
-                    day.setText("" + mainTable.getWeekday());
+                    day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
                     function.setText("" + mainTable.getGov_holiday());
                     break;
                 case "இந்துக்கள் பண்டிகைகள்":
                     date.setText("" + mainTable.getDay());
-                    day.setText("" + mainTable.getWeekday());
+                    day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
                     function.setText("" + mainTable.getHindu_fes());
                     break;
                 case "கிறிஸ்துவ பண்டிகைகள்":
                     date.setText("" + mainTable.getDay());
-                    day.setText("" + mainTable.getWeekday());
+                    day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
                     function.setText("" + mainTable.getChirs_fes());
                     break;
                 default:
                     date.setText("" + mainTable.getDay());
-                    day.setText("" + mainTable.getWeekday());
+                    day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
                     function.setText("" + mainTable.getMuslim_fes());
                     break;
             }
@@ -229,7 +234,7 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
 
             date.setText("" + DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim());
             if (mainTable != null)
-                day.setText("" + mainTable.getWeekday());
+                day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             if (!virathaDay.getTime().equals("-"))
                 function.setText(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText() + "  (" + virathaDay.getTime() + ")");
             else
