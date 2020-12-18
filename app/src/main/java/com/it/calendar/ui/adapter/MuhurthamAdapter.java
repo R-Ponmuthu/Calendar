@@ -17,6 +17,8 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.beans.MuhurthamTable;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,7 +82,7 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
         void bind_muhurtham(String s) {
 
             //container.removeAllViews();
-            title.setText(s);
+            title.setText(EnumMonth.getMonthStr(s).getText());
 
             viratham = new HashMap<>();
             virathaDayList = new ArrayList<>();
@@ -163,7 +165,7 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
                 MainTable mainTable = realm.where(MainTable.class)
                         .equalTo(Constants.date, virathaDay.getDate())
                         .findFirst();
-                day.setText("" + mainTable.getWeekday().substring(0, 2));
+                day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText().substring(0, 2));
 
                 conatinerLay.setOnClickListener(new View.OnClickListener() {
                     @Override

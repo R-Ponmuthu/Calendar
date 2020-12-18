@@ -18,15 +18,15 @@
             android:layout_margin="5dp"
             android:drawableRight="@drawable/ic_keyboard_arrow_down"
             android:focusable="false"
-            android:padding="16dp"
-            android:visibility="gone" />
+            android:padding="16dp" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/tagContainerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip1"

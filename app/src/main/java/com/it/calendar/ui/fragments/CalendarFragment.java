@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,7 +50,9 @@ import io.realm.Sort;
 
 public class CalendarFragment extends Fragment {
 
-    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
+    //    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
+    public static String[] viratham = new String[]{"1", "3", "4", "6", "7", "17", "11", "13", "14", "15"};
+    public static Integer[] years = new Integer[]{2019, 2020, 2021};
     @BindView(R.id.muhurtham)
     TextView muhurtham;
     @BindView(R.id.panchangam)
@@ -63,6 +67,8 @@ public class CalendarFragment extends Fragment {
     Chip chip1;
     @BindView(R.id.chip2)
     Chip chip2;
+    @BindView(R.id.chip3)
+    Chip chip3;
     private String queryFlag;
     private int curYear;
     private HashMap<String, List<?>> listMap = new HashMap<>();
@@ -109,32 +115,44 @@ public class CalendarFragment extends Fragment {
 
         notifyAdapter(curYear);
 
-        chip2.setChecked(true);
+        if (curYear == 2020)
+            chip2.setChecked(true);
+        else
+            chip3.setChecked(true);
 
         chip1.setOnClickListener(view1 -> {
             chip1.setChecked(true);
             chip2.setChecked(false);
+            chip3.setChecked(false);
             notifyAdapter(Integer.parseInt(chip1.getText().toString()));
         });
 
         chip2.setOnClickListener(view12 -> {
             chip2.setChecked(true);
             chip1.setChecked(false);
+            chip3.setChecked(false);
             notifyAdapter(Integer.parseInt(chip2.getText().toString()));
         });
 
-//        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);
-//        year.setAdapter(adapter);
-//        year.setOnClickListener(v -> year.showDropDown());
-//        year.setHint("" + curYear);
+        chip3.setOnClickListener(view12 -> {
+            chip3.setChecked(true);
+            chip1.setChecked(false);
+            chip2.setChecked(false);
+            notifyAdapter(Integer.parseInt(chip3.getText().toString()));
+        });
 
-//        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                notifyAdapter(Integer.parseInt(years.get(position)));
-//            }
-//        });
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);
+        year.setAdapter(adapter);
+        year.setOnClickListener(v -> year.showDropDown());
+        year.setHint("" + curYear);
+
+        year.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                notifyAdapter(years[position]);
+            }
+        });
     }
 
     private void notifyAdapter(int curYear) {
@@ -193,7 +211,7 @@ public class CalendarFragment extends Fragment {
                         .and()
                         .lessThanOrEqualTo(Constants.date, toDate)
                         .and()
-                        .equalTo("viratham", "சுபமுகூர்த்தம்")
+                        .equalTo("viratham", "21")
                         .sort(Constants.date, Sort.ASCENDING)
                         .findAll();
 

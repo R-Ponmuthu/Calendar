@@ -15,6 +15,8 @@ import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumVirathaDay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,11 +79,11 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
         void bind_viradham(String tamMonth, Set<String> keys, HashMap<String, List<VirathaDay>> values) {
 
-            title.setText(tamMonth);
+            title.setText(EnumTamilMonth.getTamilMonth(tamMonth).getText());
             List<String> keyList = new ArrayList<>();
             keyList.addAll(keys);
 
-            container.setLayoutManager(new GridLayoutManager(context, 5));
+            container.setLayoutManager(new GridLayoutManager(context, 3));
             container.setAdapter(new SubItemAdapter(context, keyList, values));
         }
     }
@@ -140,11 +142,11 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
             void bind_item(List<VirathaDay> virathaDays) {
 
                 if (virathaDays.size() > 0) {
-                    txtViratham.setText(virathaDays.get(0).getViratham().substring(0, 3));
+                    txtViratham.setText(EnumVirathaDay.getVirathaDay(virathaDays.get(0).getViratham()).getText());
 
                     StringBuilder stringBuilder = new StringBuilder();
                     for (VirathaDay virathaDay : virathaDays) {
-                        stringBuilder.append(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("/")[0].trim()).append(",");
+                        stringBuilder.append(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim()).append(",");
                     }
                     txtDay.setText(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
                 }
