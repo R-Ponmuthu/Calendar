@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.Panchangam;
 import com.it.calendar.util.EnumNeram;
@@ -54,7 +55,7 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dynamic_item_layout, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -75,10 +76,14 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
         TextView title;
         @BindView(R.id.container)
         LinearLayout container;
+        @BindView(R.id.timeline)
+        TimelineView timelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            timelineView.initLine(viewType);
         }
 
         void bind_panchangam(Panchangam panchangam) {

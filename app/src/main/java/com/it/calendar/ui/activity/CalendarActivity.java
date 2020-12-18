@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -42,6 +43,7 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
 import com.it.calendar.realm.RealmController;
+import com.it.calendar.slidingpanel.SlidingUpPanelLayout;
 import com.it.calendar.util.EnumKalangal;
 import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumNatchathiram;
@@ -160,6 +162,10 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     CalendarView mCalendarView;
     @BindView(R.id.btmTxtDate)
     TextView btmTxtDate;
+    @BindView(R.id.slidingLayout)
+    SlidingUpPanelLayout slidingLayout;
+    @BindView(R.id.follow)
+    AppCompatImageView follow;
 
     private SharedPreference sharedPreference = new SharedPreference();
     private Realm realm;
@@ -237,6 +243,22 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 .mode(com.it.calendar.inappupdater.Constants.UpdateMode.IMMEDIATE);
 
         inAppUpdateManager.checkForAppUpdate();
+
+        slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+
+                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED || newState == SlidingUpPanelLayout.PanelState.DRAGGING)
+                    follow.setImageResource(R.drawable.ic_arrow_down);
+                else
+                    follow.setImageResource(R.drawable.ic_arrow_up);
+            }
+        });
     }
 
     @Override
