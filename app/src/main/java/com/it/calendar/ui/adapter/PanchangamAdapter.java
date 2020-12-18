@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
 import com.it.calendar.beans.Panchangam;
+import com.it.calendar.util.EnumNeram;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,16 +87,16 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
             IpanchangamList = new ArrayList<>();
 
             container.removeAllViews();
-            title.setText(panchangam.getWeekday());
+            title.setText(EnumWeekDay.getWeekDay(panchangam.getWeekday()).getText());
 
             for (String time : times) {
 
                 Panchangam Ppanchangam = realm.where(Panchangam.class)
                         .in("time", new String[]{time})
                         .and()
-                        .equalTo("neram", "பகல்")
+                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
                         .and()
-                        .equalTo("weekday", panchangam.getWeekday())
+                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
                         .and()
                         .equalTo("year", curYear)
                         .findFirst();
@@ -102,9 +104,9 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
                 Panchangam Ipanchangam = realm.where(Panchangam.class)
                         .in("time", new String[]{time})
                         .and()
-                        .equalTo("neram", "இரவு")
+                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
                         .and()
-                        .equalTo("weekday", panchangam.getWeekday())
+                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
                         .and()
                         .equalTo("year", curYear)
                         .findFirst();

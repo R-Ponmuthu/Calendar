@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
 import com.it.calendar.beans.Kalangal;
+import com.it.calendar.util.EnumKalangal;
+import com.it.calendar.util.EnumParikaram;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.List;
 
@@ -73,7 +76,7 @@ public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHold
 
             container.removeAllViews();
 
-            title.setText(kalangal.getWeekday());
+            title.setText(EnumWeekDay.getWeekDay(kalangal.getWeekday()).getText());
 
             View view = LayoutInflater.from(context).inflate(R.layout.raagu_sub_item, null, false);
 
@@ -112,8 +115,8 @@ public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHold
             raagu.setText("இராகு: " + kalangal.getRagu());
             kulikai.setText("குளிகை: " + kalangal.getKuligai());
             emakandam.setText("எமகண்டம்: " + kalangal.getEmakandam());
-            vaarasulai.setText("வாரசூலை: " + kalangal.getSoolam());
-            parikaram.setText("பரிகாரம்: " + kalangal.getParikaram());
+            vaarasulai.setText("வாரசூலை: " + EnumKalangal.getKalangalStr(kalangal.getSoolam()).getText());
+            parikaram.setText("பரிகாரம்: " + EnumParikaram.getParikaramStr(kalangal.getParikaram()).getText());
         }
     }
 }

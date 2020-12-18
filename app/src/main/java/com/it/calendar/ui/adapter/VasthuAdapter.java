@@ -15,6 +15,9 @@ import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.Vasthu;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.List;
 
@@ -79,7 +82,8 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
                     .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(vasthu.getDay()))
                     .findFirst();
 
-            date.setText(mainTable.getDay() + " " + mainTable.getMonth() + "," + mainTable.getWeekday() + " - " + mainTable.getTam_day() + " " + mainTable.getTam_month());
+            date.setText(mainTable.getDay() + " " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + "," + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + " - " +
+                    mainTable.getTam_day() + " " + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText());
             time.setText("காலை " + vasthu.getTime());
 
             if (position == 0 || position % 2 == 0) {
