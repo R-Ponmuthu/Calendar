@@ -42,9 +42,6 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
 import com.it.calendar.realm.RealmController;
-import com.it.calendar.util.EnumTamilMonth;
-import com.it.calendar.util.EnumVirathaDay;
-import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.AdManager;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
@@ -63,10 +60,10 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InAppUpdateManager.InAppUpdateHandler {
+public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,InAppUpdateManager.InAppUpdateHandler {
 
     private static final String DATE_YEAR = "yyyy";
-    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
+    private static final String DATE_TEMPLATE = "d/M/yyyy";
     private static final String MONTH_TEMPLATE = "MMMM yyyy";
     private static final int DAILY_REMINDER_REQUEST_CODE = 100;
 
@@ -204,8 +201,8 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             @Override
             public void onItemClicked(List<CalendarView.CalendarObject> calendarObjects, Calendar previousDate, Calendar selectedDate) {
 
-                //SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-                setCalendarData(DateTimeHelper.simpleDateFormat.format(selectedDate.getTime()));
+                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d/M/yyyy");
+                setCalendarData(DATE_FORMAT.format(selectedDate.getTime()));
             }
         });
 
@@ -268,7 +265,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         realm = RealmController.with(this).getRealm();
 
-
         Long dt = DateTimeHelper.getMillisFromDate(date);
 
         MainTable mainTable = realm.where(MainTable.class)
@@ -278,8 +274,8 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         if (mainTable != null) {
 
             dateTxt.setText("" + mainTable.getDay());
-            day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
-            monthYear.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + "  " + mainTable.getYear());
+            day.setText("" + mainTable.getWeekday());
+            monthYear.setText(mainTable.getTam_month() + "  " + mainTable.getYear());
 
             quote.setText(mainTable.getQuote());
 
@@ -332,7 +328,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 stringBuilder.append(mainTable.getMuslim_fes()).append("\n");
             if (virathaDays.size() > 0)
                 for (VirathaDay virathaDay : virathaDays)
-                    stringBuilder.append(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText()).append("\n");
+                    stringBuilder.append(virathaDay.getViratham()).append("\n");
 
             if (stringBuilder.length() > 0)
                 festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
@@ -384,9 +380,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         MenuItem menuItem = menu.findItem(R.id.curDate);
         TextView tvDate = new TextView(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            tvDate.setBackground(getDrawable(R.drawable.ic_calendar));
-        }
+        tvDate.setBackground(getDrawable(R.drawable.ic_calendar));
         tvDate.setText("" + date);
         tvDate.setGravity(Gravity.CENTER);
         tvDate.setTypeface(Typeface.DEFAULT_BOLD);

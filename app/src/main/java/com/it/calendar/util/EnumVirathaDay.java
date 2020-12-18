@@ -44,6 +44,15 @@ public enum EnumVirathaDay {
         return V0;
     }
 
+    public static EnumVirathaDay virathaDay(String text) {
+        for (EnumVirathaDay e : values()) {
+            if (e.text.equals(text))
+                return e;
+        }
+
+        return V0;
+    }
+
     public String getDay() {
         return day;
     }

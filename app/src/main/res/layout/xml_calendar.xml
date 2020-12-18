@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_calendar_container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +14,7 @@
             android:id="@+id/day_item_1_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -23,7 +23,7 @@
             android:id="@+id/day_item_1_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -32,7 +32,7 @@
             android:id="@+id/day_item_1_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -41,7 +41,7 @@
             android:id="@+id/day_item_1_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -50,7 +50,7 @@
             android:id="@+id/day_item_1_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -59,7 +59,7 @@
             android:id="@+id/day_item_1_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -68,7 +68,7 @@
             android:id="@+id/day_item_1_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -88,7 +88,7 @@
             android:id="@+id/day_item_2_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -97,7 +97,7 @@
             android:id="@+id/day_item_2_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -106,7 +106,7 @@
             android:id="@+id/day_item_2_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -115,7 +115,7 @@
             android:id="@+id/day_item_2_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -124,7 +124,7 @@
             android:id="@+id/day_item_2_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -133,7 +133,7 @@
             android:id="@+id/day_item_2_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -142,7 +142,7 @@
             android:id="@+id/day_item_2_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -163,7 +163,7 @@
             android:id="@+id/day_item_3_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -172,7 +172,7 @@
             android:id="@+id/day_item_3_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -181,7 +181,7 @@
             android:id="@+id/day_item_3_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -190,7 +190,7 @@
             android:id="@+id/day_item_3_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -199,7 +199,7 @@
             android:id="@+id/day_item_3_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -208,7 +208,7 @@
             android:id="@+id/day_item_3_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -217,7 +217,7 @@
             android:id="@+id/day_item_3_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -238,7 +238,7 @@
             android:id="@+id/day_item_4_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -247,7 +247,7 @@
             android:id="@+id/day_item_4_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -256,7 +256,7 @@
             android:id="@+id/day_item_4_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -265,7 +265,7 @@
             android:id="@+id/day_item_4_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -274,7 +274,7 @@
             android:id="@+id/day_item_4_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -283,7 +283,7 @@
             android:id="@+id/day_item_4_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -292,7 +292,7 @@
             android:id="@+id/day_item_4_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -313,7 +313,7 @@
             android:id="@+id/day_item_5_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -322,7 +322,7 @@
             android:id="@+id/day_item_5_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -331,7 +331,7 @@
             android:id="@+id/day_item_5_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -340,7 +340,7 @@
             android:id="@+id/day_item_5_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -349,7 +349,7 @@
             android:id="@+id/day_item_5_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -358,7 +358,7 @@
             android:id="@+id/day_item_5_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -367,7 +367,7 @@
             android:id="@+id/day_item_5_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -388,7 +388,7 @@
             android:id="@+id/day_item_6_1"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -397,7 +397,7 @@
             android:id="@+id/day_item_6_2"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -406,7 +406,7 @@
             android:id="@+id/day_item_6_3"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -415,7 +415,7 @@
             android:id="@+id/day_item_6_4"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -424,7 +424,7 @@
             android:id="@+id/day_item_6_5"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -433,7 +433,7 @@
             android:id="@+id/day_item_6_6"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
         <include layout="@layout/vertical_line" />
@@ -442,7 +442,7 @@
             android:id="@+id/day_item_6_7"
             layout="@layout/xml_grid_item_day"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="90dp"
             android:layout_weight="1" />
 
     </LinearLayout>
