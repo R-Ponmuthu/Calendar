@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.it.calendar.R;
 import com.it.calendar.beans.Krakakalam;
+import com.it.calendar.util.EnumKrakakalam;
+import com.it.calendar.util.EnumNeram;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,16 +92,16 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
             IKrakakalamList = new ArrayList<>();
 
             container.removeAllViews();
-            title.setText(krakakalam.getWeekday());
+            title.setText(EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getText());
 
             for (String time : times) {
 
                 Krakakalam Pkrakakalam = realm.where(Krakakalam.class)
                         .in("time", new String[]{time})
                         .and()
-                        .equalTo("neram", "பகல்")
+                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
                         .and()
-                        .equalTo("weekday", krakakalam.getWeekday())
+                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
                         .and()
                         .equalTo("year", curYear)
                         .findFirst();
@@ -106,9 +109,9 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
                 Krakakalam Ikrakakalam = realm.where(Krakakalam.class)
                         .in("time", new String[]{time})
                         .and()
-                        .equalTo("neram", "இரவு")
+                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
                         .and()
-                        .equalTo("weekday", krakakalam.getWeekday())
+                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
                         .and()
                         .equalTo("year", curYear)
                         .findFirst();
@@ -188,30 +191,30 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
         @SuppressLint("SetTextI18n")
         void bind(List<Krakakalam> pkrakakalam, List<Krakakalam> ikrakakalam) {
 
-            txt1.setText("6.00 - 7.00: " + pkrakakalam.get(0).getYokam());
-            txt2.setText("7.00 - 8.00: " + pkrakakalam.get(1).getYokam());
-            txt3.setText("8.00 - 9.00: " + pkrakakalam.get(2).getYokam());
-            txt4.setText("9.00 - 10.00: " + pkrakakalam.get(3).getYokam());
-            txt5.setText("10.00 - 11.00: " + pkrakakalam.get(4).getYokam());
-            txt6.setText("11.00 - 12.00: " + pkrakakalam.get(5).getYokam());
-            txt7.setText("12.00 - 1.00: " + pkrakakalam.get(6).getYokam());
-            txt8.setText("1.00 - 2.00: " + pkrakakalam.get(7).getYokam());
-            txt9.setText("2.00 - 300: " + pkrakakalam.get(8).getYokam());
-            txt10.setText("3.00 - 4.00: " + pkrakakalam.get(9).getYokam());
-            txt11.setText("4.00 - 5.00: " + pkrakakalam.get(10).getYokam());
-            txt12.setText("5.00 - 6.00: " + pkrakakalam.get(11).getYokam());
-            txt13.setText("6.00 - 7.00: " + ikrakakalam.get(0).getYokam());
-            txt14.setText("7.00 - 8.00: " + ikrakakalam.get(1).getYokam());
-            txt15.setText("8.00 - 9.00: " + ikrakakalam.get(2).getYokam());
-            txt16.setText("9.00 - 10.00: " + ikrakakalam.get(3).getYokam());
-            txt17.setText("10.00 - 11.00: " + ikrakakalam.get(4).getYokam());
-            txt18.setText("11.00 - 12.00: " + ikrakakalam.get(5).getYokam());
-            txt19.setText("12.00 - 1.00: " + ikrakakalam.get(6).getYokam());
-            txt20.setText("1.00 - 2.00: " + ikrakakalam.get(7).getYokam());
-            txt21.setText("2.00 - 3.00: " + ikrakakalam.get(8).getYokam());
-            txt22.setText("3.00 - 4.00: " + ikrakakalam.get(9).getYokam());
-            txt23.setText("4.00 - 5.00: " + ikrakakalam.get(10).getYokam());
-            txt24.setText("5.00 - 6.00: " + ikrakakalam.get(11).getYokam());
+            txt1.setText("6.00 - 7.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(0).getYokam()).getText());
+            txt2.setText("7.00 - 8.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(1).getYokam()).getText());
+            txt3.setText("8.00 - 9.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(2).getYokam()).getText());
+            txt4.setText("9.00 - 10.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(3).getYokam()).getText());
+            txt5.setText("10.00 - 11.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(4).getYokam()).getText());
+            txt6.setText("11.00 - 12.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(5).getYokam()).getText());
+            txt7.setText("12.00 - 1.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(6).getYokam()).getText());
+            txt8.setText("1.00 - 2.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(7).getYokam()).getText());
+            txt9.setText("2.00 - 300: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(8).getYokam()).getText());
+            txt10.setText("3.00 - 4.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(9).getYokam()).getText());
+            txt11.setText("4.00 - 5.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(10).getYokam()).getText());
+            txt12.setText("5.00 - 6.00: " + EnumKrakakalam.getKrakakalamStr(pkrakakalam.get(11).getYokam()).getText());
+            txt13.setText("6.00 - 7.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(0).getYokam()).getText());
+            txt14.setText("7.00 - 8.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(1).getYokam()).getText());
+            txt15.setText("8.00 - 9.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(2).getYokam()).getText());
+            txt16.setText("9.00 - 10.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(3).getYokam()).getText());
+            txt17.setText("10.00 - 11.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(4).getYokam()).getText());
+            txt18.setText("11.00 - 12.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(5).getYokam()).getText());
+            txt19.setText("12.00 - 1.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(6).getYokam()).getText());
+            txt20.setText("1.00 - 2.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(7).getYokam()).getText());
+            txt21.setText("2.00 - 3.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(8).getYokam()).getText());
+            txt22.setText("3.00 - 4.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(9).getYokam()).getText());
+            txt23.setText("4.00 - 5.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(10).getYokam()).getText());
+            txt24.setText("5.00 - 6.00: " + EnumKrakakalam.getKrakakalamStr(ikrakakalam.get(11).getYokam()).getText());
         }
     }
 }
