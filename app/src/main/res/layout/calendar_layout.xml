@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:background="@color/grey_200"
             android:padding="16dp"
-            android:text="இன்று"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="17sp"
             android:visibility="gone"
@@ -43,17 +43,17 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
-                    android:text="May"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/tamilDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="4"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="60sp"
                     android:textStyle="bold"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
-                    android:text="Saturday"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
@@ -107,11 +107,11 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tamilDate"
+                    android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="4"
+                    android:text=""
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"

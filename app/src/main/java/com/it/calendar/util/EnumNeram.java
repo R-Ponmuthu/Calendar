@@ -2,7 +2,7 @@ package com.it.calendar.util;
 
 public enum EnumNeram {
 
-    K0("0", ""),
+    N0("0", ""),
     N1("1", "பகல்"),
     N2("2", "இரவு");
 
@@ -20,7 +20,7 @@ public enum EnumNeram {
                 return e;
         }
 
-        return K0;
+        return N0;
     }
 
     public static EnumNeram getNeramStr(String neram) {
@@ -29,7 +29,7 @@ public enum EnumNeram {
                 return e;
         }
 
-        return K0;
+        return N0;
     }
 
     public String getNeram() {

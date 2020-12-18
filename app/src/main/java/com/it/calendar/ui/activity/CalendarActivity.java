@@ -42,6 +42,13 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
 import com.it.calendar.realm.RealmController;
+import com.it.calendar.util.EnumKalangal;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumNatchathiram;
+import com.it.calendar.util.EnumParikaram;
+import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumVirathaDay;
+import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.AdManager;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
@@ -60,10 +67,10 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,InAppUpdateManager.InAppUpdateHandler {
+public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InAppUpdateManager.InAppUpdateHandler {
 
     private static final String DATE_YEAR = "yyyy";
-    private static final String DATE_TEMPLATE = "d/M/yyyy";
+    private static final String DATE_TEMPLATE = "dd-MM-yyyy";
     private static final String MONTH_TEMPLATE = "MMMM yyyy";
     private static final int DAILY_REMINDER_REQUEST_CODE = 100;
 
@@ -151,6 +158,8 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     TextView natchatiram;
     @BindView(R.id.calendarView)
     CalendarView mCalendarView;
+    @BindView(R.id.btmTxtDate)
+    TextView btmTxtDate;
 
     private SharedPreference sharedPreference = new SharedPreference();
     private Realm realm;
@@ -201,7 +210,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             @Override
             public void onItemClicked(List<CalendarView.CalendarObject> calendarObjects, Calendar previousDate, Calendar selectedDate) {
 
-                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d/M/yyyy");
+                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
                 setCalendarData(DATE_FORMAT.format(selectedDate.getTime()));
             }
         });
@@ -274,27 +283,30 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         if (mainTable != null) {
 
             dateTxt.setText("" + mainTable.getDay());
-            day.setText("" + mainTable.getWeekday());
-            monthYear.setText(mainTable.getTam_month() + "  " + mainTable.getYear());
+            day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
+            monthYear.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + "  " + mainTable.getYear());
+
+            btmTxtDate.setText(mainTable.getDay() + "  " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + "  "
+                    + mainTable.getYear());
 
             quote.setText(mainTable.getQuote());
 
             tamilDate.setText("" + mainTable.getTam_day());
             tamilMonth.setText(mainTable.getTam_month());
-            tamilYear.setText(mainTable.getTam_year() + " வருடம்");
+            tamilYear.setText(mainTable.getTam_year() + " ஆண்டு");
 
             Kalangal kalangal = realm.where(Kalangal.class)
                     .equalTo("year", mainTable.getYear())
                     .and()
-                    .equalTo("weekday", mainTable.getWeekday())
+                    .equalTo("weekday", EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay())
                     .findFirst();
 
             GowriNeram gowriNeram = realm.where(GowriNeram.class)
-                    .equalTo(Constants.date, mainTable.getDate())
+                    .equalTo(Constants.date, dt)
                     .findFirst();
 
             RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                    .equalTo(Constants.date, mainTable.getDate())
+                    .equalTo(Constants.date, dt)
                     .findAll();
 
             nallaNeramK.setText(mainTable.getNallanerem_m());
@@ -307,11 +319,16 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             kulikai1.setText(kalangal.getKuligai());
             ema1.setText(kalangal.getEmakandam());
 
-            soolam.setText("சூலம்: " + kalangal.getSoolam());
-            parikaram.setText("பரிகாரம்: " + kalangal.getParikaram());
+            soolam.setText("சூலம்: " + EnumKalangal.getKalangalStr(kalangal.getSoolam()).getText());
+            parikaram.setText("பரிகாரம்: " + EnumParikaram.getParikaramStr(kalangal.getParikaram()).getText());
 
             sUdayam.setText("" + gowriNeram.getSooriya_r());
-            chandhiram.setText(mainTable.getChanthran());
+            String[] strs = mainTable.getChanthran().split(",");
+            Log.e("Strs", strs[0] + "--" + strs[1]);
+            if (strs.length > 1)
+                chandhiram.setText(EnumNatchathiram.getNatchathiramStr(strs[0]).getText() + ", " + EnumNatchathiram.getNatchathiramStr(strs[1].trim()).getText());
+            else
+                chandhiram.setText(EnumNatchathiram.getNatchathiramStr(strs[0]).getText());
             yokam.setText(mainTable.getYokam());
 
             thithi.setText(mainTable.getThiti());
@@ -328,7 +345,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 stringBuilder.append(mainTable.getMuslim_fes()).append("\n");
             if (virathaDays.size() > 0)
                 for (VirathaDay virathaDay : virathaDays)
-                    stringBuilder.append(virathaDay.getViratham()).append("\n");
+                    stringBuilder.append(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText()).append("\n");
 
             if (stringBuilder.length() > 0)
                 festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
@@ -372,6 +389,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         //adLayout.setVisibility(View.GONE);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.calendar_menu, menu);
