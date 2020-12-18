@@ -2,6 +2,7 @@ package com.it.calendar.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumTamilMonth;
+import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,12 +84,12 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
         void bind_muhurtham(String s) {
 
             //container.removeAllViews();
-            title.setText(s);
+            title.setText(EnumMonth.getMonthStr(s).getText());
 
             viratham = new HashMap<>();
             virathaDayList = new ArrayList<>();
 
-            for (int i = 0; i < mainTbl.get(s).size(); i++) {
+            for (int i = 0; i < mainTbl.get(EnumMonth.getMonthStr(s).getDay()).size(); i++) {
 
                 VirathaDay virathaDay = (VirathaDay) mainTbl.get(s).get(i);
                 virathaDayList.add(virathaDay);
@@ -151,7 +155,8 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
                         .equalTo(Constants.date, virathaDay.getDate())
                         .findFirst();
 
-                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()) + "  " + mainTable.getWeekday() + "  " + mainTable.getTam_day() + "  " + mainTable.getTam_month() + "  " + virathaDay.getTime());
+                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()) + "  " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + "  " + mainTable.getTam_day() + "  "
+                        + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + "  " + virathaDay.getTime());
 
                 conatinerLay.setOnClickListener(new View.OnClickListener() {
                     @Override

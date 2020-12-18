@@ -20,9 +20,9 @@
             android:text=""
             android:textColor="@color/black"
             android:textSize="17sp"
-            android:visibility="gone"
             android:textStyle="bold"
-            android:typeface="serif" />
+            android:typeface="serif"
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,10 +101,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="4"
-                    android:visibility="gone"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/date"
@@ -115,7 +115,8 @@
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:typeface="serif" />
+                    android:typeface="serif"
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/day_symbol"
@@ -351,9 +352,9 @@
 
                     <TextView
                         android:id="@+id/nallaNeram_M"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
 
                 </LinearLayout>
@@ -381,9 +382,9 @@
 
                     <TextView
                         android:id="@+id/gowriNeram_K"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
                     <View
                         android:layout_width="match_parent"
@@ -392,9 +393,9 @@
 
                     <TextView
                         android:id="@+id/gowriNeram_M"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
@@ -421,9 +422,9 @@
 
                     <TextView
                         android:id="@+id/raagu1"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
 
                 </LinearLayout>
@@ -451,9 +452,9 @@
 
                     <TextView
                         android:id="@+id/kulikai1"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
 
                 </LinearLayout>
@@ -481,9 +482,9 @@
 
                     <TextView
                         android:id="@+id/ema1"
+                        style="@style/TextValue"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        style="@style/TextValue" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 

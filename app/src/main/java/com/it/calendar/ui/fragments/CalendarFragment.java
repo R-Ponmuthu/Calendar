@@ -32,6 +32,7 @@ import com.it.calendar.ui.adapter.VasthuAdapter;
 import com.it.calendar.ui.adapter.VirathamAdapter;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumVirathaDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -292,8 +293,6 @@ public class CalendarFragment extends Fragment {
 
             for (int i = 0; i < 12; i++) {
 
-                //String str = "/" + (i + 1) + "/" + curYear;
-
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.DAY_OF_MONTH, 1);
                 calendar.set(Calendar.MONTH, i);
@@ -302,15 +301,12 @@ public class CalendarFragment extends Fragment {
                 Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
                 Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
 
-//                Log.e("From", DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
-//                Log.e("To", DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
-
                 RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
                         .greaterThanOrEqualTo(Constants.date, fromDate)
                         .and()
                         .lessThanOrEqualTo(Constants.date, toDate)
                         .and()
-                        .equalTo("viratham", queryFlag)
+                        .equalTo("viratham", EnumVirathaDay.virathaDay(queryFlag).getDay())
                         .sort(Constants.date, Sort.ASCENDING)
                         .findAll();
 
