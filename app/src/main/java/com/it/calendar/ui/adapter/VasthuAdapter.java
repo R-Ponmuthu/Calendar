@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.Vasthu;
@@ -45,7 +46,7 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.vasthu_sub_item, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -69,10 +70,14 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
         TextView time;
         @BindView(R.id.containerLay)
         LinearLayout containerLay;
+        @BindView(R.id.timeline)
+        TimelineView timelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            timelineView.initLine(viewType);
         }
 
         @SuppressLint("SetTextI18n")

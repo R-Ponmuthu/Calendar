@@ -11,10 +11,11 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
-import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.beans.MuhurthamTable;
+import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumMonth;
@@ -51,7 +52,7 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView,viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -72,10 +73,14 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
         TextView title;
         @BindView(R.id.container)
         RecyclerView container;
+        @BindView(R.id.timeline)
+        TimelineView timelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            timelineView.initLine(viewType);
         }
 
         @SuppressLint("SetTextI18n")

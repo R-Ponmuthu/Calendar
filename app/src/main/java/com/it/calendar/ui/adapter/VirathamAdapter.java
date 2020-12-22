@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
@@ -46,7 +47,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-        return new ItemViewHolder(itemView);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -71,10 +72,14 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
         TextView title;
         @BindView(R.id.container)
         RecyclerView container;
+        @BindView(R.id.timeline)
+        TimelineView timelineView;
 
-        ItemViewHolder(View view) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
+
+            timelineView.initLine(viewType);
         }
 
         void bind_viradham(String tamMonth, Set<String> keys, HashMap<String, List<VirathaDay>> values) {

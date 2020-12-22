@@ -565,7 +565,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     private void loadAds() {
 
         AdRequest adRequest = new AdRequest.Builder()
-                //.addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F")
+//                .addTestDevice("5894BCF12F1B676D1385EEBA09EBA26F")
                 .build();
         adView.loadAd(adRequest);
 

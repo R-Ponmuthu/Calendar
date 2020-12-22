@@ -56,6 +56,7 @@
         <attr name="leave_day_text_color" format="color" />
         <attr name="offset_day_background_color" format="color" />
         <attr name="current_day_text_color" format="color" />
+        <attr name="current_day_tamil_text_color" format="color" />
         <attr name="current_day_background_color" format="color" />
 
         <attr name="current_day_text_style" format="enum">
@@ -66,6 +67,7 @@
         <attr name="current_day_circle_enable" format="boolean" />
         <attr name="current_day_circle_color" format="color" />
         <attr name="selected_day_text_color" format="color" />
+        <attr name="selected_day_tamil_text_color" format="color" />
         <attr name="selected_day_background_color" format="color" />
         <attr name="selected_day_border_color" format="color" />
         <attr name="leave_day_border_color" format="color" />

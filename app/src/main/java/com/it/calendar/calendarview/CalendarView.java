@@ -31,16 +31,15 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.it.calendar.R;
+import com.it.calendar.beans.MainTable;
+import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.calendarview.helpers.FrameRelativeLayout;
 import com.it.calendar.calendarview.helpers.SelectedTextView;
 import com.it.calendar.calendarview.helpers.YMDCalendar;
-import com.it.calendar.beans.MainTable;
-import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.realm.RealmController;
-import com.it.calendar.util.EnumTamilMonth;
-import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumTamilMonth;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -233,7 +232,7 @@ public class CalendarView extends FrameLayout {
                 a.getColor(R.styleable.Material_CalendarView_day_background_color, Color.TRANSPARENT));
 
         mAttributes.put(Attr.leaveTextColor,
-                a.getColor(R.styleable.Material_CalendarView_leave_day_text_color, getResources().getColor(R.color.orange)));
+                a.getColor(R.styleable.Material_CalendarView_leave_day_text_color, getResources().getColor(R.color.g_yellow)));
 
         // OffsetDay
         mAttributes.put(Attr.offsetDayTextColor,
@@ -245,6 +244,8 @@ public class CalendarView extends FrameLayout {
         // Current Day
         mAttributes.put(Attr.currentDayTextColor,
                 a.getColor(R.styleable.Material_CalendarView_current_day_text_color, getResources().getColor(R.color.blue)));
+        mAttributes.put(Attr.currentDayTamilDateColor,
+                a.getColor(R.styleable.Material_CalendarView_current_day_tamil_text_color, getResources().getColor(R.color.blue)));
         mAttributes.put(Attr.currentDayBackgroundColor,
                 a.getColor(R.styleable.Material_CalendarView_current_day_background_color, Color.TRANSPARENT));
         mAttributes.put(Attr.currentDayTextStyle,
@@ -252,8 +253,7 @@ public class CalendarView extends FrameLayout {
         mAttributes.put(Attr.currentDayCircleEnable,
                 a.getBoolean(R.styleable.Material_CalendarView_current_day_circle_enable, false) ? 1 : 0);
         mAttributes.put(Attr.currentDayCircleColor,
-                a.getColor(R.styleable.Material_CalendarView_current_day_circle_color,
-                        mAttributes.get(Attr.currentDayTextColor)));
+                a.getColor(R.styleable.Material_CalendarView_current_day_circle_color, mAttributes.get(Attr.currentDayTextColor)));
 
         // Selected Day
         mAttributes.put(Attr.selectedDayTextColor,
@@ -263,7 +263,7 @@ public class CalendarView extends FrameLayout {
         mAttributes.put(Attr.selectedDayBorderColor,
                 a.getColor(R.styleable.Material_CalendarView_selected_day_border_color, getResources().getColor(R.color.blue)));
         mAttributes.put(Attr.leaveDayBorderColor,
-                a.getColor(R.styleable.Material_CalendarView_leave_day_border_color, getResources().getColor(R.color.orange)));
+                a.getColor(R.styleable.Material_CalendarView_leave_day_border_color, getResources().getColor(R.color.g_yellow)));
         mAttributes.put(Attr.offsetDayBorderColor,
                 a.getColor(R.styleable.Material_CalendarView_offset_day_border_color, Color.RED));
 
@@ -672,6 +672,11 @@ public class CalendarView extends FrameLayout {
             return this;
         }
 
+        public Builder setCurrentDayTamilTextColor(int color) {
+            P.currentDayTamilTextColor = color;
+            return this;
+        }
+
         public Builder setSelectedItemBorderColor(int color) {
             P.selectedItemBorderColor = color;
             return this;
@@ -729,6 +734,7 @@ public class CalendarView extends FrameLayout {
         int weekHeaderBackgroundColor;
         int weekHeaderOffsetDayBackgroundColor;
         int currentDayTextColor;
+        int currentDayTamilTextColor;
         int leaveDayBorderColor;
         int selectedItemBorderColor;
         int offsetItemBorderColor;
@@ -745,6 +751,7 @@ public class CalendarView extends FrameLayout {
             attributes.put(Attr.weekHeaderBackgroundColor, weekHeaderBackgroundColor);
             attributes.put(Attr.weekHeaderOffsetDayBackgroundColor, weekHeaderOffsetDayBackgroundColor);
             attributes.put(Attr.currentDayTextColor, currentDayTextColor);
+            attributes.put(Attr.currentDayTamilDateColor, currentDayTamilTextColor);
             attributes.put(Attr.selectedDayBorderColor, selectedItemBorderColor);
             attributes.put(Attr.leaveDayBorderColor, leaveDayBorderColor);
             attributes.put(Attr.offsetDayBorderColor, offsetItemBorderColor);
@@ -784,16 +791,18 @@ public class CalendarView extends FrameLayout {
         static final int currentDayBackgroundColor = 8;
         static final int currentDayCircleEnable = 9;
         static final int currentDayCircleColor = 10;
+        static final int currentDayTamilDateColor = 11;
 
-        static final int offsetDayTextColor = 11;
-        static final int offsetDayBackgroundColor = 12;
+        static final int offsetDayTextColor = 12;
+        static final int offsetDayBackgroundColor = 13;
 
-        static final int selectedDayTextColor = 13;
-        static final int selectedDayBackgroundColor = 14;
-        static final int selectedDayBorderColor = 15;
-        static final int offsetDayBorderColor = 25;
-        static final int leaveTextColor = 26;
-        static final int leaveDayBorderColor = 27;
+        static final int selectedDayTextColor = 14;
+        static final int selectedDayBackgroundColor = 15;
+        static final int selectedDayBorderColor = 16;
+        static final int offsetDayBorderColor = 26;
+        static final int leaveTextColor = 27;
+        static final int leaveDayBorderColor = 28;
+        static final int selectedDayTamilTextColor = 29;
     }
 
     private class CalendarPagerAdapter extends PagerAdapter {
@@ -931,7 +940,7 @@ public class CalendarView extends FrameLayout {
             FrameRelativeLayout container = (FrameRelativeLayout) view;
             SelectedTextView tvDay = view.findViewById(R.id.tv_calendar_day);
             TextView tamMonth = view.findViewById(R.id.tam_month);
-            TextView tamDate = view.findViewById(R.id.tam_date);
+            SelectedTextView tamDate = view.findViewById(R.id.tam_date);
             ImageView amavasai = view.findViewById(R.id.amavasai);
             ImageView pournami = view.findViewById(R.id.pournami);
             ImageView muhurtham = view.findViewById(R.id.muhurtham);
@@ -1074,9 +1083,13 @@ public class CalendarView extends FrameLayout {
                     } else if (isOffsetSunday || isOffsetSaturday) {
                         tvDay.setTextColor(mAttributes.get(Attr.offsetDayTextColor));
                         tvDay.setSelectedColor(mAttributes.get(Attr.offsetDayTextColor));
+                        tamDate.setTextColor(mAttributes.get(Attr.offsetDayTextColor));
+                        tamDate.setSelectedColor(mAttributes.get(Attr.offsetDayTextColor));
                     } else {
                         tvDay.setTextColor(mAttributes.get(Attr.currentDayTextColor));
                         tvDay.setSelectedColor(mAttributes.get(Attr.currentDayCircleColor));
+                        tamDate.setTextColor(mAttributes.get(Attr.currentDayTamilDateColor));
+                        tamDate.setSelectedColor(mAttributes.get(Attr.currentDayTamilDateColor));
                     }
                 changeTypeface(tvDay, mAttributes.get(Attr.currentDayTextStyle));
                 tvDay.setSelectedEnabled(mAttributes.get(Attr.currentDayCircleEnable) == 1);

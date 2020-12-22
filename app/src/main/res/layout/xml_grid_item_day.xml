@@ -39,14 +39,14 @@
 
     </RelativeLayout>
 
-    <TextView
+    <com.it.calendar.calendarview.helpers.SelectedTextView
         android:id="@+id/tam_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/tv_calendar_day"
         android:layout_toRightOf="@+id/tv_calendar_day"
         android:text="30"
-        android:textColor="@color/tamilDate"
+        android:textColor="@color/orange"
         android:textSize="9sp" />
 
     <com.it.calendar.calendarview.helpers.SelectedTextView
