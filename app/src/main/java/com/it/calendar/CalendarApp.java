@@ -21,7 +21,7 @@ public class CalendarApp extends MultiDexApplication {
         Realm.init(this);
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name("Calendar.realm")
-                .deleteRealmIfMigrationNeeded()
+//                .deleteRealmIfMigrationNeeded()
                 .modules(new CalendarModule())
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
