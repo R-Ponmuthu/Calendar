@@ -4,8 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Android - Play Projects-Calendar.iml" filepath="$PROJECT_DIR$/.idea/modules/Android - Play Projects-Calendar.iml" group="Calendar" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Android - Play Projects-Calendar-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Android - Play Projects-Calendar-app.iml" group="Calendar/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Android - Play Projects.Calendar.iml" filepath="$PROJECT_DIR$/.idea/modules/Android - Play Projects.Calendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Calendar.iml" filepath="$PROJECT_DIR$/.idea/Calendar.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Calendar-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Calendar-app.iml" group="Calendar/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Calendar.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Calendar.app.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Play Store Projects-Calendar.iml" filepath="$PROJECT_DIR$/.idea/modules/Play Store Projects-Calendar.iml" group="Calendar" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
