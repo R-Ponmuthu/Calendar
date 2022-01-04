@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.it.calendar.R;
-import com.it.calendar.notification.beans.Notification;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -20,7 +18,6 @@ import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 public class ViewNotificationActivity extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class ViewNotificationActivity extends AppCompatActivity {
     TextView title;
     @BindView(R.id.content)
     TextView content;
-    private Realm realm;
+
     private int id;
     private String type;
 
@@ -47,35 +44,32 @@ public class ViewNotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("அறிவிப்புகள்");
 
-        Realm.init(ViewNotificationActivity.this);
-        realm = Realm.getDefaultInstance();
-
         if (getIntent().getExtras() != null) {
             id = getIntent().getExtras().getInt("Id");
             type = getIntent().getExtras().getString("Type");
         }
 
-        Notification notification = realm.where(Notification.class)
-                .equalTo("id", id)
-                .findFirst();
-
-        if (notification != null)
-            if (type.equals("BT")) {
-
-                imageView.setVisibility(View.GONE);
-                title.setText(notification.getTitle());
-                content.setText(notification.getBigMessage());
-            } else if (type.equals("BP")) {
-
-                title.setText(notification.getTitle());
-                content.setText(notification.getBigMessage());
-                imageView.setImageBitmap(getBitmapfromUrl(notification.getImageUrl()));
-
-            } else {
-                imageView.setVisibility(View.GONE);
-                title.setText(notification.getTitle());
-                content.setText(notification.getBigMessage());
-            }
+//        Notification notification = realm.where(Notification.class)
+//                .equalTo("id", id)
+//                .findFirst();
+//
+//        if (notification != null)
+//            if (type.equals("BT")) {
+//
+//                imageView.setVisibility(View.GONE);
+//                title.setText(notification.getTitle());
+//                content.setText(notification.getBigMessage());
+//            } else if (type.equals("BP")) {
+//
+//                title.setText(notification.getTitle());
+//                content.setText(notification.getBigMessage());
+//                imageView.setImageBitmap(getBitmapfromUrl(notification.getImageUrl()));
+//
+//            } else {
+//                imageView.setVisibility(View.GONE);
+//                title.setText(notification.getTitle());
+//                content.setText(notification.getBigMessage());
+//            }
     }
 
     @Override

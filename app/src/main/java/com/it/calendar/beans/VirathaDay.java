@@ -1,18 +1,25 @@
 package com.it.calendar.beans;
 
-import io.realm.RealmObject;
+import com.it.calendar.CalendarDB;
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
 
-public class VirathaDay extends RealmObject {
 
-    private Long date;
+@Table(dataSet = CalendarDB.class, name = "VirathaDay", version = 1, autoIncrementID = true)
+public class VirathaDay {
+
+    @FieldName("date")
+    private String date;
+    @FieldName("viratham")
     private String viratham;
+    @FieldName("time")
     private String time;
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

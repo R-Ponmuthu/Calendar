@@ -30,13 +30,13 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.calendarview.helpers.FrameRelativeLayout;
 import com.it.calendar.calendarview.helpers.SelectedTextView;
 import com.it.calendar.calendarview.helpers.YMDCalendar;
-import com.it.calendar.realm.RealmController;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumTamilMonth;
@@ -52,16 +52,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
+import com.it.core.db.TableHelper;
+
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
 public class CalendarView extends FrameLayout {
 
     private static final String TAG = CalendarView.class.getSimpleName();
 
-    private static final String DEFAULT_MIN_DATE = "01-01-2019";
-    private static final String DEFAULT_MAX_DATE = "31-12-2021";
+    private static final String DEFAULT_MIN_DATE = "01-01-2020";
+    private static final String DEFAULT_MAX_DATE = "31-12-2022";
     private static final String TEMPLATE = "dd-MM-yyyy";
     private final int[] weekHeaderIds = {
             R.id.tv_weekday_1, R.id.tv_weekday_2, R.id.tv_weekday_3, R.id.tv_weekday_4,
@@ -102,7 +102,6 @@ public class CalendarView extends FrameLayout {
      */
     private SparseIntArray mAttributes = new SparseIntArray();
 
-    private Realm realm;
 
     /**
      * Constructor
@@ -120,10 +119,6 @@ public class CalendarView extends FrameLayout {
         readAttributes(context, attrs);
 
         initChildViews(context);
-
-        realm = RealmController.with(context).getRealm();
-
-        //realmController();
     }
 
     public static byte[] hexStringToByteArray(String s) {
@@ -956,11 +951,16 @@ public class CalendarView extends FrameLayout {
 
             String date = day.day + "-" + (day.month + 1) + "-" + day.year;
 
-            Long dt = DateTimeHelper.getMillisFromDate(DateTimeHelper.formatDate(date));
+//            Long dt = DateTimeHelper.getMillisFromDate(DateTimeHelper.formatDate(date));
+            String dt = DateTimeHelper.formatDate(date);
 
-            MainTable mainTbl = realm.where(MainTable.class)
-                    .equalTo(Constants.date, dt)
-                    .findFirst();
+            TableHelper<MainTable> mainTh = CalendarApp.getTable(getContext(), MainTable.class);
+            MainTable mainTbl = mainTh.getItem(mainTh.getReadableDatabase(), "date=?", new String[]{String.valueOf(dt)}, null);
+
+
+//            MainTable mainTbl = realm.where(MainTable.class)
+//                    .equalTo(Constants.date, dt)
+//                    .findFirst();
 
             if (mainTbl != null) {
                 tamDate.setText(String.valueOf(mainTbl.getTam_day()));
@@ -974,9 +974,12 @@ public class CalendarView extends FrameLayout {
                 }
             }
 
-            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                    .equalTo(Constants.date, dt)
-                    .findAll();
+//            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                    .equalTo(Constants.date, dt)
+//                    .findAll();
+
+            TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(getContext(), VirathaDay.class);
+            List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{String.valueOf(dt)}, null, null);
 
             for (VirathaDay virathaDay : virathaDays) {
                 if (virathaDay != null) {

@@ -1,6 +1,7 @@
 package com.it.calendar.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.Kalangal;
 import com.it.calendar.beans.Krakakalam;
@@ -34,6 +36,7 @@ import com.it.calendar.ui.adapter.VasthuAdapter;
 import com.it.calendar.ui.adapter.VirathamAdapter;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumVirathaDay;
 
 import java.util.ArrayList;
@@ -43,16 +46,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;
+
+import com.it.core.db.TableHelper;
 
 
 public class CalendarFragment extends Fragment {
 
     //    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
     public static String[] viratham = new String[]{"1", "3", "4", "6", "7", "17", "11", "13", "14", "15"};
-    public static Integer[] years = new Integer[]{2019, 2020, 2021};
+    public static Integer[] years = new Integer[]{2020, 2021, 2022};
     @BindView(R.id.muhurtham)
     TextView muhurtham;
     @BindView(R.id.panchangam)
@@ -71,9 +73,9 @@ public class CalendarFragment extends Fragment {
     Chip chip3;
     private String queryFlag;
     private int curYear;
-    private HashMap<String, List<?>> listMap = new HashMap<>();
-    private List<String> monthsList = new ArrayList<>();
-    private Realm realm;
+    private final HashMap<String, List<?>> listMap = new HashMap<>();
+    private final List<String> monthsList = new ArrayList<>();
+
 
     public CalendarFragment() {
         // Required empty public constructor
@@ -96,9 +98,6 @@ public class CalendarFragment extends Fragment {
             queryFlag = getArguments().getString("queryFlag");
             curYear = getArguments().getInt("curYear");
         }
-
-        Realm.init(getActivity());
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -115,7 +114,7 @@ public class CalendarFragment extends Fragment {
 
         notifyAdapter(curYear);
 
-        if (curYear == 2020)
+        if (curYear == 2021)
             chip2.setChecked(true);
         else
             chip3.setChecked(true);
@@ -157,27 +156,51 @@ public class CalendarFragment extends Fragment {
 
     private void notifyAdapter(int curYear) {
 
+        TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(getActivity(), MainTable.class);
+        TableHelper<VirathaDay> virathaDayTableHelper = CalendarApp.getTable(getActivity(), VirathaDay.class);
+        TableHelper<Kalangal> kalangalTableHelper = CalendarApp.getTable(getActivity(), Kalangal.class);
+        TableHelper<Vasthu> vasthuTableHelper = CalendarApp.getTable(getActivity(), Vasthu.class);
+        TableHelper<Panchangam> panchangamTableHelper = CalendarApp.getTable(getActivity(), Panchangam.class);
+        TableHelper<Krakakalam> krakakalamTableHelper = CalendarApp.getTable(getActivity(), Krakakalam.class);
+
         if (queryFlag.equals("hindu_fes") || queryFlag.equals("muslim_fes") || queryFlag.equals("chirs_fes") || queryFlag.equals("gov_holiday")) {
 
-            RealmResults<MainTable> mainTables = realm.where(MainTable.class)
-                    .distinct("month")
-                    .notEqualTo(queryFlag, "-")
-                    .and()
-                    .isNotEmpty(queryFlag)
-                    .and()
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<MainTable> mainTables = new ArrayList<>();
+            try {
+                mainTables = mainTableTableHelper.getDistinctList(mainTableTableHelper.getReadableDatabase(),
+                        new String[]{"month"}, "" + queryFlag + "!=? and " + queryFlag + "!=? and year=?",
+                        new String[]{"-", "", String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<MainTable> mainTables = realm.where(MainTable.class)
+//                    .distinct("month")
+//                    .notEqualTo(queryFlag, "-")
+//                    .and()
+//                    .isNotEmpty(queryFlag)
+//                    .and()
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             for (MainTable mainTable : mainTables) {
 
-                RealmResults<MainTable> data = realm.where(MainTable.class)
-                        .notEqualTo(queryFlag, "-")
-                        .and()
-                        .equalTo("month", mainTable.getMonth())
-                        .and()
-                        .equalTo("year", curYear)
-                        .sort("day", Sort.ASCENDING)
-                        .findAll();
+                List<MainTable> data = new ArrayList<>();
+                try {
+                    data = mainTableTableHelper.getList("" + queryFlag + "!=? and month =? and year=?",
+                            new String[]{"-", String.valueOf(mainTable.getMonth()), String.valueOf(curYear)}, "day ASC", null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+//                RealmResults<MainTable> data = realm.where(MainTable.class)
+//                        .notEqualTo(queryFlag, "-")
+//                        .and()
+//                        .equalTo("month", mainTable.getMonth())
+//                        .and()
+//                        .equalTo("year", curYear)
+//                        .sort("day", Sort.ASCENDING)
+//                        .findAll();
 
                 monthsList.add(mainTable.getMonth());
                 listMap.put(mainTable.getMonth(), data);
@@ -190,11 +213,20 @@ public class CalendarFragment extends Fragment {
 
             muhurtham.setVisibility(View.VISIBLE);
 
-            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
-                    .distinct("month")
-                    .and()
-                    .equalTo("year", curYear)
-                    .findAll();
+//            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
+//                    .distinct("month")
+//                    .and()
+//                    .equalTo("year", curYear)
+//                    .findAll();
+
+            List<MainTable> mainTable = new ArrayList<>();
+            try {
+                mainTable = mainTableTableHelper.getDistinctList(mainTableTableHelper.getReadableDatabase(),
+                        new String[]{"month"}, "year=?",
+                        new String[]{String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             for (int i = 0; i < 12; i++) {
 
@@ -203,17 +235,26 @@ public class CalendarFragment extends Fragment {
                 calendar.set(Calendar.MONTH, i);
                 calendar.set(Calendar.YEAR, curYear);
 
-                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
-                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+                String fromDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getCalendarViewFromDate(calendar));
+                String toDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getToDate(calendar));
 
-                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                        .greaterThanOrEqualTo(Constants.date, fromDate)
-                        .and()
-                        .lessThanOrEqualTo(Constants.date, toDate)
-                        .and()
-                        .equalTo("viratham", "21")
-                        .sort(Constants.date, Sort.ASCENDING)
-                        .findAll();
+//                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                        .greaterThanOrEqualTo(Constants.date, fromDate)
+//                        .and()
+//                        .lessThanOrEqualTo(Constants.date, toDate)
+//                        .and()
+//                        .equalTo("viratham", "21")
+//                        .sort(Constants.date, Sort.ASCENDING)
+//                        .findAll();
+
+                List<VirathaDay> virathaDays = new ArrayList<>();
+                try {
+                    virathaDays = virathaDayTableHelper.getList("date>=? and date<=? and viratham=?",
+                            new String[]{fromDate, toDate, "21"}, "date ASC", null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
                 if (!monthsList.contains(mainTable.get(i).getMonth()))
                     monthsList.add(mainTable.get(i).getMonth());
@@ -224,17 +265,33 @@ public class CalendarFragment extends Fragment {
             recyclerView.setAdapter(new MuhurthamAdapter(getActivity(), monthsList, listMap));
         } else if (queryFlag.equals("raagu")) {
 
-            RealmResults<Kalangal> kalangals = realm.where(Kalangal.class)
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<Kalangal> kalangals = new ArrayList<>();
+            try {
+                kalangals = kalangalTableHelper.getList("year=?",
+                        new String[]{String.valueOf(curYear)}, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<Kalangal> kalangals = realm.where(Kalangal.class)
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new RaaguAdapter(getActivity(), kalangals));
         } else if (queryFlag.equals("vasthu_days")) {
 
-            RealmResults<Vasthu> vasthus = realm.where(Vasthu.class)
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<Vasthu> vasthus = new ArrayList<>();
+            try {
+                vasthus = vasthuTableHelper.getList("year=?",
+                        new String[]{String.valueOf(curYear)}, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<Vasthu> vasthus = realm.where(Vasthu.class)
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new VasthuAdapter(getActivity(), vasthus));
@@ -242,20 +299,38 @@ public class CalendarFragment extends Fragment {
 
             panchangham.setVisibility(View.VISIBLE);
 
-            RealmResults<Panchangam> panchangams = realm.where(Panchangam.class)
-                    .distinct("weekday")
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<Panchangam> panchangams = new ArrayList<>();
+            try {
+                panchangams = panchangamTableHelper.getDistinctList(panchangamTableHelper.getReadableDatabase(),
+                        new String[]{"weekday"}, "year=?",
+                        new String[]{String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<Panchangam> panchangams = realm.where(Panchangam.class)
+//                    .distinct("weekday")
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new PanchangamAdapter(getActivity(), curYear, panchangams));
         } else if (queryFlag.equals("viradha_days")) {
 
-            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
-                    .distinct("month")
-                    .and()
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<MainTable> mainTable = new ArrayList<>();
+            try {
+                mainTable = mainTableTableHelper.getDistinctList(mainTableTableHelper.getReadableDatabase(),
+                        new String[]{"month"}, "year=?",
+                        new String[]{String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
+//                    .distinct("month")
+//                    .and()
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             HashMap<String, HashMap<String, List<VirathaDay>>> hashMap = new HashMap<>();
             List<String> tamMonthList = new ArrayList<>();
@@ -267,21 +342,30 @@ public class CalendarFragment extends Fragment {
                 calendar.set(Calendar.MONTH, i);
                 calendar.set(Calendar.YEAR, curYear);
 
-                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
-                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+                String fromDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getCalendarViewFromDate(calendar));
+                String toDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getToDate(calendar));
 
                 HashMap<String, List<VirathaDay>> subHashMap = new HashMap<>();
 
                 for (String str : viratham) {
 
-                    RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                            .greaterThanOrEqualTo(Constants.date, fromDate)
-                            .and()
-                            .lessThanOrEqualTo(Constants.date, toDate)
-                            .and()
-                            .equalTo("viratham", str)
-                            .findAll();
+                    List<VirathaDay> virathaDays = new ArrayList<>();
+                    try {
+                        virathaDays = virathaDayTableHelper.getList("date >= ? and date <= ? and viratham=?",
+                                new String[]{fromDate, toDate, str}, null, null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
+//                    RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                            .greaterThanOrEqualTo(Constants.date, fromDate)
+//                            .and()
+//                            .lessThanOrEqualTo(Constants.date, toDate)
+//                            .and()
+//                            .equalTo("viratham", str)
+//                            .findAll();
+
+                    Log.e("Data",mainTable.get(i).getMonth() + "-" + str+"---"+virathaDays);
                     subHashMap.put(mainTable.get(i).getMonth() + "-" + str, virathaDays);
                 }
 
@@ -294,20 +378,38 @@ public class CalendarFragment extends Fragment {
 
         } else if (queryFlag.equals("suba_horai")) {
 
-            RealmResults<Krakakalam> krakakalams = realm.where(Krakakalam.class)
-                    .distinct("weekday")
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<Krakakalam> krakakalams = new ArrayList<>();
+            try {
+                krakakalams = krakakalamTableHelper.getDistinctList(krakakalamTableHelper.getReadableDatabase(),
+                        new String[]{"weekday"}, "year=?",
+                        new String[]{String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<Krakakalam> krakakalams = realm.where(Krakakalam.class)
+//                    .distinct("weekday")
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(new SubaHoraiAdapter(getActivity(), curYear, krakakalams));
         } else if (queryFlag.equals("அஷ்டமி") || queryFlag.equals("நவமி") || queryFlag.equals("கரிநாள்")) {
 
-            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
-                    .distinct("month")
-                    .and()
-                    .equalTo("year", curYear)
-                    .findAll();
+            List<MainTable> mainTable = new ArrayList<>();
+            try {
+                mainTable = mainTableTableHelper.getDistinctList(mainTableTableHelper.getReadableDatabase(),
+                        new String[]{"month"}, "year=?",
+                        new String[]{String.valueOf(curYear)}, null, null, null, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+//            RealmResults<MainTable> mainTable = realm.where(MainTable.class)
+//                    .distinct("month")
+//                    .and()
+//                    .equalTo("year", curYear)
+//                    .findAll();
 
             for (int i = 0; i < 12; i++) {
 
@@ -316,17 +418,26 @@ public class CalendarFragment extends Fragment {
                 calendar.set(Calendar.MONTH, i);
                 calendar.set(Calendar.YEAR, curYear);
 
-                Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
-                Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+                String fromDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getCalendarViewFromDate(calendar));
+                String toDate = DateTimeHelper.simpleDateFormat1.format(DateTimeHelper.getToDate(calendar));
 
-                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                        .greaterThanOrEqualTo(Constants.date, fromDate)
-                        .and()
-                        .lessThanOrEqualTo(Constants.date, toDate)
-                        .and()
-                        .equalTo("viratham", EnumVirathaDay.virathaDay(queryFlag).getDay())
-                        .sort(Constants.date, Sort.ASCENDING)
-                        .findAll();
+                List<VirathaDay> virathaDays = new ArrayList<>();
+                try {
+                    virathaDays = virathaDayTableHelper.getList("date>=? and date<=? and viratham=?",
+                            new String[]{fromDate, toDate, String.valueOf(EnumVirathaDay.virathaDay(queryFlag).getDay())},
+                            "date ASC", null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+//                RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                        .greaterThanOrEqualTo(Constants.date, fromDate)
+//                        .and()
+//                        .lessThanOrEqualTo(Constants.date, toDate)
+//                        .and()
+//                        .equalTo("viratham", EnumVirathaDay.virathaDay(queryFlag).getDay())
+//                        .sort(Constants.date, Sort.ASCENDING)
+//                        .findAll();
 
                 if (!monthsList.contains(mainTable.get(i).getMonth()))
                     monthsList.add(mainTable.get(i).getMonth());

@@ -1,12 +1,21 @@
 // Please note : @LinkingObjects and default values are not represented in the schema and thus will not be part of the generated models
 package com.it.calendar.beans;
 
-import io.realm.RealmObject;
+import com.it.calendar.CalendarDB;
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
 
-public class Vasthu extends RealmObject {
+
+@Table(dataSet = CalendarDB.class, name = "Vasthu", version = 1, autoIncrementID = true)
+
+public class Vasthu {
+    @FieldName("year")
     private Long year;
+    @FieldName("day")
     private String day;
+    @FieldName("neram")
     private String neram;
+    @FieldName("time")
     private String time;
 
     public Long getYear() {

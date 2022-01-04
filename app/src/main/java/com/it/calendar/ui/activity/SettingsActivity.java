@@ -9,10 +9,8 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.preference.SwitchPreference;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -53,7 +51,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * useful when providing support
      */
     public static void sendFeedback(Context context) {
-        Drawable drawable1 = context.getResources().getDrawable(R.drawable.ic_logo);
+        Drawable drawable1 = context.getResources().getDrawable(R.drawable.icon_logo);
         FeedbackDialog feedbackDialog = new FeedbackDialog.Builder(context)
                 .threshold(4)
                 .icon(drawable1)
@@ -69,7 +67,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     public static void sendRating(Context context) {
-        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_logo);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.icon_logo);
         RatingDialog ratingDialog = new RatingDialog.Builder(context)
                 .threshold(4)
                 .icon(drawable)

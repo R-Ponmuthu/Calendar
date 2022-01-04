@@ -2,6 +2,7 @@ package com.it.calendar.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.MuhurthamTable;
@@ -21,14 +23,17 @@ import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumWeekDay;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+
+import com.it.core.db.TableHelper;
 
 public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.ItemViewHolder> {
 
@@ -37,22 +42,18 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
     Map<String, List<VirathaDay>> viratham = new HashMap<>();
     List<VirathaDay> virathaDayList = new ArrayList<>();
     private Activity activity;
-    private Realm realm;
 
     public MuhurthamAdapter(Activity activity, List<String> months, Map<String, List<?>> mainTbl) {
         this.activity = activity;
         this.months = months;
         this.mainTbl = mainTbl;
-
-        Realm.init(activity);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-        return new ItemViewHolder(itemView,viewType);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -109,15 +110,11 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
         Map<String, List<VirathaDay>> viratham;
         String month;
         private Activity activity;
-        private Realm realm;
 
         SubItemAdapter(Activity activity, String month, Map<String, List<VirathaDay>> viratham) {
             this.activity = activity;
             this.viratham = viratham;
             this.month = month;
-
-            Realm.init(activity);
-            realm = Realm.getDefaultInstance();
         }
 
         @Override
@@ -156,20 +153,37 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
             @SuppressLint("SetTextI18n")
             void bind_item(VirathaDay virathaDay) {
 
-                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0]);
+                date.setText(virathaDay.getDate().split("-")[2]);
 
-                MuhurthamTable moogurthamTable = realm.where(MuhurthamTable.class)
-                        .equalTo(Constants.date, virathaDay.getDate())
-                        .findFirst();
+                Date dt = null;
+                String dateStr = null;
+                try {
+                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
+                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                TableHelper<MuhurthamTable> muhurthamTableHelper = CalendarApp.getTable(activity, MuhurthamTable.class);
+                MuhurthamTable moogurthamTable = muhurthamTableHelper.getItem(muhurthamTableHelper.getReadableDatabase(), "date=?",
+                        new String[]{dateStr}, null);
+
+//                MuhurthamTable moogurthamTable = realm.where(MuhurthamTable.class)
+//                        .equalTo(Constants.date, virathaDay.getDate())
+//                        .findFirst();
 
                 if (moogurthamTable != null)
                     if (moogurthamTable.getValrpirai() == 1)
                         conatinerLay.setBackgroundColor(activity.getResources().getColor(R.color.yellow_light));
 
+                TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(activity, MainTable.class);
+                MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date = ?",
+                        new String[]{dateStr}, null);
 
-                MainTable mainTable = realm.where(MainTable.class)
-                        .equalTo(Constants.date, virathaDay.getDate())
-                        .findFirst();
+//                MainTable mainTable = realm.where(MainTable.class)
+//                        .equalTo(Constants.date, virathaDay.getDate())
+//                        .findFirst();
+
                 day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText().substring(0, 2));
 
                 conatinerLay.setOnClickListener(new View.OnClickListener() {

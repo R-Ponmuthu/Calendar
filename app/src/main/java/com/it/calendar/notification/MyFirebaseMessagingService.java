@@ -21,15 +21,13 @@ import com.it.calendar.notification.beans.Notification;
 import com.it.calendar.ui.activity.ViewNotificationActivity;
 import com.it.calendar.util.DateTimeHelper;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import java.util.Random;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static String TAG = "MyFirebaseMessagingService";
     private RemoteViews remoteViews, remoteViewsSmall;
-    private Realm realm;
     private String GROUP_CALENDAR = "com.it.calendar";
 
     @Override
@@ -49,31 +47,22 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        Realm.setDefaultConfiguration(realmConfiguration);
 //        Realm realm = Realm.getDefaultInstance();
 
-        Realm.init(getApplicationContext());
-        RealmConfiguration myConfig = new RealmConfiguration.Builder()
-                .name("notification.realm")
-                //.modules(new NotificationModule())
-                .build();
 
-        realm = Realm.getInstance(myConfig);
+//        int nextId = (num == null) ? 1 : num.intValue() + 1;
 
-        Number num = realm.where(Notification.class).max("id");
-        int nextId = (num == null) ? 1 : num.intValue() + 1;
+        final int min = 1;
+        final int max = 100;
+        final int nextId = new Random().nextInt((max - min) + 1) + min;
 
-        realm.beginTransaction();
         Notification notification = new Notification();
         notification.setId(nextId);
         notification.setTitle(remoteMessage.getData().get("title"));
         notification.setMessage(remoteMessage.getData().get("body"));
         notification.setBigMessage(remoteMessage.getData().get("bigMessage"));
-        notification.setDate(DateTimeHelper.getMillisFromDate(remoteMessage.getData().get("date")));
+        notification.setDate(remoteMessage.getData().get("date"));
         notification.setImageUrl(remoteMessage.getData().get("image"));
         notification.setRead("0");
         notification.setNotiType(remoteMessage.getData().get("type"));
-
-        realm.insertOrUpdate(notification);
-        realm.commitTransaction();
-        realm.close();
 
         String title = remoteMessage.getData().get("title");
         String message = remoteMessage.getData().get("body");

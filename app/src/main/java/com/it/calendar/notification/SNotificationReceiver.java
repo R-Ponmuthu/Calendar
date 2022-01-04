@@ -15,24 +15,23 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
-import com.it.calendar.realm.RealmController;
 import com.it.calendar.ui.activity.CalendarActivity;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.core.db.TableHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class SNotificationReceiver extends BroadcastReceiver {
 
     private NotificationManager manager;
-    private Realm realm;
 
     public SNotificationReceiver() {
     }
@@ -58,15 +57,16 @@ public class SNotificationReceiver extends BroadcastReceiver {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        realm = RealmController.with(context).getRealm();
-
         String dateFormat = "dd-MM-yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
         Calendar calendar = Calendar.getInstance();
 
-        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(simpleDateFormat.format(calendar.getTime())))
-                .findAll();
+//        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(simpleDateFormat.format(calendar.getTime())))
+//                .findAll();
+
+        TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(context, VirathaDay.class);
+        List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{simpleDateFormat.format(calendar.getTime())}, null, null);
 
         for (VirathaDay virathaDay : virathaDays)
             stringBuilder.append(virathaDay.getViratham() + ",");

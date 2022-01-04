@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
@@ -23,14 +24,16 @@ import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumWeekDay;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+import com.it.core.db.TableHelper;
 
 public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapter.ItemViewHolder> {
 
@@ -39,22 +42,19 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
     Map<String, List<VirathaDay>> viratham = new HashMap<>();
     List<VirathaDay> virathaDayList = new ArrayList<>();
     private Context context;
-    private Realm realm;
+
 
     public AsubaNaatkalAdapter(Context context, String queryFlag, List<String> months, Map<String, List<?>> mainTbl) {
         this.context = context;
         this.months = months;
         this.mainTbl = mainTbl;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
-        return new ItemViewHolder(itemView,viewType);
+        return new ItemViewHolder(itemView, viewType);
     }
 
     @SuppressLint("SetTextI18n")
@@ -78,7 +78,7 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
         @BindView(R.id.timeline)
         TimelineView timelineView;
 
-        ItemViewHolder(View view,int viewType) {
+        ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
 
@@ -111,15 +111,11 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
         Map<String, List<VirathaDay>> viratham;
         String month;
         private Context context;
-        private Realm realm;
 
         SubItemAdapter(Context context, String month, Map<String, List<VirathaDay>> viratham) {
             this.context = context;
             this.viratham = viratham;
             this.month = month;
-
-            Realm.init(context);
-            realm = Realm.getDefaultInstance();
         }
 
         @Override
@@ -156,11 +152,24 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
             @SuppressLint("SetTextI18n")
             void bind_item(VirathaDay virathaDay) {
 
-                MainTable mainTable = realm.where(MainTable.class)
-                        .equalTo(Constants.date, virathaDay.getDate())
-                        .findFirst();
+//                MainTable mainTable = realm.where(MainTable.class)
+//                        .equalTo(Constants.date, virathaDay.getDate())
+//                        .findFirst();
 
-                date.setText(DateTimeHelper.getDateFromMillis(virathaDay.getDate()) + "  " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + "  " + mainTable.getTam_day() + "  "
+                Date dt = null;
+                String dateStr = null;
+                try {
+                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
+                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
+                MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
+                        new String[]{String.valueOf(dateStr)}, null);
+
+                date.setText(dateStr + "  " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + "  " + mainTable.getTam_day() + "  "
                         + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + "  " + virathaDay.getTime());
 
                 conatinerLay.setOnClickListener(new View.OnClickListener() {

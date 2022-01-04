@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.Vasthu;
@@ -24,22 +25,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+import com.it.core.db.TableHelper;
 
 public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHolder> {
 
     List<Vasthu> vasthus;
     private Context context;
-    private Realm realm;
 
-    public VasthuAdapter(Context context, RealmResults<Vasthu> vasthus) {
+    public VasthuAdapter(Context context, List<Vasthu> vasthus) {
 
         this.context = context;
         this.vasthus = vasthus;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -83,9 +79,13 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
         @SuppressLint("SetTextI18n")
         void bind_kalangal(int position, Vasthu vasthu) {
 
-            MainTable mainTable = realm.where(MainTable.class)
-                    .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(vasthu.getDay()))
-                    .findFirst();
+            TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
+            MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
+                    new String[]{String.valueOf(vasthu.getDay())}, null);
+
+//            MainTable mainTable = realm.where(MainTable.class)
+//                    .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(vasthu.getDay()))
+//                    .findFirst();
 
             date.setText(mainTable.getDay() + " " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + "," + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + " - " +
                     mainTable.getTam_day() + " " + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText());

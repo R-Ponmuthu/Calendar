@@ -22,14 +22,12 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemViewHolder> {
 
     List<String> months;
     Map<String, List<?>> mainTbl;
     private Context context;
-    private Realm realm;
     private String queryFlag;
 
     public FestivalAdapter(Context context, String queryFlag, List<String> months, Map<String, List<?>> mainTbl) {
@@ -37,9 +35,6 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
         this.months = months;
         this.mainTbl = mainTbl;
         this.queryFlag = queryFlag;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override

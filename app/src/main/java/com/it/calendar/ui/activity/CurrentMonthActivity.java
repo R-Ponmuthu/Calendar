@@ -10,11 +10,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.MuhurthamTable;
 import com.it.calendar.beans.VirathaDay;
-import com.it.calendar.realm.RealmController;
 import com.it.calendar.ui.adapter.CurrentMonthAdapter;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
@@ -27,9 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;
+import com.it.core.db.TableHelper;
 
 public class CurrentMonthActivity extends AppCompatActivity {
 
@@ -39,7 +37,6 @@ public class CurrentMonthActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     private String title = "";
-    private Realm realm;
 
     private HashMap<String, List<?>> listHashMap = new HashMap<>();
     private Calendar calendar = Calendar.getInstance();
@@ -60,8 +57,6 @@ public class CurrentMonthActivity extends AppCompatActivity {
         }
         getSupportActionBar().setTitle(title);
 
-        realm = RealmController.with(this).getRealm();
-
 //        DateFormat dateFormat = new SimpleDateFormat("yyyy");
 //        Date date = new Date();
 
@@ -74,37 +69,61 @@ public class CurrentMonthActivity extends AppCompatActivity {
 //                i = i + 1;
 //        }
 
-        RealmResults<MainTable> mainTables = realm.where(MainTable.class)
-                .equalTo("month", EnumMonth.getMonth(strs[0]).getDay())
-                .and()
-                .equalTo("year", Integer.parseInt(strs[1].trim()))
-                .sort("date", Sort.ASCENDING)
-                .findAll();
+//        TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(this, MainTable.class);
+//        List<MainTable> mainTables = mainTableTableHelper.getList("month= and year=", new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim()))}, "date ASC", null);
+
+//        RealmResults<MainTable> mainTables = realm.where(MainTable.class)
+//                .equalTo("month", EnumMonth.getMonth(strs[0]).getDay())
+//                .and()
+//                .equalTo("year", Integer.parseInt(strs[1].trim()))
+//                .sort("date", Sort.ASCENDING)
+//                .findAll();
 
 //        int month = Integer.parseInt(DateTimeHelper.getDateFromMillis(mainTables.get(0).getDate()).split("-")[1]);
 
-        Long fromDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar)));
-        Long toDate = DateTimeHelper.getMillisFromDate(DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar)));
+        String fromDate = DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar));
+        String toDate = DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar));
 
-        RealmResults<MuhurthamTable> moogurthamTables = realm.where(MuhurthamTable.class)
-                .greaterThanOrEqualTo(Constants.date, fromDate)
-                .and()
-                .lessThanOrEqualTo(Constants.date, toDate)
-                .findAll();
+        TableHelper<MuhurthamTable> muhurthamTableTableHelper = CalendarApp.getTable(this, MuhurthamTable.class);
+        List<MuhurthamTable> moogurthamTables = muhurthamTableTableHelper.getList("date>=? and date<=?", new String[]{String.valueOf(fromDate), String.valueOf(toDate)}, null, null);
 
-        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                .greaterThanOrEqualTo(Constants.date, fromDate)
-                .and()
-                .lessThanOrEqualTo(Constants.date, toDate)
-                .and()
-                .notEqualTo("viratham", "சுபமுகூர்த்தம்")
-                .sort(Constants.date, Sort.ASCENDING)
-                .findAll();
+//        RealmResults<MuhurthamTable> moogurthamTables = realm.where(MuhurthamTable.class)
+//                .greaterThanOrEqualTo(Constants.date, fromDate)
+//                .and()
+//                .lessThanOrEqualTo(Constants.date, toDate)
+//                .findAll();
 
-        List<MainTable> govtLeave = mainTables.where().equalTo("leave_flag", 1).findAll();
-        List<MainTable> hinduFes = mainTables.where().notEqualTo("hindu_fes", "-").findAll();
-        List<MainTable> chirsFes = mainTables.where().notEqualTo("chirs_fes", "-").findAll();
-        List<MainTable> muslimFes = mainTables.where().notEqualTo("muslim_fes", "-").findAll();
+//        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                .greaterThanOrEqualTo(Constants.date, fromDate)
+//                .and()
+//                .lessThanOrEqualTo(Constants.date, toDate)
+//                .and()
+//                .notEqualTo("viratham", "சுபமுகூர்த்தம்")
+//                .sort(Constants.date, Sort.ASCENDING)
+//                .findAll();
+
+        TableHelper<VirathaDay> virathaDayTableHelper = CalendarApp.getTable(this, VirathaDay.class);
+        List<VirathaDay> virathaDays = virathaDayTableHelper.getList("date>=? and date<=? and viratham!=?",
+                new String[]{String.valueOf(fromDate), String.valueOf(toDate), "சுபமுகூர்த்தம்"}, "date ASC", null);
+
+        TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(this, MainTable.class);
+        List<MainTable> govtLeave = mainTableTableHelper.getList("month=? and year=? and leave_flag=?",
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+
+        List<MainTable> hinduFes = mainTableTableHelper.getList("month=? and year=? and hindu_fes!=?",
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+
+        List<MainTable> chirsFes = mainTableTableHelper.getList("month=? and year=? and chirs_fes!=?",
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+
+        List<MainTable> muslimFes = mainTableTableHelper.getList("month=? and year=? and muslim_fes!=?",
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+
+
+//        List<MainTable> govtLeave = mainTables.where().equalTo("leave_flag", 1).findAll();
+//        List<MainTable> hinduFes = mainTables.where().notEqualTo("hindu_fes", "-").findAll();
+//        List<MainTable> chirsFes = mainTables.where().notEqualTo("chirs_fes", "-").findAll();
+//        List<MainTable> muslimFes = mainTables.where().notEqualTo("muslim_fes", "-").findAll();
 
         listHashMap.put("அரசினர் விடுமுறை நாட்கள்", govtLeave);
         listHashMap.put("சுபமுகூர்த்த தினங்கள்", moogurthamTables);

@@ -1,52 +1,129 @@
 package com.it.calendar.beans;
 
-import io.realm.RealmObject;
+import com.it.calendar.CalendarDB;
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
 
-public class MainTable extends RealmObject {
 
-    private Long date;
+@Table(dataSet = CalendarDB.class, name = "MainTable", version = 1, autoIncrementID = true)
+public class MainTable {
+
+    @FieldName("date")
+    private String date;
+
+    @FieldName("day")
     private Long day;
+
+    @FieldName("month")
     private String month;
+
+    @FieldName("year")
     private Long year;
+
+    @FieldName("weekday")
     private String weekday;
+
+    @FieldName("tam_month")
     private String tam_month;
+
+    @FieldName("tam_day")
     private Long tam_day;
+
+    @FieldName("tam_year")
     private String tam_year;
+
+    @FieldName("nallanerem_m")
     private String nallanerem_m;
+
+    @FieldName("nallanerem_e")
     private String nallanerem_e;
+
+    @FieldName("day_type")
     private String day_type;
+
+    @FieldName("quote")
     private String quote;
+
+    @FieldName("thiti")
     private String thiti;
+
+    @FieldName("star")
     private String star;
+
+    @FieldName("yokam")
     private String yokam;
+
+    @FieldName("chanthran")
     private String chanthran;
+
+    @FieldName("importantday")
     private String importantday;
+
+    @FieldName("hindu_fes")
     private String hindu_fes;
+
+    @FieldName("muslim_fes")
     private String muslim_fes;
+
+    @FieldName("chirs_fes")
     private String chirs_fes;
+
+    @FieldName("gov_holiday")
     private String gov_holiday;
+
+    @FieldName("leave_flag")
     private Long leave_flag;
+
+    @FieldName("mesam")
     private String mesam;
+
+    @FieldName("risibam")
     private String risibam;
+
+    @FieldName("mithunam")
     private String mithunam;
+
+    @FieldName("kadakam")
     private String kadakam;
+
+    @FieldName("simmam")
     private String simmam;
+
+    @FieldName("kanni")
     private String kanni;
+
+    @FieldName("thulam")
     private String thulam;
+
+    @FieldName("viruchakam")
     private String viruchakam;
+
+    @FieldName("dhanusu")
     private String dhanusu;
+
+    @FieldName("makaram")
     private String makaram;
+
+    @FieldName("kumbam")
     private String kumbam;
+
+    @FieldName("meenam")
     private String meenam;
+
+    @FieldName("laknam")
     private Long laknam;
+
+    @FieldName("laknam_time")
     private String laknam_time;
+
+    @FieldName("pirai")
     private Long pirai;
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
+//apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 30
@@ -7,8 +7,8 @@ android {
         applicationId "com.it.calendar"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 21
-        versionName "4.1"
+        versionCode 22
+        versionName "5.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -54,15 +54,6 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-
-    /*splits {
-        abi {
-            enable true
-            reset()
-            include 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64', 'mips', 'mips64'
-            universalApk true
-        }
-    }*/
 }
 
 dependencies {
@@ -88,6 +79,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:18.0.0'
     implementation 'com.google.android.play:core:1.6.1'
 
+    implementation project(":core")
     implementation 'com.github.vipulasri:timelineview:1.1.5'
 }
 apply plugin: 'com.google.gms.google-services'

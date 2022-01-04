@@ -1,25 +1,35 @@
 package com.it.calendar.notification.beans;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class Notification extends RealmObject {
+import com.it.calendar.CalendarDB;
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
 
-    @PrimaryKey
+@Table(dataSet = CalendarDB.class, name = "Notification", version = 1, autoIncrementID = true)
+public class Notification {
+
+    @FieldName("id")
     private int id;
-    private Long date;
+    @FieldName("date")
+    private String date;
+    @FieldName("title")
     private String title;
+    @FieldName("message")
     private String message;
+    @FieldName("bigMessage")
     private String bigMessage;
+    @FieldName("imageUrl")
     private String imageUrl;
+    @FieldName("read")
     private String read;
+    @FieldName("notiType")
     private String notiType;
 
-    public Long getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

@@ -11,25 +11,28 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.Krakakalam;
+import com.it.calendar.beans.MainTable;
 import com.it.calendar.util.EnumKrakakalam;
+import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumNeram;
 import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+
+import com.it.core.db.TableHelper;
 
 public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.ItemViewHolder> {
 
     private List<Krakakalam> weekdays;
     private Context context;
-    private Realm realm;
     private List<Krakakalam> PKrakakalamList = new ArrayList<>();
     private List<Krakakalam> IKrakakalamList = new ArrayList<>();
     private int curYear;
@@ -47,13 +50,10 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
             "4.00 - 5.00",
             "5.00 - 6.00"};
 
-    public SubaHoraiAdapter(Context context, int curYear, RealmResults<Krakakalam> weekdays) {
+    public SubaHoraiAdapter(Context context, int curYear, List<Krakakalam> weekdays) {
         this.context = context;
         this.weekdays = weekdays;
         this.curYear = curYear;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -101,25 +101,40 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
 
             for (String time : times) {
 
-                Krakakalam Pkrakakalam = realm.where(Krakakalam.class)
-                        .in("time", new String[]{time})
-                        .and()
-                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
-                        .and()
-                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
-                        .and()
-                        .equalTo("year", curYear)
-                        .findFirst();
+                TableHelper<Krakakalam> krakakalamTableHelper = CalendarApp.getTable(context, Krakakalam.class);
 
-                Krakakalam Ikrakakalam = realm.where(Krakakalam.class)
-                        .in("time", new String[]{time})
-                        .and()
-                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
-                        .and()
-                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
-                        .and()
-                        .equalTo("year", curYear)
-                        .findFirst();
+                String[] args = new String[]{String.valueOf(time)};
+
+                String Pselection = "time = '" + time + "'" + " and neram=" + EnumNeram.getNeram("பகல்").getNeram() + " and weekday=" +
+                        EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay() + " and year=" + curYear;
+
+                String Iselection = "time = '" + time + "'" + " and neram=" + EnumNeram.getNeram("இரவு").getNeram() + " and weekday=" +
+                        EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay() + " and year=" + curYear;
+
+                Krakakalam Pkrakakalam = krakakalamTableHelper.getItem(krakakalamTableHelper.getReadableDatabase(), Pselection, null, null);
+
+                Krakakalam Ikrakakalam = krakakalamTableHelper.getItem(krakakalamTableHelper.getReadableDatabase(), Iselection, null, null);
+
+
+//                Krakakalam Pkrakakalam = realm.where(Krakakalam.class)
+//                        .in("time", new String[]{time})
+//                        .and()
+//                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
+//                        .and()
+//                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
+//                        .and()
+//                        .equalTo("year", curYear)
+//                        .findFirst();
+
+//                Krakakalam Ikrakakalam = realm.where(Krakakalam.class)
+//                        .in("time", new String[]{time})
+//                        .and()
+//                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
+//                        .and()
+//                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
+//                        .and()
+//                        .equalTo("year", curYear)
+//                        .findFirst();
 
                 PKrakakalamList.add(Pkrakakalam);
                 IKrakakalamList.add(Ikrakakalam);

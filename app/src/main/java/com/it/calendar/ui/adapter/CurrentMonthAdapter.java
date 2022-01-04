@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.MuhurthamTable;
@@ -26,22 +27,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
+import com.it.core.db.TableHelper;
 
 public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapter.ItemViewHolder> {
 
     private HashMap<String, List<?>> listHashMap;
     private Context context;
 
-    private Realm realm;
-
     public CurrentMonthAdapter(Context context, HashMap<String, List<?>> listHashMap) {
 
         this.context = context;
         this.listHashMap = listHashMap;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -206,14 +202,18 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
                 itemContainer.setBackgroundColor(Color.WHITE);
             }
 
-            MainTable mainTable = realm.where(MainTable.class)
-                    .equalTo(Constants.date, moogurthamTable.getDate())
-                    .findFirst();
+//            MainTable mainTable = realm.where(MainTable.class)
+//                    .equalTo(Constants.date, moogurthamTable.getDate())
+//                    .findFirst();
+
+            TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
+            MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
+                    new String[]{String.valueOf(moogurthamTable.getDate())}, null);
 
             if (moogurthamTable.getValrpirai() == 1)
-                date.setText(DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("-")[0].trim() + "*");
+                date.setText(moogurthamTable.getDate().split("-")[0].trim() + "*");
             else
-                date.setText("" + DateTimeHelper.getDateFromMillis(moogurthamTable.getDate()).split("-")[0].trim());
+                date.setText("" + moogurthamTable.getDate().split("-")[0].trim());
             if (mainTable != null)
                 day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             function.setVisibility(View.GONE);
@@ -228,11 +228,15 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
                 itemContainer.setBackgroundColor(Color.WHITE);
             }
 
-            MainTable mainTable = realm.where(MainTable.class)
-                    .equalTo(Constants.date, virathaDay.getDate())
-                    .findFirst();
+//            MainTable mainTable = realm.where(MainTable.class)
+//                    .equalTo(Constants.date, virathaDay.getDate())
+//                    .findFirst();
 
-            date.setText("" + DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim());
+            TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
+            MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
+                    new String[]{String.valueOf(virathaDay.getDate())}, null);
+
+            date.setText("" + virathaDay.getDate().split("-")[0].trim());
             if (mainTable != null)
                 day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
             if (!virathaDay.getTime().equals("-"))

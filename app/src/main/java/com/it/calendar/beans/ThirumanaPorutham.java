@@ -1,11 +1,21 @@
 package com.it.calendar.beans;
 
-import io.realm.RealmObject;
+import com.it.calendar.CalendarDB;
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
 
-public class ThirumanaPorutham extends RealmObject {
+
+@Table(dataSet = CalendarDB.class, name = "ThirumanaPorutham", version = 1, autoIncrementID = true)
+
+public class ThirumanaPorutham  {
+
+    @FieldName("nid")
     private Double nid;
+    @FieldName("title")
     private Long title;
+    @FieldName("mark")
     private Long mark;
+    @FieldName("value")
     private Long value;
 
     public Double getNid() {

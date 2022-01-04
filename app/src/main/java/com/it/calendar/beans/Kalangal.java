@@ -1,14 +1,33 @@
 package com.it.calendar.beans;
 
-import io.realm.RealmObject;
+import com.it.calendar.CalendarDB;
 
-public class Kalangal extends RealmObject {
+import com.it.core.db.annotations.FieldName;
+import com.it.core.db.annotations.Table;
+
+@Table(dataSet = CalendarDB.class, name = "Kalangal", version = 1, autoIncrementID = true)
+
+public class Kalangal  {
+
+    @FieldName("year")
     private Long year;
+
+    @FieldName("weekday")
     private String weekday;
+
+    @FieldName("ragu")
     private String ragu;
+
+    @FieldName("kuligai")
     private String kuligai;
+
+    @FieldName("emakandam")
     private String emakandam;
+
+    @FieldName("soolam")
     private String soolam;
+
+    @FieldName("parikaram")
     private String parikaram;
 
     public Long getYear() {

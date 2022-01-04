@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
-import com.it.calendar.realm.RealmController;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumVirathaDay;
@@ -26,21 +25,17 @@ import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 
 public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemViewHolder> {
 
     List<String> tamMonthList;
-    private Context context;
-    private Realm realm;
-    private HashMap<String, HashMap<String, List<VirathaDay>>> hashMap;
+    private final Context context;
+    private final HashMap<String, HashMap<String, List<VirathaDay>>> hashMap;
 
     public VirathamAdapter(Context context, List<String> tamMonthList, HashMap<String, HashMap<String, List<VirathaDay>>> hashMap) {
         this.context = context;
         this.hashMap = hashMap;
         this.tamMonthList = tamMonthList;
-
-        realm = RealmController.with(context).getRealm();
     }
 
     @Override
@@ -95,17 +90,14 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
     public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.ItemViewHolder> {
 
-        private List<String> keys;
-        private HashMap<String, List<VirathaDay>> values;
-        private Context context;
+        private final List<String> keys;
+        private final HashMap<String, List<VirathaDay>> values;
+        private final Context context;
 
         SubItemAdapter(Context context, List<String> keys, HashMap<String, List<VirathaDay>> values) {
             this.context = context;
             this.values = values;
             this.keys = keys;
-
-            Realm.init(context);
-            realm = Realm.getDefaultInstance();
         }
 
         @Override
@@ -151,9 +143,9 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
                     StringBuilder stringBuilder = new StringBuilder();
                     for (VirathaDay virathaDay : virathaDays) {
-                        stringBuilder.append(DateTimeHelper.getDateFromMillis(virathaDay.getDate()).split("-")[0].trim()).append(",");
+                        stringBuilder.append(virathaDay.getDate().split("-")[2].trim()).append(",");
                     }
-                    txtDay.setText(stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1));
+                    txtDay.setText(stringBuilder.substring(0, stringBuilder.toString().length() - 1));
                 }
             }
         }

@@ -21,22 +21,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class RaaguAdapter extends RecyclerView.Adapter<RaaguAdapter.ItemViewHolder> {
 
     List<Kalangal> kalangals;
     private Context context;
-    private Realm realm;
 
-    public RaaguAdapter(Context context, RealmResults<Kalangal> kalangals) {
+    public RaaguAdapter(Context context, List<Kalangal> kalangals) {
 
         this.context = context;
         this.kalangals = kalangals;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override

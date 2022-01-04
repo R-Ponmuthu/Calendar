@@ -32,6 +32,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.calendarview.CalendarView;
 import com.it.calendar.inappupdater.InAppUpdateManager;
@@ -42,7 +43,6 @@ import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
-import com.it.calendar.realm.RealmController;
 import com.it.calendar.slidingpanel.SlidingUpPanelLayout;
 import com.it.calendar.util.EnumKalangal;
 import com.it.calendar.util.EnumMonth;
@@ -53,11 +53,10 @@ import com.it.calendar.util.EnumVirathaDay;
 import com.it.calendar.util.EnumWeekDay;
 import com.it.calendar.utils.AdManager;
 import com.it.calendar.util.Constants;
-import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.utils.SharedPreference;
 import com.it.calendar.util.Utils;
 
-import java.security.SecureRandom;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -66,8 +65,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+
+import com.it.core.db.TableHelper;
 
 public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InAppUpdateManager.InAppUpdateHandler {
 
@@ -168,7 +167,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     AppCompatImageView follow;
 
     private SharedPreference sharedPreference = new SharedPreference();
-    private Realm realm;
+    //    private Realm realm;
     private Utils utils;
     private AdManager adManager;
     private String[] mShortMonths;
@@ -176,6 +175,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
     private static final int REQ_CODE_VERSION_UPDATE = 1001;
     private InAppUpdateManager inAppUpdateManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -227,8 +227,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             getSupportActionBar().setTitle(mShortMonths[month]);
             getSupportActionBar().setSubtitle(Integer.toString(year));
         }
-
-        realm = RealmController.with(this).getRealm();
 
         setCalendarData(formatDate(DATE_TEMPLATE, new Date(System.currentTimeMillis())));
 
@@ -284,23 +282,34 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         }
     }
 
-    private byte[] createRealmKey() {
-        byte[] key = new byte[64];
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.nextBytes(key);
-        return key;
+    public static String singleQuote(String str) {
+        return (str != null ? "'" + str + "'" : null);
     }
 
     @SuppressLint("SetTextI18n")
-    private void setCalendarData(String date) {
+    private void setCalendarData(String dt) {
 
-        realm = RealmController.with(this).getRealm();
+//        Long dt = DateTimeHelper.getMillisFromDate(date);
 
-        Long dt = DateTimeHelper.getMillisFromDate(date);
+        TableHelper<MainTable> mainTh = CalendarApp.getTable(this, MainTable.class);
+        MainTable mainTable = mainTh.getItem(mainTh.getReadableDatabase(), "date = ?", new String[]{dt}, null);
+//        MainTable mainTable = null;
 
-        MainTable mainTable = realm.where(MainTable.class)
-                .equalTo(Constants.date, dt)
-                .findFirst();
+//        TableHelper<VirathaDay> virathamTH = CalendarApp.getTable(this, VirathaDay.class);
+//        List<VirathaDay> virathaDays1 = virathamTH.rawQuery(virathamTH.getReadableDatabase(), "select date from VirathaDay", null);
+//        for (VirathaDay virathaDay : virathaDays1) {
+//
+//            SimpleDateFormat input = new SimpleDateFormat("dd-MM-yyyy");
+//            SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
+//            try {
+//                Date oneWayTripDate = input.parse(virathaDay.getDate());
+//
+//                List<VirathaDay> virathaDays2 = virathamTH.rawQuery(virathamTH.getReadableDatabase(), "update VirathaDay set date ='" + output.format(oneWayTripDate) + "' where date='" + virathaDay.getDate() + "'", null);
+//
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
         if (mainTable != null) {
 
@@ -317,19 +326,28 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             tamilMonth.setText(mainTable.getTam_month());
             tamilYear.setText(mainTable.getTam_year() + " ஆண்டு");
 
-            Kalangal kalangal = realm.where(Kalangal.class)
-                    .equalTo("year", mainTable.getYear())
-                    .and()
-                    .equalTo("weekday", EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay())
-                    .findFirst();
+            TableHelper<Kalangal> kalangalTable = CalendarApp.getTable(this, Kalangal.class);
+            Kalangal kalangal = kalangalTable.getItem(kalangalTable.getReadableDatabase(), "year=? and weekday=?", new String[]{String.valueOf(mainTable.getYear()), EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay()}, null);
 
-            GowriNeram gowriNeram = realm.where(GowriNeram.class)
-                    .equalTo(Constants.date, dt)
-                    .findFirst();
+//            Kalangal kalangal = realm.where(Kalangal.class)
+//                    .equalTo("year", mainTable.getYear())
+//                    .and()
+//                    .equalTo("weekday", EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay())
+//                    .findFirst();
 
-            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-                    .equalTo(Constants.date, dt)
-                    .findAll();
+            TableHelper<GowriNeram> gowriNeramTable = CalendarApp.getTable(this, GowriNeram.class);
+            GowriNeram gowriNeram = gowriNeramTable.getItem(gowriNeramTable.getReadableDatabase(), "date=?", new String[]{String.valueOf(dt)}, null);
+
+//            GowriNeram gowriNeram = realm.where(GowriNeram.class)
+//                    .equalTo(Constants.date, dt)
+//                    .findFirst();
+
+            TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(this, VirathaDay.class);
+            List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{String.valueOf(dt)}, null, null);
+
+//            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
+//                    .equalTo(Constants.date, dt)
+//                    .findAll();
 
             nallaNeramK.setText(mainTable.getNallanerem_m());
             nallaNeramM.setText(mainTable.getNallanerem_e());

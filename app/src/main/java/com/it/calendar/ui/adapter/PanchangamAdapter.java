@@ -11,24 +11,26 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
+import com.it.calendar.beans.Krakakalam;
 import com.it.calendar.beans.Panchangam;
 import com.it.calendar.util.EnumNeram;
 import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
+
+import com.it.core.db.TableHelper;
 
 public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.ItemViewHolder> {
 
     private List<Panchangam> weekdays;
     private Context context;
-    private Realm realm;
     private List<Panchangam> PpanchangamList = new ArrayList<>();
     private List<Panchangam> IpanchangamList = new ArrayList<>();
     private int curYear;
@@ -42,13 +44,10 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
             "3 - 4.30",
             "4.30 - 6"};
 
-    public PanchangamAdapter(Context context, int curYear, RealmResults<Panchangam> weekdays) {
+    public PanchangamAdapter(Context context, int curYear, List<Panchangam> weekdays) {
         this.context = context;
         this.weekdays = weekdays;
         this.curYear = curYear;
-
-        Realm.init(context);
-        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -96,25 +95,37 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
 
             for (String time : times) {
 
-                Panchangam Ppanchangam = realm.where(Panchangam.class)
-                        .in("time", new String[]{time})
-                        .and()
-                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
-                        .and()
-                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
-                        .and()
-                        .equalTo("year", curYear)
-                        .findFirst();
+                TableHelper<Panchangam> panchangamTableHelper = CalendarApp.getTable(context, Panchangam.class);
 
-                Panchangam Ipanchangam = realm.where(Panchangam.class)
-                        .in("time", new String[]{time})
-                        .and()
-                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
-                        .and()
-                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
-                        .and()
-                        .equalTo("year", curYear)
-                        .findFirst();
+                String Pselection = "time = '" + time + "'" + " and neram= " + EnumNeram.getNeram("பகல்").getNeram() + " and weekday=" +
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=" + curYear;
+
+                String Iselection = "time ='" + time + "'" + " and neram= " + EnumNeram.getNeram("இரவு").getNeram() + " and weekday=" +
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=" + curYear;
+
+                Panchangam Ppanchangam = panchangamTableHelper.getItem(panchangamTableHelper.getReadableDatabase(), Pselection, null, null);
+
+                Panchangam Ipanchangam = panchangamTableHelper.getItem(panchangamTableHelper.getReadableDatabase(), Iselection, null, null);
+
+//                Panchangam Ppanchangam = realm.where(Panchangam.class)
+//                        .in("time", new String[]{time})
+//                        .and()
+//                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
+//                        .and()
+//                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
+//                        .and()
+//                        .equalTo("year", curYear)
+//                        .findFirst();
+
+//                Panchangam Ipanchangam = realm.where(Panchangam.class)
+//                        .in("time", new String[]{time})
+//                        .and()
+//                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
+//                        .and()
+//                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
+//                        .and()
+//                        .equalTo("year", curYear)
+//                        .findFirst();
 
                 PpanchangamList.add(Ppanchangam);
                 IpanchangamList.add(Ipanchangam);
