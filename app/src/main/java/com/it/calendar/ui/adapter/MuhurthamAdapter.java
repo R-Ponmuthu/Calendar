@@ -153,24 +153,20 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
             @SuppressLint("SetTextI18n")
             void bind_item(VirathaDay virathaDay) {
 
-                date.setText(virathaDay.getDate().split("-")[2]);
+                date.setText(virathaDay.getDate().split("-")[0]);
 
-                Date dt = null;
-                String dateStr = null;
-                try {
-                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
-                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+//                Date dt;
+                String dateStr = virathaDay.getDate();
+//                try {
+//                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
+//                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
 
                 TableHelper<MuhurthamTable> muhurthamTableHelper = CalendarApp.getTable(activity, MuhurthamTable.class);
                 MuhurthamTable moogurthamTable = muhurthamTableHelper.getItem(muhurthamTableHelper.getReadableDatabase(), "date=?",
                         new String[]{dateStr}, null);
-
-//                MuhurthamTable moogurthamTable = realm.where(MuhurthamTable.class)
-//                        .equalTo(Constants.date, virathaDay.getDate())
-//                        .findFirst();
 
                 if (moogurthamTable != null)
                     if (moogurthamTable.getValrpirai() == 1)
@@ -179,10 +175,6 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
                 TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(activity, MainTable.class);
                 MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date = ?",
                         new String[]{dateStr}, null);
-
-//                MainTable mainTable = realm.where(MainTable.class)
-//                        .equalTo(Constants.date, virathaDay.getDate())
-//                        .findFirst();
 
                 day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText().substring(0, 2));
 

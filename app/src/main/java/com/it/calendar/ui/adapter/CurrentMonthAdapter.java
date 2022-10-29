@@ -202,10 +202,6 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
                 itemContainer.setBackgroundColor(Color.WHITE);
             }
 
-//            MainTable mainTable = realm.where(MainTable.class)
-//                    .equalTo(Constants.date, moogurthamTable.getDate())
-//                    .findFirst();
-
             TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
             MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
                     new String[]{String.valueOf(moogurthamTable.getDate())}, null);
@@ -227,10 +223,6 @@ public class CurrentMonthAdapter extends RecyclerView.Adapter<CurrentMonthAdapte
             } else {
                 itemContainer.setBackgroundColor(Color.WHITE);
             }
-
-//            MainTable mainTable = realm.where(MainTable.class)
-//                    .equalTo(Constants.date, virathaDay.getDate())
-//                    .findFirst();
 
             TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
             MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",

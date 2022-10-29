@@ -1,144 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.it.calendar.slidingpanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/slidingLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoDragView="@+id/dragView"
-    sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="60dp"
-    sothree:umanoParallaxOffset="100dp"
-    sothree:umanoScrollableView="@+id/list"
-    sothree:umanoShadowHeight="4dp"
     tools:showIn="@layout/app_bar_main">
 
-    <RelativeLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/actionbar_size"
+        android:layout_alignParentTop="true"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:elevation="0dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/actionbar_size"
-            android:layout_alignParentTop="true"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ToolbarColor"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:title="@string/app_name" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/ToolbarColor"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/app_name" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/home_banner_ad">
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/app_bar"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/home_banner_ad">
+    </com.google.android.gms.ads.AdView>
 
-        </com.google.android.gms.ads.AdView>
-
-        <com.it.calendar.calendarview.CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/adView"
-            android:maxDate="31/12/2022"
-            android:minDate="1/1/2020"
-            app:current_day_circle_enable="false"
-            app:current_day_text_color="@color/blue"
-            app:day_text_color="@color/black"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:month_header_show="false"
-            app:week_header_movable="false" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/dragView"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
-        android:clickable="true"
-        android:focusable="false"
-        android:orientation="vertical">
+        android:layout_below="@+id/adView"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".ui.MainActivity"
+        tools:showIn="@layout/app_bar_main">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            ads:cardBackgroundColor="@color/colorAccent"
-            ads:cardElevation="5dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/btmTxtDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/btmTxtTamDate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-                        android:visibility="gone"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
-                        android:paddingLeft="10dp"
-                        android:textColor="@color/white"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/follow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:srcCompat="@drawable/ic_arrow_up" />
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.core.widget.NestedScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:context=".ui.MainActivity"
-            tools:showIn="@layout/app_bar_main">
+            android:orientation="vertical">
 
-            <include layout="@layout/calendar_layout" />
+            <com.it.calendar.calendarview.CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxDate="31/12/2023"
+                android:minDate="1/1/2021"
+                app:current_day_circle_enable="false"
+                app:current_day_text_color="@color/blue"
+                app:day_text_color="@color/black"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:month_header_show="false"
+                app:week_header_movable="false" />
 
-        </androidx.core.widget.NestedScrollView>
+            <LinearLayout
+                android:id="@+id/dragView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/calendarView"
+                android:background="@color/colorAccent"
+                android:clickable="true"
+                android:focusable="false"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    ads:cardBackgroundColor="@color/colorAccent"
+                    ads:cardElevation="5dp">
 
-</com.it.calendar.slidingpanel.SlidingUpPanelLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/btmTxtDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:textColor="@color/white"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/btmTxtTamDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical"
+                                android:paddingLeft="10dp"
+                                android:textColor="@color/white"
+                                android:textSize="14sp"
+                                android:visibility="gone" />
+
+                        </LinearLayout>
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/follow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_arrow_up" />
+
+                    </RelativeLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <include layout="@layout/calendar_layout" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

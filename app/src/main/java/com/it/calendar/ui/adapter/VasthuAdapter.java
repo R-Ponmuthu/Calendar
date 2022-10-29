@@ -83,10 +83,6 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
             MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
                     new String[]{String.valueOf(vasthu.getDay())}, null);
 
-//            MainTable mainTable = realm.where(MainTable.class)
-//                    .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(vasthu.getDay()))
-//                    .findFirst();
-
             date.setText(mainTable.getDay() + " " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + "," + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + " - " +
                     mainTable.getTam_day() + " " + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText());
             time.setText("காலை " + vasthu.getTime());

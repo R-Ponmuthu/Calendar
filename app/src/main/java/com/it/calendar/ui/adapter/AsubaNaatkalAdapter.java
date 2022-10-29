@@ -152,18 +152,14 @@ public class AsubaNaatkalAdapter extends RecyclerView.Adapter<AsubaNaatkalAdapte
             @SuppressLint("SetTextI18n")
             void bind_item(VirathaDay virathaDay) {
 
-//                MainTable mainTable = realm.where(MainTable.class)
-//                        .equalTo(Constants.date, virathaDay.getDate())
-//                        .findFirst();
-
-                Date dt = null;
-                String dateStr = null;
-                try {
-                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
-                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+//                Date dt = null;
+                String dateStr = virathaDay.getDate();
+//                try {
+//                    dt = DateTimeHelper.simpleDateFormat1.parse(virathaDay.getDate());
+//                    dateStr = DateTimeHelper.simpleDateFormat.format(dt);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
 
                 TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(context, MainTable.class);
                 MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",

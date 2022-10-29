@@ -34,16 +34,6 @@ public class CalendarApp extends MultiDexApplication {
 
         MultiDex.install(this);
         MobileAds.initialize(this, getString(R.string.admob_app_id));
-
-//        Realm.init(this);
-//        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-//                .name("Calendar.realm")
-////                .deleteRealmIfMigrationNeeded()
-//                .modules(new CalendarModule())
-//                .build();
-//        Realm.setDefaultConfiguration(realmConfiguration);
-//
-//        RealmHelper.copyAssetFile(this, "Calendar.realm", realmConfiguration);
     }
 
 

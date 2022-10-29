@@ -43,7 +43,6 @@ import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.notification.DNotificationReceiver;
 import com.it.calendar.notification.SNotificationReceiver;
-import com.it.calendar.slidingpanel.SlidingUpPanelLayout;
 import com.it.calendar.util.EnumKalangal;
 import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumNatchathiram;
@@ -161,13 +160,15 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     CalendarView mCalendarView;
     @BindView(R.id.btmTxtDate)
     TextView btmTxtDate;
-    @BindView(R.id.slidingLayout)
-    SlidingUpPanelLayout slidingLayout;
-    @BindView(R.id.follow)
-    AppCompatImageView follow;
+    @BindView(R.id.view1)
+    View view1;
+    @BindView(R.id.view2)
+    View view2;
+    @BindView(R.id.view3)
+    View view3;
 
-    private SharedPreference sharedPreference = new SharedPreference();
-    //    private Realm realm;
+
+    private final SharedPreference sharedPreference = new SharedPreference();
     private Utils utils;
     private AdManager adManager;
     private String[] mShortMonths;
@@ -212,13 +213,10 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        mCalendarView.setOnItemClickedListener(new CalendarView.OnItemClickListener() {
-            @Override
-            public void onItemClicked(List<CalendarView.CalendarObject> calendarObjects, Calendar previousDate, Calendar selectedDate) {
+        mCalendarView.setOnItemClickedListener((calendarObjects, previousDate, selectedDate) -> {
 
-                SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
-                setCalendarData(DATE_FORMAT.format(selectedDate.getTime()));
-            }
+            SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
+            setCalendarData(DATE_FORMAT.format(selectedDate.getTime()));
         });
 
         if (getSupportActionBar() != null) {
@@ -241,22 +239,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 .mode(com.it.calendar.inappupdater.Constants.UpdateMode.IMMEDIATE);
 
         inAppUpdateManager.checkForAppUpdate();
-
-        slidingLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-
-            }
-
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-
-                if (newState == SlidingUpPanelLayout.PanelState.EXPANDED || newState == SlidingUpPanelLayout.PanelState.DRAGGING)
-                    follow.setImageResource(R.drawable.ic_arrow_down);
-                else
-                    follow.setImageResource(R.drawable.ic_arrow_up);
-            }
-        });
     }
 
     @Override
@@ -293,23 +275,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         TableHelper<MainTable> mainTh = CalendarApp.getTable(this, MainTable.class);
         MainTable mainTable = mainTh.getItem(mainTh.getReadableDatabase(), "date = ?", new String[]{dt}, null);
-//        MainTable mainTable = null;
-
-//        TableHelper<VirathaDay> virathamTH = CalendarApp.getTable(this, VirathaDay.class);
-//        List<VirathaDay> virathaDays1 = virathamTH.rawQuery(virathamTH.getReadableDatabase(), "select date from VirathaDay", null);
-//        for (VirathaDay virathaDay : virathaDays1) {
-//
-//            SimpleDateFormat input = new SimpleDateFormat("dd-MM-yyyy");
-//            SimpleDateFormat output = new SimpleDateFormat("yyyy-MM-dd");
-//            try {
-//                Date oneWayTripDate = input.parse(virathaDay.getDate());
-//
-//                List<VirathaDay> virathaDays2 = virathamTH.rawQuery(virathamTH.getReadableDatabase(), "update VirathaDay set date ='" + output.format(oneWayTripDate) + "' where date='" + virathaDay.getDate() + "'", null);
-//
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         if (mainTable != null) {
 
@@ -329,25 +294,12 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             TableHelper<Kalangal> kalangalTable = CalendarApp.getTable(this, Kalangal.class);
             Kalangal kalangal = kalangalTable.getItem(kalangalTable.getReadableDatabase(), "year=? and weekday=?", new String[]{String.valueOf(mainTable.getYear()), EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay()}, null);
 
-//            Kalangal kalangal = realm.where(Kalangal.class)
-//                    .equalTo("year", mainTable.getYear())
-//                    .and()
-//                    .equalTo("weekday", EnumWeekDay.getWeekDay(mainTable.getWeekday()).getDay())
-//                    .findFirst();
-
             TableHelper<GowriNeram> gowriNeramTable = CalendarApp.getTable(this, GowriNeram.class);
             GowriNeram gowriNeram = gowriNeramTable.getItem(gowriNeramTable.getReadableDatabase(), "date=?", new String[]{String.valueOf(dt)}, null);
 
-//            GowriNeram gowriNeram = realm.where(GowriNeram.class)
-//                    .equalTo(Constants.date, dt)
-//                    .findFirst();
 
             TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(this, VirathaDay.class);
             List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{String.valueOf(dt)}, null, null);
-
-//            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-//                    .equalTo(Constants.date, dt)
-//                    .findAll();
 
             nallaNeramK.setText(mainTable.getNallanerem_m());
             nallaNeramM.setText(mainTable.getNallanerem_e());
@@ -386,17 +338,28 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 for (VirathaDay virathaDay : virathaDays)
                     stringBuilder.append(EnumVirathaDay.getVirathaDay(virathaDay.getViratham()).getText()).append("\n");
 
-            if (stringBuilder.length() > 0)
-                festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
-            else
+            if (stringBuilder.length() > 0) {
+                festivals.setVisibility(View.VISIBLE);
+                view2.setVisibility(View.VISIBLE);
+                festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1));
+            } else {
                 festivals.setVisibility(View.GONE);
-
-            String[] impDaysArr = mainTable.getImportantday().split(",");
-            StringBuilder stringBuilder1 = new StringBuilder();
-            for (String impDay : impDaysArr) {
-                stringBuilder1.append(impDay + "\n");
+                view2.setVisibility(View.GONE);
             }
-            impDays.setText("" + stringBuilder1.toString());
+
+            if (mainTable.getImportantday() != null) {
+                String[] impDaysArr = mainTable.getImportantday().split(",");
+                StringBuilder stringBuilder1 = new StringBuilder();
+                for (String impDay : impDaysArr) {
+                    stringBuilder1.append(impDay + "\n");
+                }
+                impDays.setVisibility(View.VISIBLE);
+                view1.setVisibility(View.VISIBLE);
+                impDays.setText("" + stringBuilder1);
+            } else {
+                impDays.setVisibility(View.GONE);
+                view1.setVisibility(View.GONE);
+            }
 
             rasi1.setText(Constants.mesam + " - " + mainTable.getMesam());
             rasi2.setText(Constants.risabam + " - " + mainTable.getRisibam());

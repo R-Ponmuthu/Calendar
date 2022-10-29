@@ -117,10 +117,6 @@ public class PoruthamFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-//                ThirumanaPorutham porutham = realm.where(ThirumanaPorutham.class)
-//                        .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
-//                        .findFirst();
-
                 if (porutham != null) {
                     mark.setText("பொருத்தம்: " + porutham.getValue() + "/12");
                     array = (new String(porutham.getTitle().toString().toCharArray())).split("(?<=.)");
@@ -162,10 +158,6 @@ public class PoruthamFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-//                ThirumanaPorutham porutham = realm.where(ThirumanaPorutham.class)
-//                        .equalTo("nid", Double.parseDouble(femalePosition + "." + malePosition))
-//                        .findFirst();
 
                 if (porutham != null) {
                     mark.setText("பொருத்தம்: " + porutham.getValue() + "/12");

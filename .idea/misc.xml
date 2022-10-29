@@ -8,10 +8,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_current_month.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_privacy_policy.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/app_bar_main.xml" value="0.17798913043478262" />
         <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/calendar_activity.xml" value="0.17798913043478262" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/calendar_layout.xml" value="0.25" />
         <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/content_scrolling.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/dynamic_item_layout.xml" value="0.25" />
         <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/panchangam_sub_item.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/vasthu_sub_item.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/viratham_sub_item.xml" value="0.25" />
+        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
         <entry key="..\:/Users/rponm/Projects/Android/Calendar/core/src/main/res/layout/dashoard_item_header_layout.xml" value="0.1" />
       </map>
     </option>

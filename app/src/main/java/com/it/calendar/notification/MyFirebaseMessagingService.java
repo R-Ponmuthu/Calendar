@@ -36,20 +36,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         System.out.println("remoteMessage" + remoteMessage.getData());
         //Calling method to generate notification
 
-//        Realm.init(getApplicationContext());
-//        Realm realm = Realm.getDefaultInstance();
-
-//        Realm.init(getApplicationContext());
-//        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
-//                .name("notification.realm")
-//                .build();
-//
-//        Realm.setDefaultConfiguration(realmConfiguration);
-//        Realm realm = Realm.getDefaultInstance();
-
-
-//        int nextId = (num == null) ? 1 : num.intValue() + 1;
-
         final int min = 1;
         final int max = 100;
         final int nextId = new Random().nextInt((max - min) + 1) + min;

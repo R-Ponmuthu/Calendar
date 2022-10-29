@@ -61,9 +61,6 @@ public class SNotificationReceiver extends BroadcastReceiver {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.US);
         Calendar calendar = Calendar.getInstance();
 
-//        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-//                .equalTo(Constants.date, DateTimeHelper.getMillisFromDate(simpleDateFormat.format(calendar.getTime())))
-//                .findAll();
 
         TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(context, VirathaDay.class);
         List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{simpleDateFormat.format(calendar.getTime())}, null, null);

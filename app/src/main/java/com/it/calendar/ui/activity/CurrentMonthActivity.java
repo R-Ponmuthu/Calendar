@@ -27,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.it.core.db.TableHelper;
 
 public class CurrentMonthActivity extends AppCompatActivity {
@@ -62,62 +63,34 @@ public class CurrentMonthActivity extends AppCompatActivity {
 
         String[] strs = title.split("-");
 
-//        String[] mShortMonths = getResources().getStringArray(R.array.month_tamil);
-//        int i = 0;
-//        for (String string : mShortMonths) {
-//            if (!string.equals(strs[0]))
-//                i = i + 1;
-//        }
-
-//        TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(this, MainTable.class);
-//        List<MainTable> mainTables = mainTableTableHelper.getList("month= and year=", new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim()))}, "date ASC", null);
-
-//        RealmResults<MainTable> mainTables = realm.where(MainTable.class)
-//                .equalTo("month", EnumMonth.getMonth(strs[0]).getDay())
-//                .and()
-//                .equalTo("year", Integer.parseInt(strs[1].trim()))
-//                .sort("date", Sort.ASCENDING)
-//                .findAll();
-
-//        int month = Integer.parseInt(DateTimeHelper.getDateFromMillis(mainTables.get(0).getDate()).split("-")[1]);
-
         String fromDate = DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getCalendarViewFromDate(calendar));
         String toDate = DateTimeHelper.simpleDateFormat.format(DateTimeHelper.getToDate(calendar));
 
         TableHelper<MuhurthamTable> muhurthamTableTableHelper = CalendarApp.getTable(this, MuhurthamTable.class);
-        List<MuhurthamTable> moogurthamTables = muhurthamTableTableHelper.getList("date>=? and date<=?", new String[]{String.valueOf(fromDate), String.valueOf(toDate)}, null, null);
+//        List<MuhurthamTable> moogurthamTables = muhurthamTableTableHelper.getList("date>=? and date<=?", new String[]{fromDate, toDate}, null, null);
 
-//        RealmResults<MuhurthamTable> moogurthamTables = realm.where(MuhurthamTable.class)
-//                .greaterThanOrEqualTo(Constants.date, fromDate)
-//                .and()
-//                .lessThanOrEqualTo(Constants.date, toDate)
-//                .findAll();
-
-//        RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-//                .greaterThanOrEqualTo(Constants.date, fromDate)
-//                .and()
-//                .lessThanOrEqualTo(Constants.date, toDate)
-//                .and()
-//                .notEqualTo("viratham", "சுபமுகூர்த்தம்")
-//                .sort(Constants.date, Sort.ASCENDING)
-//                .findAll();
+        List<MuhurthamTable> moogurthamTables = muhurthamTableTableHelper.rawQuery(muhurthamTableTableHelper.getReadableDatabase(),
+                "select * from MuhurthamTable where date like '%" + fromDate.substring(3) + "%'", null);
 
         TableHelper<VirathaDay> virathaDayTableHelper = CalendarApp.getTable(this, VirathaDay.class);
-        List<VirathaDay> virathaDays = virathaDayTableHelper.getList("date>=? and date<=? and viratham!=?",
-                new String[]{String.valueOf(fromDate), String.valueOf(toDate), "சுபமுகூர்த்தம்"}, "date ASC", null);
+//        List<VirathaDay> virathaDays = virathaDayTableHelper.getList("date>=? and date<=? and viratham!=?",
+//                new String[]{fromDate, toDate, "சுபமுகூர்த்தம்"}, "date ASC", null);
+
+        List<VirathaDay> virathaDays = virathaDayTableHelper.rawQuery(virathaDayTableHelper.getReadableDatabase(),
+                "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham!=21", null);
 
         TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(this, MainTable.class);
         List<MainTable> govtLeave = mainTableTableHelper.getList("month=? and year=? and leave_flag=?",
                 new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
 
         List<MainTable> hinduFes = mainTableTableHelper.getList("month=? and year=? and hindu_fes!=?",
-                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), "-"}, "date ASC", null);
 
         List<MainTable> chirsFes = mainTableTableHelper.getList("month=? and year=? and chirs_fes!=?",
-                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), "-"}, "date ASC", null);
 
         List<MainTable> muslimFes = mainTableTableHelper.getList("month=? and year=? and muslim_fes!=?",
-                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), String.valueOf(1)}, "date ASC", null);
+                new String[]{String.valueOf(EnumMonth.getMonth(strs[0]).getDay()), String.valueOf(Integer.parseInt(strs[1].trim())), "-"}, "date ASC", null);
 
 
 //        List<MainTable> govtLeave = mainTables.where().equalTo("leave_flag", 1).findAll();

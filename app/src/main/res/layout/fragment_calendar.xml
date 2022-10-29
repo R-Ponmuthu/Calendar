@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:padding="10dp"
-            android:text="விஷம், ரோகம், சோரம், கலகம் சுபகாரியங்களுக்கு விலக்கப்பட்ட நேரங்கள். மற்றவைகளில் சுபகாரியங்கள் செய்யலாம்."
+            android:text="விஷம், ரோகம், சோரம் சுபகாரியங்களுக்கு விலக்கப்பட்ட நேரங்கள். மற்றவைகளில் சுபகாரியங்கள் செய்யலாம்."
             android:textColor="@color/pink"
             android:visibility="gone" />
 

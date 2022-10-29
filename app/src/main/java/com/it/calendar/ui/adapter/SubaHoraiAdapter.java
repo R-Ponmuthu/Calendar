@@ -115,27 +115,6 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
 
                 Krakakalam Ikrakakalam = krakakalamTableHelper.getItem(krakakalamTableHelper.getReadableDatabase(), Iselection, null, null);
 
-
-//                Krakakalam Pkrakakalam = realm.where(Krakakalam.class)
-//                        .in("time", new String[]{time})
-//                        .and()
-//                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
-//                        .and()
-//                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
-//                        .and()
-//                        .equalTo("year", curYear)
-//                        .findFirst();
-
-//                Krakakalam Ikrakakalam = realm.where(Krakakalam.class)
-//                        .in("time", new String[]{time})
-//                        .and()
-//                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
-//                        .and()
-//                        .equalTo("weekday", EnumWeekDay.getWeekDay(krakakalam.getWeekday()).getDay())
-//                        .and()
-//                        .equalTo("year", curYear)
-//                        .findFirst();
-
                 PKrakakalamList.add(Pkrakakalam);
                 IKrakakalamList.add(Ikrakakalam);
             }

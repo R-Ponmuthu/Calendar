@@ -16,7 +16,7 @@
         app:lineWidth="2dp"
         app:marker="@drawable/marker_drawable"
         app:markerInCenter="false"
-        app:markerPaddingTop="15dp"
+        app:markerPaddingTop="30dp"
         app:markerSize="14dp"
         app:startLineColor="@color/grey_ee" />
 

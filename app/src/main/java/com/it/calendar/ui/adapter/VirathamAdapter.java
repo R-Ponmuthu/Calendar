@@ -2,6 +2,7 @@ package com.it.calendar.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.DateTimeHelper;
+import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumVirathaDay;
 
@@ -79,7 +81,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
         void bind_viradham(String tamMonth, Set<String> keys, HashMap<String, List<VirathaDay>> values) {
 
-            title.setText(EnumTamilMonth.getTamilMonth(tamMonth).getText());
+            title.setText(EnumMonth.getMonthStr(tamMonth).getText());
             List<String> keyList = new ArrayList<>();
             keyList.addAll(keys);
 
@@ -143,7 +145,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
                     StringBuilder stringBuilder = new StringBuilder();
                     for (VirathaDay virathaDay : virathaDays) {
-                        stringBuilder.append(virathaDay.getDate().split("-")[2].trim()).append(",");
+                        stringBuilder.append(virathaDay.getDate().split("-")[0].trim()).append(",");
                     }
                     txtDay.setText(stringBuilder.substring(0, stringBuilder.toString().length() - 1));
                 }

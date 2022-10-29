@@ -2,6 +2,7 @@ package com.it.calendar.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import com.it.calendar.R;
 import com.it.calendar.beans.Krakakalam;
 import com.it.calendar.beans.Panchangam;
 import com.it.calendar.util.EnumNeram;
+import com.it.calendar.util.EnumPanchangam;
+import com.it.calendar.util.EnumParikaram;
 import com.it.calendar.util.EnumWeekDay;
 
 import java.util.ArrayList;
@@ -35,14 +38,14 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
     private List<Panchangam> IpanchangamList = new ArrayList<>();
     private int curYear;
 
-    private String[] times = new String[]{"6 - 7.30",
+    private String[] times = new String[]{"6.00 - 7.30",
             "7.30 - 9.00",
-            "9 - 10.30",
-            "10.30 - 12",
-            "12 - 1.30",
-            "1.30 - 3",
-            "3 - 4.30",
-            "4.30 - 6"};
+            "9.00 - 10.30",
+            "10.30 - 12.00",
+            "12.00 - 1.30",
+            "1.30 - 3.00",
+            "3.00 - 4.30",
+            "4.30 - 6.00"};
 
     public PanchangamAdapter(Context context, int curYear, List<Panchangam> weekdays) {
         this.context = context;
@@ -97,35 +100,15 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
 
                 TableHelper<Panchangam> panchangamTableHelper = CalendarApp.getTable(context, Panchangam.class);
 
-                String Pselection = "time = '" + time + "'" + " and neram= " + EnumNeram.getNeram("பகல்").getNeram() + " and weekday=" +
-                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=" + curYear;
+                String Pselection = "time = '" + time + "'" + " and neram=1 and weekday=" +
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2022";
 
-                String Iselection = "time ='" + time + "'" + " and neram= " + EnumNeram.getNeram("இரவு").getNeram() + " and weekday=" +
-                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=" + curYear;
+                String Iselection = "time ='" + time + "'" + " and neram=2  and weekday=" +
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2022";
 
                 Panchangam Ppanchangam = panchangamTableHelper.getItem(panchangamTableHelper.getReadableDatabase(), Pselection, null, null);
 
                 Panchangam Ipanchangam = panchangamTableHelper.getItem(panchangamTableHelper.getReadableDatabase(), Iselection, null, null);
-
-//                Panchangam Ppanchangam = realm.where(Panchangam.class)
-//                        .in("time", new String[]{time})
-//                        .and()
-//                        .equalTo("neram", EnumNeram.getNeram("பகல்").getNeram())
-//                        .and()
-//                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
-//                        .and()
-//                        .equalTo("year", curYear)
-//                        .findFirst();
-
-//                Panchangam Ipanchangam = realm.where(Panchangam.class)
-//                        .in("time", new String[]{time})
-//                        .and()
-//                        .equalTo("neram", EnumNeram.getNeram("இரவு").getNeram())
-//                        .and()
-//                        .equalTo("weekday", EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay())
-//                        .and()
-//                        .equalTo("year", curYear)
-//                        .findFirst();
 
                 PpanchangamList.add(Ppanchangam);
                 IpanchangamList.add(Ipanchangam);
@@ -185,22 +168,38 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
         @SuppressLint("SetTextI18n")
         void bind(List<Panchangam> ppanchangam, List<Panchangam> ipanchangam) {
 
-            txt1.setText("6.00-7.30: " + ppanchangam.get(0).getParikaram());
-            txt2.setText("7.30-9.00: " + ppanchangam.get(1).getParikaram());
-            txt3.setText("9.00-10.30: " + ppanchangam.get(2).getParikaram());
-            txt4.setText("10.30-12.00: " + ppanchangam.get(3).getParikaram());
-            txt5.setText("12.00-1.30: " + ppanchangam.get(4).getParikaram());
-            txt6.setText("1.30-3.00: " + ppanchangam.get(5).getParikaram());
-            txt7.setText("3.00-4.30: " + ppanchangam.get(6).getParikaram());
-            txt8.setText("4.30-6.00: " + ppanchangam.get(7).getParikaram());
-            txt9.setText("6.00-7.30: " + ipanchangam.get(0).getParikaram());
-            txt10.setText("7.30-9.00: " + ipanchangam.get(1).getParikaram());
-            txt11.setText("9.00-10.30: " + ipanchangam.get(2).getParikaram());
-            txt12.setText("10.30-12.00: " + ipanchangam.get(3).getParikaram());
-            txt13.setText("12.00-1.30:" + ipanchangam.get(4).getParikaram());
-            txt14.setText("1.30-3.00: " + ipanchangam.get(5).getParikaram());
-            txt15.setText("3.00-4.30: " + ipanchangam.get(6).getParikaram());
-            txt16.setText("4.30-6.00: " + ipanchangam.get(7).getParikaram());
+            txt1.setText("6.00-7.30: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(0).getParikaram()).getText());
+            txt1.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(0).getParikaram()).getColor()));
+            txt2.setText("7.30-9.00: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(1).getParikaram()).getText());
+            txt2.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(1).getParikaram()).getColor()));
+            txt3.setText("9.00-10.30: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(2).getParikaram()).getText());
+            txt3.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(2).getParikaram()).getColor()));
+            txt4.setText("10.30-12.00: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(3).getParikaram()).getText());
+            txt4.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(3).getParikaram()).getColor()));
+            txt5.setText("12.00-1.30: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(4).getParikaram()).getText());
+            txt5.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(4).getParikaram()).getColor()));
+            txt6.setText("1.30-3.00: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(5).getParikaram()).getText());
+            txt6.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(5).getParikaram()).getColor()));
+            txt7.setText("3.00-4.30: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(6).getParikaram()).getText());
+            txt7.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(6).getParikaram()).getColor()));
+            txt8.setText("4.30-6.00: " + EnumPanchangam.getPanchangamStr(ppanchangam.get(7).getParikaram()).getText());
+            txt8.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ppanchangam.get(7).getParikaram()).getColor()));
+            txt9.setText("6.00-7.30: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(0).getParikaram()).getText());
+            txt9.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(0).getParikaram()).getColor()));
+            txt10.setText("7.30-9.00: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(1).getParikaram()).getText());
+            txt10.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(1).getParikaram()).getColor()));
+            txt11.setText("9.00-10.30: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(2).getParikaram()).getText());
+            txt11.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(2).getParikaram()).getColor()));
+            txt12.setText("10.30-12.00: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(3).getParikaram()).getText());
+            txt12.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(3).getParikaram()).getColor()));
+            txt13.setText("12.00-1.30:" + EnumPanchangam.getPanchangamStr(ipanchangam.get(4).getParikaram()).getText());
+            txt13.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(4).getParikaram()).getColor()));
+            txt14.setText("1.30-3.00: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(5).getParikaram()).getText());
+            txt14.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(5).getParikaram()).getColor()));
+            txt15.setText("3.00-4.30: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(6).getParikaram()).getText());
+            txt15.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(6).getParikaram()).getColor()));
+            txt16.setText("4.30-6.00: " + EnumPanchangam.getPanchangamStr(ipanchangam.get(7).getParikaram()).getText());
+            txt16.setTextColor(context.getResources().getColor(EnumPanchangam.getPanchangamStr(ipanchangam.get(7).getParikaram()).getColor()));
         }
     }
 }

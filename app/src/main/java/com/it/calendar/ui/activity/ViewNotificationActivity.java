@@ -48,28 +48,6 @@ public class ViewNotificationActivity extends AppCompatActivity {
             id = getIntent().getExtras().getInt("Id");
             type = getIntent().getExtras().getString("Type");
         }
-
-//        Notification notification = realm.where(Notification.class)
-//                .equalTo("id", id)
-//                .findFirst();
-//
-//        if (notification != null)
-//            if (type.equals("BT")) {
-//
-//                imageView.setVisibility(View.GONE);
-//                title.setText(notification.getTitle());
-//                content.setText(notification.getBigMessage());
-//            } else if (type.equals("BP")) {
-//
-//                title.setText(notification.getTitle());
-//                content.setText(notification.getBigMessage());
-//                imageView.setImageBitmap(getBitmapfromUrl(notification.getImageUrl()));
-//
-//            } else {
-//                imageView.setVisibility(View.GONE);
-//                title.setText(notification.getTitle());
-//                content.setText(notification.getBigMessage());
-//            }
     }
 
     @Override

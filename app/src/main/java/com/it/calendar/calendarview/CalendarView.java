@@ -60,8 +60,8 @@ public class CalendarView extends FrameLayout {
 
     private static final String TAG = CalendarView.class.getSimpleName();
 
-    private static final String DEFAULT_MIN_DATE = "01-01-2020";
-    private static final String DEFAULT_MAX_DATE = "31-12-2022";
+    private static final String DEFAULT_MIN_DATE = "01-01-2021";
+    private static final String DEFAULT_MAX_DATE = "31-12-2023";
     private static final String TEMPLATE = "dd-MM-yyyy";
     private final int[] weekHeaderIds = {
             R.id.tv_weekday_1, R.id.tv_weekday_2, R.id.tv_weekday_3, R.id.tv_weekday_4,
@@ -958,10 +958,6 @@ public class CalendarView extends FrameLayout {
             MainTable mainTbl = mainTh.getItem(mainTh.getReadableDatabase(), "date=?", new String[]{String.valueOf(dt)}, null);
 
 
-//            MainTable mainTbl = realm.where(MainTable.class)
-//                    .equalTo(Constants.date, dt)
-//                    .findFirst();
-
             if (mainTbl != null) {
                 tamDate.setText(String.valueOf(mainTbl.getTam_day()));
 
@@ -973,10 +969,6 @@ public class CalendarView extends FrameLayout {
                     tamMonth.setVisibility(GONE);
                 }
             }
-
-//            RealmResults<VirathaDay> virathaDays = realm.where(VirathaDay.class)
-//                    .equalTo(Constants.date, dt)
-//                    .findAll();
 
             TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(getContext(), VirathaDay.class);
             List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{String.valueOf(dt)}, null, null);

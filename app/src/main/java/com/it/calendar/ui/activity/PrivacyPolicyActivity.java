@@ -34,7 +34,7 @@ public class PrivacyPolicyActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("தனியுரிமை கொள்கை");
 
         if (new Utils().isOnline(PrivacyPolicyActivity.this))
-            webView.loadUrl("http://68.183.82.22");
+            webView.loadUrl("https://pages.flycricket.io/tamil-calendar-0/privacy.html");
         else
             Toast.makeText(this, "Check internet connection", Toast.LENGTH_SHORT).show();
     }
