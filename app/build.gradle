@@ -6,8 +6,8 @@ android {
         applicationId "com.it.calendar"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 22
-        versionName "5.0"
+        versionCode 28
+        versionName "6.0"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:20.1.0'
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
     implementation 'com.google.firebase:firebase-auth:18.0.0'
-    implementation 'com.google.android.play:core:1.6.1'
+//    implementation 'com.google.android.play:core:1.10.3'
 
     implementation project(":core")
     implementation 'com.github.vipulasri:timelineview:1.1.5'

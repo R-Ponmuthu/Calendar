@@ -22,7 +22,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,8 +34,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
 import com.it.calendar.calendarview.CalendarView;
-import com.it.calendar.inappupdater.InAppUpdateManager;
-import com.it.calendar.inappupdater.InAppUpdateStatus;
 import com.it.calendar.beans.GowriNeram;
 import com.it.calendar.beans.Kalangal;
 import com.it.calendar.beans.MainTable;
@@ -55,7 +52,6 @@ import com.it.calendar.util.Constants;
 import com.it.calendar.utils.SharedPreference;
 import com.it.calendar.util.Utils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -67,7 +63,7 @@ import butterknife.ButterKnife;
 
 import com.it.core.db.TableHelper;
 
-public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InAppUpdateManager.InAppUpdateHandler {
+public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String DATE_YEAR = "yyyy";
     private static final String DATE_TEMPLATE = "dd-MM-yyyy";
@@ -175,7 +171,7 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     private boolean doubleBackToExitPressedOnce = false;
 
     private static final int REQ_CODE_VERSION_UPDATE = 1001;
-    private InAppUpdateManager inAppUpdateManager;
+
 
 
     @Override
@@ -232,13 +228,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         adManager.createAd(CalendarActivity.this);
 
         subscribeToMessagingService();
-
-        inAppUpdateManager = InAppUpdateManager.Builder(this, REQ_CODE_VERSION_UPDATE)
-                .resumeUpdates(true)
-                .handler(this)
-                .mode(com.it.calendar.inappupdater.Constants.UpdateMode.IMMEDIATE);
-
-        inAppUpdateManager.checkForAppUpdate();
     }
 
     @Override
@@ -590,15 +579,5 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     public void subscribeToMessagingService() {
 
         FirebaseMessaging.getInstance().subscribeToTopic("tamilCalendar");
-    }
-
-    @Override
-    public void onInAppUpdateError(int code, Throwable error) {
-
-    }
-
-    @Override
-    public void onInAppUpdateStatus(InAppUpdateStatus status) {
-
     }
 }
