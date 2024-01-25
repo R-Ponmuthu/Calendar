@@ -101,10 +101,10 @@ public class PanchangamAdapter extends RecyclerView.Adapter<PanchangamAdapter.It
                 TableHelper<Panchangam> panchangamTableHelper = CalendarApp.getTable(context, Panchangam.class);
 
                 String Pselection = "time = '" + time + "'" + " and neram=1 and weekday=" +
-                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2022";
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2024";
 
                 String Iselection = "time ='" + time + "'" + " and neram=2  and weekday=" +
-                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2022";
+                        EnumWeekDay.getWeekDay(panchangam.getWeekday()).getDay() + " and year=2024";
 
                 Panchangam Ppanchangam = panchangamTableHelper.getItem(panchangamTableHelper.getReadableDatabase(), Pselection, null, null);
 

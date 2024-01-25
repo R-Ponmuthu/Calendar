@@ -61,6 +61,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.it.calendar.weekcalendar.WeekCalendarView;
 import com.it.core.db.TableHelper;
 
 public final class CalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -154,6 +155,8 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     TextView natchatiram;
     @BindView(R.id.calendarView)
     CalendarView mCalendarView;
+    @BindView(R.id.weekCalendarView)
+    WeekCalendarView mWeekCalendarView;
     @BindView(R.id.btmTxtDate)
     TextView btmTxtDate;
     @BindView(R.id.view1)
@@ -171,7 +174,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     private boolean doubleBackToExitPressedOnce = false;
 
     private static final int REQ_CODE_VERSION_UPDATE = 1001;
-
 
 
     @Override
@@ -199,13 +201,17 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         mShortMonths = getResources().getStringArray(R.array.month_tamil);
 
-        mCalendarView.setOnMonthChangedListener(new CalendarView.OnMonthChangedListener() {
-            @Override
-            public void onMonthChanged(int month, int year) {
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setTitle(mShortMonths[month]);
-                    getSupportActionBar().setSubtitle(Integer.toString(year));
-                }
+        mCalendarView.setOnMonthChangedListener((month, year) -> {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(mShortMonths[month]);
+                getSupportActionBar().setSubtitle(Integer.toString(year));
+            }
+        });
+
+        mWeekCalendarView.setOnMonthChangedListener((month, year) -> {
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(mShortMonths[month]);
+                getSupportActionBar().setSubtitle(Integer.toString(year));
             }
         });
 
@@ -522,7 +528,13 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             setCalendar.add(Calendar.DATE, 1);
 
         Intent notifyIntent = new Intent(this, cls);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, DAILY_REMINDER_REQUEST_CODE, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        PendingIntent pendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, DAILY_REMINDER_REQUEST_CODE, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            pendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, DAILY_REMINDER_REQUEST_CODE, notifyIntent, PendingIntent.FLAG_IMMUTABLE);
+        } else {
+            pendingIntent = PendingIntent.getBroadcast(CalendarActivity.this, DAILY_REMINDER_REQUEST_CODE, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         assert alarmManager != null;
         alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, setCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);

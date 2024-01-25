@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -52,25 +53,17 @@ import com.it.core.db.TableHelper;
 
 public class CalendarFragment extends Fragment {
 
-    //    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "திருவோணம்", "சிவராத்திரி", "ஏகாதசி", "பிரதோஷம்", "சதுர்த்தி"};
-    public static String[] viratham = new String[]{"1", "3", "4", "6", "7", "17", "11", "13", "14", "15"};
-    public static Integer[] years = new Integer[]{2021, 2022, 2023};
+    //    public static String[] viratham = new String[]{"அமாவாசை", "பௌர்ணமி", "கிருத்திகை","திருவோணம்","ஏகாதசி", "சஷ்டி", "சங்கடஹர சதுர்த்தி", "சிவராத்திரி", "பிரதோஷம்", "சதுர்த்தி"};
+    public static String[] viratham = new String[]{"1", "3", "4", "17", "13","5", "6", "7", "11", "14", "15", "19"};
+    public static Integer[] years = new Integer[]{2023, 2024};
     @BindView(R.id.muhurtham)
     TextView muhurtham;
     @BindView(R.id.panchangam)
-    TextView panchangham;
+    LinearLayout panchangham;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.year)
     AppCompatAutoCompleteTextView year;
-    @BindView(R.id.tagContainerLayout)
-    ChipGroup tagContainerLayout;
-    @BindView(R.id.chip1)
-    Chip chip1;
-    @BindView(R.id.chip2)
-    Chip chip2;
-    @BindView(R.id.chip3)
-    Chip chip3;
     private String queryFlag;
     private int curYear;
     private final HashMap<String, List<?>> listMap = new HashMap<>();
@@ -113,32 +106,6 @@ public class CalendarFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         notifyAdapter(curYear);
-
-        if (curYear == 2021)
-            chip2.setChecked(true);
-        else
-            chip3.setChecked(true);
-
-        chip1.setOnClickListener(view1 -> {
-            chip1.setChecked(true);
-            chip2.setChecked(false);
-            chip3.setChecked(false);
-            notifyAdapter(Integer.parseInt(chip1.getText().toString()));
-        });
-
-        chip2.setOnClickListener(view12 -> {
-            chip2.setChecked(true);
-            chip1.setChecked(false);
-            chip3.setChecked(false);
-            notifyAdapter(Integer.parseInt(chip2.getText().toString()));
-        });
-
-        chip3.setOnClickListener(view12 -> {
-            chip3.setChecked(true);
-            chip1.setChecked(false);
-            chip2.setChecked(false);
-            notifyAdapter(Integer.parseInt(chip3.getText().toString()));
-        });
 
         ArrayAdapter<Integer> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, years);
         year.setAdapter(adapter);
@@ -301,13 +268,15 @@ public class CalendarFragment extends Fragment {
                     List<VirathaDay> virathaDays = new ArrayList<>();
                     try {
                         virathaDays = virathaDayTableHelper.rawQuery(virathaDayTableHelper.getReadableDatabase(), "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=" + str + "", null);
+//                    virathaDays = virathaDayTableHelper.rawQuery(virathaDayTableHelper.getReadableDatabase(), "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%'", null);
 //                        virathaDays = virathaDayTableHelper.getList("date >= ? and date <= ? and viratham=?",
 //                                new String[]{fromDate, toDate, str}, null, null);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    subHashMap.put(mainTable.get(i).getMonth() + "-" + str, virathaDays);
+                    if (virathaDays.size() > 0)
+                        subHashMap.put(mainTable.get(i).getMonth() + "-" + str, virathaDays);
                 }
 
                 hashMap.put(mainTable.get(i).getMonth(), subHashMap);

@@ -4,15 +4,15 @@ import com.it.calendar.R;
 
 public enum EnumPanchangam {
 
-    K0("0", "",R.color.g_green),
-    K1("1", "சோரம்", R.color.g_red),
-    K2("2", "உத்தி", R.color.g_green),
-    K3("3", "விஷம்", R.color.g_red),
-    K4("4", "அமிர்த", R.color.g_green),
-    K5("5", "ரோகம்", R.color.g_red),
-    K6("6", "லாபம்", R.color.g_green),
-    K7("7", "சுகம்", R.color.g_green),
-    K8("8", "தனம்", R.color.g_green);
+    K0("0", "", R.color.g_green),
+    K1("7", "சோரம்", R.color.g_red),
+    K2("1", "உத்தி", R.color.g_green),
+    K3("8", "விஷம்", R.color.g_red),
+    K4("2", "அமிர்த", R.color.g_green),
+    K5("3", "ரோகம்", R.color.g_red),
+    K6("4", "லாபம்", R.color.g_green),
+    K7("6", "சுகம்", R.color.g_green),
+    K8("5", "தனம்", R.color.g_green);
 
     private String neram;
     private String text;

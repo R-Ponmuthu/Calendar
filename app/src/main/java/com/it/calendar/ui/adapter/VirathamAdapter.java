@@ -13,14 +13,19 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
+import com.it.calendar.CalendarApp;
 import com.it.calendar.R;
+import com.it.calendar.beans.MainTable;
 import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumMonth;
 import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumVirathaDay;
+import com.it.calendar.util.EnumWeekDay;
+import com.it.core.db.TableHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -53,8 +58,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
         HashMap<String, List<VirathaDay>> values = hashMap.get(tamMonthList.get(position));
         Set<String> keys = values.keySet();
-        //List<VirathaDay> virathaDays = values.get(tamMonthList.get(position) + CalendarFragment.viratham[position]);
-
+//        List<VirathaDay> virathaDays = values.get(tamMonthList.get(position) + CalendarFragment.viratham[position]);
         holder.bind_viradham(tamMonthList.get(position), keys, values);
     }
 
@@ -67,10 +71,11 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
         @BindView(R.id.title)
         TextView title;
-        @BindView(R.id.container)
-        RecyclerView container;
         @BindView(R.id.timeline)
         TimelineView timelineView;
+        @BindView(R.id.container)
+        RecyclerView container;
+
 
         ItemViewHolder(View view, int viewType) {
             super(view);
@@ -85,7 +90,7 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
             List<String> keyList = new ArrayList<>();
             keyList.addAll(keys);
 
-            container.setLayoutManager(new GridLayoutManager(context, 3));
+            container.setLayoutManager(new GridLayoutManager(context, 2));
             container.setAdapter(new SubItemAdapter(context, keyList, values));
         }
     }
@@ -145,7 +150,11 @@ public class VirathamAdapter extends RecyclerView.Adapter<VirathamAdapter.ItemVi
 
                     StringBuilder stringBuilder = new StringBuilder();
                     for (VirathaDay virathaDay : virathaDays) {
-                        stringBuilder.append(virathaDay.getDate().split("-")[0].trim()).append(",");
+
+                        TableHelper<MainTable> mainTh = CalendarApp.getTable(context, MainTable.class);
+                        MainTable mainTable = mainTh.getItem(mainTh.getReadableDatabase(), "date = ?", new String[]{virathaDay.getDate()}, null);
+
+                        stringBuilder.append(virathaDay.getDate().split("-")[0].trim()).append("-").append(EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText()).append("\n");
                     }
                     txtDay.setText(stringBuilder.substring(0, stringBuilder.toString().length() - 1));
                 }

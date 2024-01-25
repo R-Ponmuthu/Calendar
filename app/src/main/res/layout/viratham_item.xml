@@ -34,16 +34,15 @@
             android:background="@color/grey_ee"
             android:gravity="center_vertical"
             android:paddingLeft="16dp"
-            android:text=""
+            android:text="January"
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/container"
-            android:layout_width="wrap_content"
+        <include
+            layout="@layout/viratham_sub_item"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
             android:orientation="horizontal" />
 
     </LinearLayout>

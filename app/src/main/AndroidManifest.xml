@@ -24,7 +24,7 @@
         <receiver
             android:name=".notification.DNotificationReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -36,7 +36,7 @@
         <receiver
             android:name=".notification.SNotificationReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
@@ -58,7 +58,8 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
 
-        <service android:name=".notification.MyFirebaseMessagingService">
+        <service android:name=".notification.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -68,7 +69,8 @@
 
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -78,29 +80,35 @@
 
         <activity
             android:name=".ui.activity.CalendarActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
 
         <activity
             android:name=".ui.activity.CurrentMonthActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
 
         <activity
             android:name=".ui.activity.DrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false"/>
 
         <activity
             android:name=".ui.activity.PrivacyPolicyActivity"
             android:label=""
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.activity.NotificationActivity"
             android:label=""
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".ui.activity.SettingsActivity"
             android:label="@string/settings"
+            android:exported="false"
             android:theme="@style/AppTheme.NoActionBar" />
 
     </application>

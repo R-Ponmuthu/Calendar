@@ -1,4 +1,4 @@
-package com.it.calendar.calendarview;
+package com.it.calendar.weekcalendar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -37,9 +37,9 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.calendarview.helpers.FrameRelativeLayout;
 import com.it.calendar.calendarview.helpers.SelectedTextView;
 import com.it.calendar.calendarview.helpers.YMDCalendar;
-import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumTamilMonth;
+import com.it.core.db.TableHelper;
 
 import java.lang.reflect.Field;
 import java.text.ParseException;
@@ -52,15 +52,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.it.core.db.TableHelper;
-
 
 @SuppressWarnings({"unused", "FieldCanBeLocal", "WeakerAccess"})
-public class CalendarView extends FrameLayout {
+public class WeekCalendarView extends FrameLayout {
 
-    private static final String TAG = CalendarView.class.getSimpleName();
+    private static final String TAG = WeekCalendarView.class.getSimpleName();
 
-    private static final String DEFAULT_MIN_DATE = "01-01-2023";
+    private static final String DEFAULT_MIN_DATE = "01-01-2022";
     private static final String DEFAULT_MAX_DATE = "31-12-2024";
     private static final String TEMPLATE = "dd-MM-yyyy";
     private final int[] weekHeaderIds = {
@@ -106,14 +104,14 @@ public class CalendarView extends FrameLayout {
     /**
      * Constructor
      */
-    public CalendarView(Context context) {
+    public WeekCalendarView(Context context) {
         this(context, null);
     }
 
     /**
      * Constructor
      */
-    public CalendarView(Context context, AttributeSet attrs) {
+    public WeekCalendarView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         readAttributes(context, attrs);
@@ -271,7 +269,7 @@ public class CalendarView extends FrameLayout {
 
     private void initChildViews(Context context) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.xml_calendar_view, this, true);
+        inflater.inflate(R.layout.xml_week_calendar_view, this, true);
 
         mViewPager = findViewById(R.id.view_pager);
 
@@ -707,8 +705,8 @@ public class CalendarView extends FrameLayout {
             return this;
         }
 
-        public CalendarView create() {
-            CalendarView calendarView = new CalendarView(P.mContext);
+        public WeekCalendarView create() {
+            WeekCalendarView calendarView = new WeekCalendarView(P.mContext);
 
             P.apply(calendarView.mAttributes);
 
@@ -873,7 +871,7 @@ public class CalendarView extends FrameLayout {
             month.add(Calendar.MONTH, position - mInitialPage);
 
             LayoutInflater vi = LayoutInflater.from(container.getContext());
-            View monthContainer = vi.inflate(R.layout.xml_calendar_container, container, false);
+            View monthContainer = vi.inflate(R.layout.xml_week_calendar_container, container, false);
 
             setMonthHeader(monthContainer, month);
             setWeekHeader(monthContainer, mAttributes.get(Attr.weekHeaderMovable) == 1 ? VISIBLE : INVISIBLE);
