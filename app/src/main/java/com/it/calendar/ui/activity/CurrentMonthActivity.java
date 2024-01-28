@@ -77,7 +77,18 @@ public class CurrentMonthActivity extends AppCompatActivity {
 //                new String[]{fromDate, toDate, "சுபமுகூர்த்தம்"}, "date ASC", null);
 
         List<VirathaDay> virathaDays = virathaDayTableHelper.rawQuery(virathaDayTableHelper.getReadableDatabase(),
-                "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham!=21", null);
+                "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=1 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=3 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=4 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=17 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=13 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=5 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=6 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=7 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=11 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=14 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=15 union " +
+                        "select * from VirathaDay where date like '%" + fromDate.substring(3) + "%' and viratham=19", null);
 
         TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(this, MainTable.class);
         List<MainTable> govtLeave = mainTableTableHelper.getList("month=? and year=? and leave_flag=?",

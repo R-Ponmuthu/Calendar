@@ -4,6 +4,7 @@
 
     <string name="admob_app_id">ca-app-pub-2174081597275508~3789341398</string>
     <string name="home_banner_ad">ca-app-pub-2174081597275508/9270181981</string>
+    <!--    <string name="home_banner_ad">ca-app-pub-2174081597275508/2585390993</string>-->
     <string name="drawer_page_ad">ca-app-pub-2174081597275508/1391691961</string>
     <string name="title">தமிழ் நாட்காட்டி</string>
 
@@ -72,5 +73,7 @@
 
     <string name="previous_month">previous month</string>
     <string name="next_month">next month</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

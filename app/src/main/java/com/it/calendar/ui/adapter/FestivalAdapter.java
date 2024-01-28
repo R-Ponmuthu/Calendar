@@ -7,14 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
 import com.it.calendar.R;
 import com.it.calendar.beans.MainTable;
 import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumWeekDay;
 
 import java.util.List;
@@ -25,15 +28,13 @@ import butterknife.ButterKnife;
 
 public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemViewHolder> {
 
-    List<String> months;
-    Map<String, List<?>> mainTbl;
+    List<MainTable> mainTableList;
     private Context context;
     private String queryFlag;
 
-    public FestivalAdapter(Context context, String queryFlag, List<String> months, Map<String, List<?>> mainTbl) {
+    public FestivalAdapter(Context context, String queryFlag, List<MainTable> mainTableList) {
         this.context = context;
-        this.months = months;
-        this.mainTbl = mainTbl;
+        this.mainTableList = mainTableList;
         this.queryFlag = queryFlag;
     }
 
@@ -48,84 +49,44 @@ public class FestivalAdapter extends RecyclerView.Adapter<FestivalAdapter.ItemVi
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.bind_fes(months.get(position));
+        MainTable mainTable = mainTableList.get(position);
+
+        if (queryFlag.equals("hindu_fes")) {
+            holder.data.setText(mainTable.getHindu_fes());
+        } else if (queryFlag.equals("muslim_fes")) {
+            holder.data.setText(mainTable.getMuslim_fes());
+        } else if (queryFlag.equals("chirs_fes")) {
+            holder.data.setText(mainTable.getChirs_fes());
+        } else {
+            holder.data.setText(mainTable.getGov_holiday());
+        }
+        holder.date.setText(mainTable.getDay().toString() + ", " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
+        holder.tamDate.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + ", " + mainTable.getTam_day());
+
+        if (position == 0 || position % 2 == 0) {
+            holder.parentCV.setBackgroundColor(context.getResources().getColor(R.color.grey_ec));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mainTbl.size();
+        return mainTableList.size();
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.container)
-        LinearLayout container;
-        @BindView(R.id.timeline)
-        TimelineView mTimelineView;
+        @BindView(R.id.date)
+        TextView date;
+        @BindView(R.id.tamDate)
+        TextView tamDate;
+        @BindView(R.id.data)
+        TextView data;
+        @BindView(R.id.parentCV)
+        RelativeLayout parentCV;
 
         ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
-
-            mTimelineView.initLine(viewType);
-        }
-
-        void bind_fes(String s) {
-
-            container.removeAllViews();
-            title.setText(EnumMonth.getMonthStr(s).getText());
-
-            for (int i = 0; i < mainTbl.get(s).size(); i++) {
-
-                MainTable mainTable = (MainTable) mainTbl.get(s).get(i);
-                View view = LayoutInflater.from(context).inflate(R.layout.festival_sub_item, null, false);
-
-                SubItemViewHolder subItemViewHolder = new SubItemViewHolder(view);
-                subItemViewHolder.bind(i, mainTable);
-
-                container.addView(view);
-            }
-        }
-    }
-
-    class SubItemViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.date)
-        TextView date;
-        @BindView(R.id.day)
-        TextView day;
-        @BindView(R.id.function)
-        TextView function;
-        @BindView(R.id.itemContainer)
-        LinearLayout itemContainer;
-
-        SubItemViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-
-        @SuppressLint("SetTextI18n")
-        void bind(int i, MainTable mainTable) {
-
-            if (i == 0 || (i % 2 == 0)) {
-                itemContainer.setBackgroundColor(context.getResources().getColor(R.color.grey_ec));
-            } else {
-                itemContainer.setBackgroundColor(Color.WHITE);
-            }
-
-            date.setText("" + mainTable.getDay());
-            day.setText("" + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
-            if (queryFlag.equals("hindu_fes")) {
-                function.setText("" + mainTable.getHindu_fes());
-            } else if (queryFlag.equals("muslim_fes")) {
-                function.setText("" + mainTable.getMuslim_fes());
-            } else if (queryFlag.equals("gov_holiday")) {
-                function.setText("" + mainTable.getGov_holiday());
-            } else {
-                function.setText("" + mainTable.getChirs_fes());
-            }
         }
     }
 }

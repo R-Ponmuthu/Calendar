@@ -155,8 +155,8 @@ public class CalendarFragment extends Fragment {
                 listMap.put(mainTable.getMonth(), data);
             }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new FestivalAdapter(getActivity(), queryFlag, monthsList, listMap));
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            recyclerView.setAdapter(new FestivalAdapter(getActivity(), queryFlag, monthsList, listMap));
 
         } else if (queryFlag.equals("muhurtha_days")) {
 
@@ -196,8 +196,8 @@ public class CalendarFragment extends Fragment {
                 listMap.put(mainTable.get(i).getMonth(), virathaDays);
             }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new MuhurthamAdapter(getActivity(), monthsList, listMap));
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            recyclerView.setAdapter(new MuhurthamAdapter(getActivity(), monthsList, listMap));
         } else if (queryFlag.equals("raagu")) {
 
             List<Kalangal> kalangals = new ArrayList<>();
@@ -235,8 +235,8 @@ public class CalendarFragment extends Fragment {
                 e.printStackTrace();
             }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(new PanchangamAdapter(getActivity(), curYear, panchangams));
+//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//            recyclerView.setAdapter(new PanchangamAdapter(getActivity(), curYear, panchangams));
         } else if (queryFlag.equals("viradha_days")) {
 
             List<MainTable> mainTable = new ArrayList<>();

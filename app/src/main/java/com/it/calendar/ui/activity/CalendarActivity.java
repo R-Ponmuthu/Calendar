@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +27,14 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.it.calendar.CalendarApp;
@@ -155,8 +161,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     TextView natchatiram;
     @BindView(R.id.calendarView)
     CalendarView mCalendarView;
-    @BindView(R.id.weekCalendarView)
-    WeekCalendarView mWeekCalendarView;
     @BindView(R.id.btmTxtDate)
     TextView btmTxtDate;
     @BindView(R.id.view1)
@@ -165,8 +169,15 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     View view2;
     @BindView(R.id.view3)
     View view3;
+    @BindView(R.id.ll_impdays)
+    LinearLayout llImpDays;
+    @BindView(R.id.ll_festivals)
+    LinearLayout llFestivals;
+    @BindView(R.id.ll_yokam)
+    LinearLayout llYokam;
 
-
+    private InterstitialAd mInterstitialAd;
+    private boolean adIsLoading;
     private final SharedPreference sharedPreference = new SharedPreference();
     private Utils utils;
     private AdManager adManager;
@@ -208,13 +219,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             }
         });
 
-        mWeekCalendarView.setOnMonthChangedListener((month, year) -> {
-            if (getSupportActionBar() != null) {
-                getSupportActionBar().setTitle(mShortMonths[month]);
-                getSupportActionBar().setSubtitle(Integer.toString(year));
-            }
-        });
-
         mCalendarView.setOnItemClickedListener((calendarObjects, previousDate, selectedDate) -> {
 
             SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MM-yyyy");
@@ -230,8 +234,10 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
         setCalendarData(formatDate(DATE_TEMPLATE, new Date(System.currentTimeMillis())));
 
-        adManager = AdManager.getInstance();
-        adManager.createAd(CalendarActivity.this);
+//        adManager = AdManager.getInstance();
+//        adManager.createAd(CalendarActivity.this);
+
+        createAd(this);
 
         subscribeToMessagingService();
     }
@@ -247,15 +253,14 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 return;
             }
 
-            if (adManager != null)
-                if (adManager.getAd().isLoaded())
-                    adManager.getAd().show();
-                else {
-                    this.doubleBackToExitPressedOnce = true;
-                    Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+            if (mInterstitialAd != null)
+                mInterstitialAd.show(this);
+            else {
+                this.doubleBackToExitPressedOnce = true;
+                Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
-                    new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
-                }
+                new Handler().postDelayed(() -> doubleBackToExitPressedOnce = false, 2000);
+            }
         }
     }
 
@@ -292,15 +297,14 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             TableHelper<GowriNeram> gowriNeramTable = CalendarApp.getTable(this, GowriNeram.class);
             GowriNeram gowriNeram = gowriNeramTable.getItem(gowriNeramTable.getReadableDatabase(), "date=?", new String[]{String.valueOf(dt)}, null);
 
-
             TableHelper<VirathaDay> virathaDayTable = CalendarApp.getTable(this, VirathaDay.class);
             List<VirathaDay> virathaDays = virathaDayTable.getList("date=?", new String[]{String.valueOf(dt)}, null, null);
 
-            nallaNeramK.setText(mainTable.getNallanerem_m());
-            nallaNeramM.setText(mainTable.getNallanerem_e());
+            nallaNeramK.setText("காலை\n" + mainTable.getNallanerem_m());
+            nallaNeramM.setText("மாலை\n" + mainTable.getNallanerem_e());
 
-            gowriNeramK.setText(gowriNeram.getGowri_m());
-            gowriNeramM.setText(gowriNeram.getGowri_e());
+            gowriNeramK.setText("காலை\n" + gowriNeram.getGowri_m());
+            gowriNeramM.setText("மாலை\n" + gowriNeram.getGowri_e());
 
             raagu1.setText(kalangal.getRagu());
             kulikai1.setText(kalangal.getKuligai());
@@ -315,7 +319,11 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
                 chandhiram.setText(EnumNatchathiram.getNatchathiramStr(strs[0]).getText() + ", " + EnumNatchathiram.getNatchathiramStr(strs[1].trim()).getText());
             else
                 chandhiram.setText(EnumNatchathiram.getNatchathiramStr(strs[0]).getText());
-            yokam.setText(mainTable.getYokam());
+
+            if (mainTable.getYokam() != null)
+                yokam.setText(mainTable.getYokam());
+            else
+                llYokam.setVisibility(View.GONE);
 
             thithi.setText(mainTable.getThiti());
             natchatiram.setText(mainTable.getStar());
@@ -335,24 +343,24 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
             if (stringBuilder.length() > 0) {
                 festivals.setVisibility(View.VISIBLE);
-                view2.setVisibility(View.VISIBLE);
+//                view2.setVisibility(View.VISIBLE);
                 festivals.setText("" + stringBuilder.deleteCharAt(stringBuilder.length() - 1));
             } else {
-                festivals.setVisibility(View.GONE);
-                view2.setVisibility(View.GONE);
+                llFestivals.setVisibility(View.GONE);
+//                view2.setVisibility(View.GONE);
             }
 
-            if (mainTable.getImportantday() != null) {
+            if (mainTable.getImportantday() != null && !mainTable.getImportantday().isEmpty()) {
                 String[] impDaysArr = mainTable.getImportantday().split(",");
                 StringBuilder stringBuilder1 = new StringBuilder();
                 for (String impDay : impDaysArr) {
                     stringBuilder1.append(impDay + "\n");
                 }
                 impDays.setVisibility(View.VISIBLE);
-                view1.setVisibility(View.VISIBLE);
+//                view1.setVisibility(View.VISIBLE);
                 impDays.setText("" + stringBuilder1);
             } else {
-                impDays.setVisibility(View.GONE);
+                llImpDays.setVisibility(View.GONE);
                 view1.setVisibility(View.GONE);
             }
 
@@ -369,9 +377,9 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             rasi11.setText(Constants.kumbum + " - " + mainTable.getKumbam());
             rasi12.setText(Constants.meenam + " - " + mainTable.getMeenam());
 
-            if (mainTable.getDay_type().equals(Constants.melNookuNaal)) {
+            if (mainTable.getDay_type().equals("1")) {
                 daySymbol.setImageResource(R.drawable.ic_up_arrow);
-            } else if (mainTable.getDay_type().equals(Constants.keelNookuNaal)) {
+            } else if (mainTable.getDay_type().equals("2")) {
                 daySymbol.setImageResource(R.drawable.ic_down_arrow);
             } else {
                 daySymbol.setImageResource(R.drawable.ic_double_arrow);
@@ -435,31 +443,32 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
         Menu menu = navigationView.getMenu();
 
         if (id == R.id.govt_leave) {
-            startDrawerActivity("gov_holiday", String.valueOf(menu.findItem(R.id.govt_leave).getTitle()));
+            startMenuActivity("gov_holiday", String.valueOf(menu.findItem(R.id.govt_leave).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.govt_leave).getTitle()));
         } else if (id == R.id.hindu_fes) {
-            startDrawerActivity("hindu_fes", String.valueOf(menu.findItem(R.id.hindu_fes).getTitle()));
+            startMenuActivity("hindu_fes", String.valueOf(menu.findItem(R.id.hindu_fes).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.hindu_fes).getTitle()));
         } else if (id == R.id.muslim_fes) {
-            startDrawerActivity("muslim_fes", String.valueOf(menu.findItem(R.id.muslim_fes).getTitle()));
+            startMenuActivity("muslim_fes", String.valueOf(menu.findItem(R.id.muslim_fes).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.muslim_fes).getTitle()));
         } else if (id == R.id.chris_fes) {
-            startDrawerActivity("chirs_fes", String.valueOf(menu.findItem(R.id.chris_fes).getTitle()));
+            startMenuActivity("chirs_fes", String.valueOf(menu.findItem(R.id.chris_fes).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.chris_fes).getTitle()));
         } else if (id == R.id.muhurtha_days) {
-            startDrawerActivity("muhurtha_days", String.valueOf(menu.findItem(R.id.muhurtha_days).getTitle()));
+            startMenuActivity("muhurtha_days", String.valueOf(menu.findItem(R.id.muhurtha_days).getTitle()));
+//            startDrawerActivity("muhurtha_days", String.valueOf(menu.findItem(R.id.muhurtha_days).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.muhurtha_days).getTitle()));
         } else if (id == R.id.viradha_days) {
-            startDrawerActivity("viradha_days", String.valueOf(menu.findItem(R.id.viradha_days).getTitle()));
+            startMenuActivity("viradha_days", String.valueOf(menu.findItem(R.id.viradha_days).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.viradha_days).getTitle()));
         } else if (id == R.id.vasthu_days) {
             startDrawerActivity("vasthu_days", String.valueOf(menu.findItem(R.id.vasthu_days).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.vasthu_days).getTitle()));
         } else if (id == R.id.raagu) {
-            startDrawerActivity("raagu", String.valueOf(menu.findItem(R.id.raagu).getTitle()));
+            startMenuActivity("raagu", String.valueOf(menu.findItem(R.id.raagu).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.raagu).getTitle()));
         } else if (id == R.id.gowri_panjangam) {
-            startDrawerActivity("gowri_panchanagam", String.valueOf(menu.findItem(R.id.gowri_panjangam).getTitle()));
+            startMenuActivity("gowri_panchanagam", String.valueOf(menu.findItem(R.id.gowri_panjangam).getTitle()));
             utils.setFirebaseAnalytics(this, String.valueOf(menu.findItem(R.id.gowri_panjangam).getTitle()));
         } else if (id == R.id.suba_horai) {
             startDrawerActivity("suba_horai", String.valueOf(menu.findItem(R.id.suba_horai).getTitle()));
@@ -491,11 +500,23 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
 
     public void startDrawerActivity(String flag, String title) {
 
-        if (adManager != null)
-            if (adManager.getAd().isLoaded())
-                adManager.getAd().show();
+//        createAd(this);
+//        if (mInterstitialAd != null)
+//            mInterstitialAd.show(this);
 
         startActivity(new Intent(this, DrawerActivity.class)
+                .putExtra("QueryFlag", flag)
+                .putExtra("curYear", Integer.parseInt(formatDate(DATE_YEAR, new Date(System.currentTimeMillis()))))
+                .putExtra("title", title));
+    }
+
+    public void startMenuActivity(String flag, String title) {
+
+//        createAd(this);
+//        if (mInterstitialAd != null)
+//            mInterstitialAd.show(this);
+
+        startActivity(new Intent(this, MenuViewActivity.class)
                 .putExtra("QueryFlag", flag)
                 .putExtra("curYear", Integer.parseInt(formatDate(DATE_YEAR, new Date(System.currentTimeMillis()))))
                 .putExtra("title", title));
@@ -558,13 +579,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             }
 
             @Override
-            public void onAdFailedToLoad(int errorCode) {
-                // Code to be executed when an ad request fails.
-                //adLayout.setVisibility(View.GONE);
-                Log.e("Error", String.valueOf(errorCode));
-            }
-
-            @Override
             public void onAdOpened() {
                 // Code to be executed when an ad opens an overlay that
                 // covers the screen.
@@ -573,11 +587,6 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
             @Override
             public void onAdClicked() {
                 // Code to be executed when the user clicks on an ad.
-            }
-
-            @Override
-            public void onAdLeftApplication() {
-                // Code to be executed when the user has left the app.
             }
 
             @Override
@@ -591,5 +600,51 @@ public final class CalendarActivity extends AppCompatActivity implements Navigat
     public void subscribeToMessagingService() {
 
         FirebaseMessaging.getInstance().subscribeToTopic("tamilCalendar");
+    }
+
+    public void createAd(Context context) {
+        // Request a new ad if one isn't already loaded.
+        if (adIsLoading || mInterstitialAd != null) {
+            return;
+        }
+        adIsLoading = true;
+        AdRequest adRequest = new AdRequest.Builder().build();
+        InterstitialAd.load(
+                context,
+                "ca-app-pub-2174081597275508/6114222649",
+                adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                        mInterstitialAd = interstitialAd;
+                        adIsLoading = false;
+                        interstitialAd.setFullScreenContentCallback(
+                                new FullScreenContentCallback() {
+                                    @Override
+                                    public void onAdDismissedFullScreenContent() {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad was dismissed.");
+                                    }
+
+                                    @Override
+                                    public void onAdFailedToShowFullScreenContent(AdError adError) {
+                                        mInterstitialAd = null;
+                                        Log.d("TAG", "The ad failed to show.");
+                                    }
+
+                                    @Override
+                                    public void onAdShowedFullScreenContent() {
+                                        Log.d("TAG", "The ad was shown.");
+                                    }
+                                });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        Log.i("AdManager", loadAdError.getMessage());
+                        mInterstitialAd = null;
+                        adIsLoading = false;
+                    }
+                });
     }
 }

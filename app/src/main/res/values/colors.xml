@@ -2,9 +2,10 @@
 <resources>
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
-    <color name="colorAccent">#2979ff</color>
+    <color name="colorAccent">#2196F3</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="white_E9">#CCFFFFFF</color>
     <color name="black">#000000</color>
 
     <color name="pink">#f50057</color>
@@ -33,5 +34,9 @@
     <color name="g_red">#DB4437</color>
 
     <color name="teal_green">#075E54</color>
+
+    <color name="blue_50">#BEBBDEFB</color>
+    <color name="blue_100">#E3F2FD</color>
+    <color name="indigo_400">#5C6BC0</color>
 
 </resources>

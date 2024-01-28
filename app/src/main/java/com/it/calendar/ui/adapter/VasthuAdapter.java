@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.vipulasri.timelineview.TimelineView;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 import com.it.core.db.TableHelper;
 
 public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHolder> {
@@ -62,18 +64,16 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
 
         @BindView(R.id.date)
         TextView date;
+        @BindView(R.id.tamDate)
+        TextView tamDate;
         @BindView(R.id.time)
         TextView time;
         @BindView(R.id.containerLay)
-        LinearLayout containerLay;
-        @BindView(R.id.timeline)
-        TimelineView timelineView;
+        CardView containerLay;
 
         ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
-
-            timelineView.initLine(viewType);
         }
 
         @SuppressLint("SetTextI18n")
@@ -83,12 +83,12 @@ public class VasthuAdapter extends RecyclerView.Adapter<VasthuAdapter.ItemViewHo
             MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date=?",
                     new String[]{String.valueOf(vasthu.getDay())}, null);
 
-            date.setText(mainTable.getDay() + " " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + "," + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText() + " - " +
-                    mainTable.getTam_day() + " " + EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText());
+            date.setText(mainTable.getDay() + " " + EnumMonth.getMonthStr(mainTable.getMonth()).getText() + ", " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
+            tamDate.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + ", " + mainTable.getTam_day());
             time.setText("காலை " + vasthu.getTime());
 
             if (position == 0 || position % 2 == 0) {
-                containerLay.setBackgroundColor(context.getResources().getColor(R.color.grey_ec));
+                containerLay.setCardBackgroundColor(context.getResources().getColor(R.color.grey_ec));
             }
         }
     }

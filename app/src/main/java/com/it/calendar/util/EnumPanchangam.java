@@ -8,7 +8,7 @@ public enum EnumPanchangam {
     K1("7", "சோரம்", R.color.g_red),
     K2("1", "உத்தி", R.color.g_green),
     K3("8", "விஷம்", R.color.g_red),
-    K4("2", "அமிர்த", R.color.g_green),
+    K4("2", "அமிர்", R.color.g_green),
     K5("3", "ரோகம்", R.color.g_red),
     K6("4", "லாபம்", R.color.g_green),
     K7("6", "சுகம்", R.color.g_green),

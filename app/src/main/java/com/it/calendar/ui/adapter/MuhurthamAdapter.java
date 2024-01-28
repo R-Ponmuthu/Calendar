@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +23,7 @@ import com.it.calendar.beans.VirathaDay;
 import com.it.calendar.util.Constants;
 import com.it.calendar.util.DateTimeHelper;
 import com.it.calendar.util.EnumMonth;
+import com.it.calendar.util.EnumTamilMonth;
 import com.it.calendar.util.EnumWeekDay;
 
 import java.text.ParseException;
@@ -38,21 +41,18 @@ import com.it.core.db.TableHelper;
 public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.ItemViewHolder> {
 
     List<String> months;
-    Map<String, List<?>> mainTbl;
-    Map<String, List<VirathaDay>> viratham = new HashMap<>();
-    List<VirathaDay> virathaDayList = new ArrayList<>();
+    List<VirathaDay> virathaDayList;
     private Activity activity;
 
-    public MuhurthamAdapter(Activity activity, List<String> months, Map<String, List<?>> mainTbl) {
+    public MuhurthamAdapter(Activity activity, List<VirathaDay> virathaDayList) {
         this.activity = activity;
-        this.months = months;
-        this.mainTbl = mainTbl;
+        this.virathaDayList = virathaDayList;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.muhurtham_item, parent, false);
         return new ItemViewHolder(itemView, viewType);
     }
 
@@ -60,48 +60,45 @@ public class MuhurthamAdapter extends RecyclerView.Adapter<MuhurthamAdapter.Item
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.bind_muhurtham(months.get(position));
+        VirathaDay virathaDay = virathaDayList.get(position);
+
+        TableHelper<MuhurthamTable> muhurthamTableHelper = CalendarApp.getTable(activity, MuhurthamTable.class);
+        MuhurthamTable moogurthamTable = muhurthamTableHelper.getItem(muhurthamTableHelper.getReadableDatabase(), "date=?",
+                new String[]{virathaDay.getDate()}, null);
+
+        TableHelper<MainTable> mainTableTableHelper = CalendarApp.getTable(activity, MainTable.class);
+        MainTable mainTable = mainTableTableHelper.getItem(mainTableTableHelper.getReadableDatabase(), "date = ?",
+                new String[]{virathaDay.getDate()}, null);
+
+        if (moogurthamTable != null)
+            if (moogurthamTable.getValrpirai() == 1)
+                holder.date.setText(mainTable.getDay() + "*, " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
+            else
+                holder.date.setText(mainTable.getDay() + ", " + EnumWeekDay.getWeekDay(mainTable.getWeekday()).getText());
+        holder.tamDate.setText(EnumTamilMonth.getTamilMonth(mainTable.getTam_month()).getText() + ", " + mainTable.getTam_day());
+
+        if (position == 0 || position % 2 == 0) {
+            holder.parentCV.setBackgroundColor(activity.getResources().getColor(R.color.grey_ec));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mainTbl.size();
+        return virathaDayList.size();
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title)
-        TextView title;
-        @BindView(R.id.container)
-        RecyclerView container;
-        @BindView(R.id.timeline)
-        TimelineView timelineView;
+        @BindView(R.id.date)
+        TextView date;
+        @BindView(R.id.tamDate)
+        TextView tamDate;
+        @BindView(R.id.parentCV)
+        RelativeLayout parentCV;
 
         ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
-
-            timelineView.initLine(viewType);
-        }
-
-        @SuppressLint("SetTextI18n")
-        void bind_muhurtham(String s) {
-
-            //container.removeAllViews();
-            title.setText(EnumMonth.getMonthStr(s).getText());
-
-            viratham = new HashMap<>();
-            virathaDayList = new ArrayList<>();
-
-            for (int i = 0; i < mainTbl.get(s).size(); i++) {
-
-                VirathaDay virathaDay = (VirathaDay) mainTbl.get(s).get(i);
-                virathaDayList.add(virathaDay);
-            }
-
-            viratham.put(s, virathaDayList);
-            container.setLayoutManager(new GridLayoutManager(activity, 6));
-            container.setAdapter(new SubItemAdapter(activity, s, viratham));
         }
     }
 

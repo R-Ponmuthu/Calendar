@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -77,18 +78,15 @@ public class SubaHoraiAdapter extends RecyclerView.Adapter<SubaHoraiAdapter.Item
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title)
+        @BindView(R.id.data)
         TextView title;
-        @BindView(R.id.container)
-        LinearLayout container;
-        @BindView(R.id.timeline)
-        TimelineView timelineView;
+        @BindView(R.id.parentCV)
+        RelativeLayout container;
 
         ItemViewHolder(View view, int viewType) {
             super(view);
             ButterKnife.bind(this, view);
 
-            timelineView.initLine(viewType);
         }
 
         void bind_krakakalam(Krakakalam krakakalam) {

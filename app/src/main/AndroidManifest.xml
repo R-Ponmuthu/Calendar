@@ -13,14 +13,11 @@
         android:name=".CalendarApp"
         android:icon="@drawable/icon_logo"
         android:label="@string/app_name"
-        tools:replace="android:icon"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
-        <!--Service and Receivers-->
-
+        <!-- Service and Receivers -->
         <receiver
             android:name=".notification.DNotificationReceiver"
             android:enabled="true"
@@ -32,7 +29,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".notification.SNotificationReceiver"
             android:enabled="true"
@@ -43,74 +39,66 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </receiver>
-
-
-        <!--Meta data-->
+        </receiver> <!-- Meta data -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_logo" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
-
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
 
-        <service android:name=".notification.MyFirebaseMessagingService"
+        <service
+            android:name=".notification.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service>
-
-        <!--Activities-->
-
+        </service> <!-- Activities -->
         <activity
             android:name=".ui.activity.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.CalendarActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false"/>
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.CurrentMonthActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false"/>
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.DrawerActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:exported="false"/>
-
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activity.PrivacyPolicyActivity"
-            android:label=""
             android:exported="false"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.activity.NotificationActivity"
-            android:label=""
             android:exported="false"
+            android:label=""
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:label="@string/settings"
             android:exported="false"
+            android:label="@string/settings"
             android:theme="@style/AppTheme.NoActionBar" />
-
+        <activity
+            android:name=".ui.activity.MenuViewActivity"
+            android:exported="false"
+            android:label="முக்கிய விரத தினங்கள்"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>
