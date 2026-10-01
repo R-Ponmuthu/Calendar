@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "tools/**", "**/.*", "README.md"],
+    "headers": [
+      { "source": "**/*.json", "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=600" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ] }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "calendar": {
+    "2026": {
+      "revision": 1,
+      "path": "calendar/2026.json"
+    }
+  },
+  "rasiPalan": {}
+}

@@ -1,54 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CMakeSettings">
-    <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
-    </configurations>
-  </component>
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable-xhdpi/nav_item_bg.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable-xhdpi/nav_selector_bg.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/above_shadow.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/below_shadow.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/edittext_background.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/ic_chevron_end.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/marker_drawable.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/drawable/rounded_rectangle.xml" value="0.183" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_current_month.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_privacy_policy.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/activity_splash.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/app_bar_main.xml" value="0.17798913043478262" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/calendar_activity.xml" value="0.17798913043478262" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/calendar_layout.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/calender_layout.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/content_scrolling.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/dynamic_item_layout.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/fragment_calendar.xml" value="0.1" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/fragment_week.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/grid_item.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/panchangam_sub_item.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/single_cell_layout.xml" value="0.10989583333333333" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/vasthu_sub_item.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/vertical_line.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/viratham_sub_item.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/week_day_grid_item.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_calendar.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_calendar_container.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_calendar_view.xml" value="0.1" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_grid_item_day.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_week_calendar.xml" value="0.20512820512820512" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_week_calendar_container.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_week_calendar_view.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/layout/xml_week_grid_item_day.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/app/src/main/res/menu/activity_main_drawer.xml" value="0.25" />
-        <entry key="..\:/Users/rponm/Projects/Android/Calendar/core/src/main/res/layout/dashoard_item_header_layout.xml" value="0.1" />
-      </map>
-    </option>
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="jbr-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
